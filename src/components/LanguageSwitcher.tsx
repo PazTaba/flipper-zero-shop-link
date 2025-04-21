@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const LanguageSwitcher = () => {
-  const { language, setLanguage, t } = useLanguage("he");
+  const { language, setLanguage, t } = useLanguage();
 
   return (
     <DropdownMenu>
