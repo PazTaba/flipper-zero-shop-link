@@ -6,7 +6,7 @@ const AdminDashboard = () => {
   const { dir } = useLanguage();
   
   return (
-    <div dir={dir}>
+    <div className="pb-16 md:pb-0" dir={dir}>
       <Dashboard />
     </div>
   );
