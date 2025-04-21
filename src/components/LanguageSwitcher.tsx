@@ -20,18 +20,19 @@ const LanguageSwitcher = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
+      <DropdownMenuItem 
+          onClick={() => setLanguage("he")}
+          className={language === "he" ? "bg-flipper-purple/20 text-flipper-purple" : ""}
+        >
+          {t("switchToHebrew")}
+        </DropdownMenuItem>
         <DropdownMenuItem 
           onClick={() => setLanguage("en")}
           className={language === "en" ? "bg-flipper-purple/20 text-flipper-purple" : ""}
         >
           {t("switchToEnglish")}
         </DropdownMenuItem>
-        <DropdownMenuItem 
-          onClick={() => setLanguage("he")}
-          className={language === "he" ? "bg-flipper-purple/20 text-flipper-purple" : ""}
-        >
-          {t("switchToHebrew")}
-        </DropdownMenuItem>
+      
       </DropdownMenuContent>
     </DropdownMenu>
   );
