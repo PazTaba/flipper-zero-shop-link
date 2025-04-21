@@ -123,6 +123,61 @@ const translations: Translations = {
     "switchToEnglish": "English",
     "inStock": "במלאי",
     "outOfStock": "אזל מהמלאי",
+
+    // Landing/Home/Hero/About/Product/Featured/Footer sections
+    "hero.title1": "שחררו את ארגז הכלים הדיגיטלי שלכם",
+    "hero.subtitle": "Flipper Zero – המולטיטול הנייד לאנשי סייבר, חוקרי אבטחה וחובבי טכנולוגיה.\nגלו, נתחו והתחברו למערכות דיגיטליות מכל מקום.",
+    "hero.cta.products": "צפו במוצרים",
+    "hero.cta.flagship": "מכשיר הדגל שלנו",
+    "hero.flagship.title": "Flipper Zero – מכשיר קומפקטי עם ממשקי רדיו, NFC, RFID ושלט אינפרה-אדום.\nהכל פתוח – גם החומרה וגם התוכנה.",
+    "hero.feature.sub1": "רדיו תת-1GHz",
+    "hero.feature.nfc": "NFC ו-RFID",
+    "hero.feature.ir": "שידור אינפרה-אדום (IR)",
+    "hero.feature.os": "קוד פתוח",
+    "hero.specs.sunlcd": "עיצוב אינטואיטיבי עם מסך LCD שקרא באור שמש",
+
+    // Featured products (override these keys in UI as needed)
+    "featured.title": "מוצרים נבחרים",
+    "featured.device.name": "Flipper Zero",
+    "featured.device.price": "$169.99",
+    "featured.device.desc": "המולטיטול הנייד למקצועני סייבר וחובבי גאדג'טים עם יכולות RFID, רדיו ו-IR.",
+    "featured.device.category": "מכשיר",
+    "featured.wifiaddon.name": "כרטיס הרחבת WiFi ל-Flipper Zero",
+    "featured.wifiaddon.price": "$29.99",
+    "featured.wifiaddon.desc": "הוסיפו חיבור WiFi ל-Flipper Zero שלכם לפעולות פנטסטינג אלחוטיות.",
+    "featured.wifiaddon.category": "אביזר",
+    "featured.bundle.name": "חבילת Flipper Zero המלאה",
+    "featured.bundle.price": "$219.99",
+    "featured.bundle.desc": "הכול כלול: המכשיר, כיסוי מגן, כרטיס WiFi וכרטיסי NFC.",
+    "featured.bundle.category": "חבילה",
+    "featured.bundle.outofstock": "אזל מהמלאי",
+    "featured.order": "הזמנה",
+
+    // About section 
+    "about.title": "מהו Flipper Zero?",
+    "about.paragraph1": "Flipper Zero הוא מכשיר נייד בגודל כיס שנראה כמו צעצוע, אך עמוס בכלים לחקירת העולם הדיגיטלי.\nהוא מאפשר לבדוק פרוטוקולי רדיו, מערכות בקרה, חומרה חכמה ועוד – בצורה נוחה ומעוצבת.",
+    "about.paragraph2": "מתאים גם למקצוענים ��גם לסקרנים חובבי טכנולוגיה.",
+    "about.feature.sub1": "רדיו תת-1GHz",
+    "about.feature.rfid": "RFID בתדר 125kHz",
+    "about.feature.nfc": "NFC ו-RFID בתדר 13.56MHz",
+    "about.feature.ir": "שלט אינפרה-אדום",
+    "about.feature.ibutton": "ממשק iButton",
+    "about.feature.gpio": "GPIO וחיבורים חיצוניים",
+    "about.feature.usb": "חיבור USB-C",
+    "about.feature.bt": "קישוריות Bluetooth",
+
+    // Company/Contact/Footer
+    "footer.company": "Flipper Zero Shop",
+    "footer.subtitle": "המשווק המורשה שלכם למכשירי Flipper Zero ואביזרים מקוריים.\nאנו מציעים אחריות מלאה, תמיכה מקצועית ושירות לקוחות מצוין.",
+    "footer.contact": "צור קשר:",
+    "footer.email": "דוא\"ל: support@flipperzero-shop.com",
+    "footer.whatsapp": "וואטסאפ: +972 54-756-4251",
+    "footer.hours": "שעות פעילות: ראשון–שישי, 09:00–17:00",
+    "footer.privacy": "מדיניות פרטיות",
+    "footer.terms": "תנאי שירות",
+    "footer.copyright": "© 2025 Flipper Zero Shop. כל הזכויות שמורות.",
+    "footer.contact.cta": "פנה בוואטסאפ",
+    "footer.contact.whatsapp": "וואטסאפ: +972 54-756-4251"
   }
 };
 
