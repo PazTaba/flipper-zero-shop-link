@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Product } from "@/data/products";
 import { Button } from "@/components/ui/button";
@@ -17,6 +16,7 @@ const AdminProducts = () => {
   const [loading, setLoading] = useState(false);
   const [productsList, setProductsList] = useState<Product[]>([]);
   const { toast } = useToast();
+  const [formError, setFormError] = useState<string | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -34,24 +34,26 @@ const AdminProducts = () => {
   function handleEdit(product: Product) {
     setEditingProduct(product);
     setShowForm(true);
+    setFormError(null);
   }
 
   function handleAdd() {
     setEditingProduct(null);
     setShowForm(true);
+    setFormError(null);
   }
 
   function handleFormCancel() {
     setShowForm(false);
     setEditingProduct(null);
+    setFormError(null);
   }
 
   async function handleFormSave(data: any) {
-    console.log("Saving product data:", data);
     setLoading(true);
+    setFormError(null);
     try {
       if (editingProduct) {
-        console.log("Updating product:", editingProduct.id);
         const updated = await updateProduct(editingProduct.id, data);
         setProductsList((prev) =>
           prev.map((p) => (p.id === editingProduct.id ? updated : p))
@@ -61,7 +63,6 @@ const AdminProducts = () => {
           description: data.name[language],
         });
       } else {
-        console.log("Adding new product");
         const inserted = await addProduct(data);
         setProductsList((prev) => [inserted, ...prev]);
         toast({
@@ -71,11 +72,20 @@ const AdminProducts = () => {
       }
       setShowForm(false);
       setEditingProduct(null);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error saving product:", err);
+      let errorMsg: string;
+      if (typeof err === "object" && err !== null && "message" in err) {
+        errorMsg = err.message;
+      } else if (typeof err === "string") {
+        errorMsg = err;
+      } else {
+        errorMsg = "An unknown error occurred.";
+      }
+      setFormError(errorMsg);
       toast({
         title: t("admin.errorSaving"),
-        description: err instanceof Error ? err.message : String(err),
+        description: errorMsg,
         variant: "destructive",
       });
     } finally {
@@ -85,17 +95,20 @@ const AdminProducts = () => {
 
   async function handleDelete(productId: string) {
     setLoading(true);
+    setFormError(null);
     try {
       await deleteProduct(productId);
       setProductsList((prev) => prev.filter((p) => p.id !== productId));
       toast({
         title: t("admin.productDeleted"),
       });
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error deleting product:", err);
+      let errorMsg = (typeof err === "object" && err !== null && "message" in err) ? err.message : "Unknown error";
+      setFormError(errorMsg);
       toast({
         title: t("admin.errorDeleting"),
-        description: err instanceof Error ? err.message : String(err),
+        description: errorMsg,
         variant: "destructive",
       });
     } finally {
@@ -117,6 +130,7 @@ const AdminProducts = () => {
       <div className="flex gap-4">
         <AdminProductSearch value={searchTerm} onChange={setSearchTerm} />
       </div>
+      {formError && <div className="text-red-500 bg-red-50 border border-red-200 rounded p-2">{formError}</div>}
       {showForm && (
         <div className="p-4 bg-flipper-dark/80 border border-flipper-purple/30 rounded-lg">
           <AdminProductForm
