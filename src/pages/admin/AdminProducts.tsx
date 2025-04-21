@@ -83,7 +83,7 @@ const AdminProducts = () => {
                       ? 'bg-flipper-success/10 text-flipper-success' 
                       : 'bg-flipper-danger/10 text-flipper-danger'
                   }`}>
-                    {product.inStock ? t("admin.inStock") : t("admin.outOfStock")}
+                    {product.inStock ? t("admin.productInStock") : t("admin.productOutOfStock")}
                   </span>
                 </TableCell>
                 <TableCell className={`${dir === 'rtl' ? 'text-left' : 'text-right'}`}>

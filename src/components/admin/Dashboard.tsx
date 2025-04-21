@@ -44,7 +44,7 @@ const Dashboard = () => {
           <CardContent>
             <div className="text-3xl font-bold">{totalProducts}</div>
             <p className="text-xs text-gray-400 mt-1">
-              {inStockProducts} {t("admin.inStock")}, {outOfStockProducts} {t("admin.outOfStock")}
+              {inStockProducts} {t("admin.productsInStock")}, {outOfStockProducts} {t("admin.productsOutOfStock")}
             </p>
           </CardContent>
         </Card>
@@ -52,7 +52,7 @@ const Dashboard = () => {
         <Card className="bg-flipper-dark border-flipper-purple/30">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-400">
-              {t("admin.categories")}
+              {t("admin.totalCategories")}
             </CardTitle>
           </CardHeader>
           <CardContent>
