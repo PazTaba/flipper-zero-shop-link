@@ -61,7 +61,21 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Custom theme colors
+				flipper: {
+					purple: '#8B5CF6',
+					cyan: '#00FFFF',
+					dark: '#1A1F2C',
+					gray: '#C8C8C9',
+					success: '#10B981',
+					danger: '#EF4444',
+				},
+			},
+			fontFamily: {
+				'sans': ['Open Sans', 'sans-serif'],
+				'heading': ['Montserrat', 'sans-serif'],
+				'mono': ['Roboto Mono', 'monospace'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

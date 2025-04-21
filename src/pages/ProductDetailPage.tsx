@@ -2,24 +2,20 @@
 import { useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import Hero from "@/components/home/Hero";
-import FeaturedProducts from "@/components/home/FeaturedProducts";
-import AboutSection from "@/components/home/AboutSection";
+import ProductDetail from "@/components/product/ProductDetail";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
-const Index = () => {
+const ProductDetailPage = () => {
   useEffect(() => {
     // Scroll to top on page load
     window.scrollTo(0, 0);
   }, []);
-
+  
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow">
-        <Hero />
-        <FeaturedProducts />
-        <AboutSection />
+        <ProductDetail />
       </main>
       <Footer />
       <WhatsAppButton />
@@ -27,4 +23,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default ProductDetailPage;

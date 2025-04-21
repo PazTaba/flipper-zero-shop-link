@@ -1,0 +1,107 @@
+
+import { Link, useLocation } from "react-router-dom";
+import {
+  Folder,
+  LayoutGrid,
+  BarChart2,
+  Settings,
+  LogOut,
+} from "lucide-react";
+
+const AdminSidebar = () => {
+  const location = useLocation();
+  
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+  
+  const handleLogout = () => {
+    // Remove the logged in state
+    localStorage.removeItem("adminLoggedIn");
+    // Redirect will be handled by the protected route component
+    window.location.href = "/admin";
+  };
+  
+  return (
+    <aside className="bg-flipper-dark/90 border-r border-flipper-purple/20 h-screen w-64 flex-shrink-0">
+      <div className="p-4 border-b border-flipper-purple/20 flex items-center gap-3">
+        <div className="w-10 h-10 bg-flipper-purple rounded-md flex items-center justify-center text-white font-bold text-xl">
+          F0
+        </div>
+        <div>
+          <h2 className="text-lg font-semibold">Flipper Zero</h2>
+          <p className="text-xs text-gray-400">Admin Portal</p>
+        </div>
+      </div>
+      
+      <nav className="p-4">
+        <ul className="space-y-2">
+          <li>
+            <Link
+              to="/admin/dashboard"
+              className={`flex items-center gap-3 p-3 rounded-md transition-colors ${
+                isActive("/admin/dashboard")
+                  ? "bg-flipper-purple/20 text-flipper-purple"
+                  : "hover:bg-flipper-purple/10 text-gray-300 hover:text-flipper-purple"
+              }`}
+            >
+              <BarChart2 className="h-5 w-5" />
+              <span>Dashboard</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/admin/products"
+              className={`flex items-center gap-3 p-3 rounded-md transition-colors ${
+                isActive("/admin/products")
+                  ? "bg-flipper-purple/20 text-flipper-purple"
+                  : "hover:bg-flipper-purple/10 text-gray-300 hover:text-flipper-purple"
+              }`}
+            >
+              <LayoutGrid className="h-5 w-5" />
+              <span>Products</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/admin/categories"
+              className={`flex items-center gap-3 p-3 rounded-md transition-colors ${
+                isActive("/admin/categories")
+                  ? "bg-flipper-purple/20 text-flipper-purple"
+                  : "hover:bg-flipper-purple/10 text-gray-300 hover:text-flipper-purple"
+              }`}
+            >
+              <Folder className="h-5 w-5" />
+              <span>Categories</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/admin/settings"
+              className={`flex items-center gap-3 p-3 rounded-md transition-colors ${
+                isActive("/admin/settings")
+                  ? "bg-flipper-purple/20 text-flipper-purple"
+                  : "hover:bg-flipper-purple/10 text-gray-300 hover:text-flipper-purple"
+              }`}
+            >
+              <Settings className="h-5 w-5" />
+              <span>Settings</span>
+            </Link>
+          </li>
+        </ul>
+      </nav>
+      
+      <div className="absolute bottom-0 w-full p-4 border-t border-flipper-purple/20">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 p-3 rounded-md w-full text-gray-300 hover:text-flipper-danger hover:bg-flipper-danger/10 transition-colors"
+        >
+          <LogOut className="h-5 w-5" />
+          <span>Logout</span>
+        </button>
+      </div>
+    </aside>
+  );
+};
+
+export default AdminSidebar;
