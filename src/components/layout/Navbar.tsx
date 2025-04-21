@@ -18,7 +18,7 @@ const Navbar = () => {
               F0
             </div>
             <span className="text-xl font-heading font-bold hidden sm:inline-block">
-              Flipper Zero Shop
+              
             </span>
           </Link>
 
