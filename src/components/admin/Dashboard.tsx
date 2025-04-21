@@ -1,8 +1,11 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { products } from "@/data/products";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Dashboard = () => {
+  const { t, dir } = useLanguage();
+  
   // Calculate dashboard stats
   const totalProducts = products.length;
   const inStockProducts = products.filter(p => p.inStock).length;
@@ -24,10 +27,10 @@ const Dashboard = () => {
   const maxVisitors = Math.max(...visitorStats.map(stat => stat.visitors));
   
   return (
-    <div className="space-y-8">
+    <div className="space-y-8" dir={dir}>
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-heading font-bold techno-header">Dashboard</h1>
-        <p className="text-gray-400">Welcome back, Admin</p>
+        <h1 className="text-3xl font-heading font-bold techno-header">{t("admin.dashboard")}</h1>
+        <p className="text-gray-400">{t("admin.welcomeBack")}</p>
       </div>
       
       {/* Stats Cards */}
@@ -35,13 +38,13 @@ const Dashboard = () => {
         <Card className="bg-flipper-dark border-flipper-purple/30">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-400">
-              Total Products
+              {t("admin.totalProducts")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">{totalProducts}</div>
             <p className="text-xs text-gray-400 mt-1">
-              {inStockProducts} in stock, {outOfStockProducts} out of stock
+              {inStockProducts} {t("admin.inStock")}, {outOfStockProducts} {t("admin.outOfStock")}
             </p>
           </CardContent>
         </Card>
@@ -49,7 +52,7 @@ const Dashboard = () => {
         <Card className="bg-flipper-dark border-flipper-purple/30">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-400">
-              Categories
+              {t("admin.categories")}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -63,13 +66,13 @@ const Dashboard = () => {
         <Card className="bg-flipper-dark border-flipper-purple/30">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-400">
-              Total Visitors
+              {t("admin.totalVisitors")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">1,130</div>
             <p className="text-xs text-gray-400 mt-1">
-              +12% from last week
+              +12% {t("admin.fromLastWeek")}
             </p>
           </CardContent>
         </Card>
@@ -77,13 +80,13 @@ const Dashboard = () => {
         <Card className="bg-flipper-dark border-flipper-purple/30">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-400">
-              WhatsApp Inquiries
+              {t("admin.whatsappInquiries")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">28</div>
             <p className="text-xs text-gray-400 mt-1">
-              21 converted to sales
+              21 {t("admin.convertedToSales")}
             </p>
           </CardContent>
         </Card>
@@ -92,7 +95,7 @@ const Dashboard = () => {
       {/* Visitor Chart */}
       <Card className="bg-flipper-dark border-flipper-purple/30">
         <CardHeader>
-          <CardTitle>Visitor Trends - Last 7 Days</CardTitle>
+          <CardTitle>{t("admin.visitorTrends")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="h-80">
@@ -117,7 +120,7 @@ const Dashboard = () => {
       {/* Most Viewed Products */}
       <Card className="bg-flipper-dark border-flipper-purple/30">
         <CardHeader>
-          <CardTitle>Most Viewed Products</CardTitle>
+          <CardTitle>{t("admin.mostViewedProducts")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -133,7 +136,7 @@ const Dashboard = () => {
                 <div className="text-right">
                   <p className="font-mono">${product.price.toFixed(2)}</p>
                   <p className={`text-xs ${product.inStock ? 'text-flipper-success' : 'text-flipper-danger'}`}>
-                    {product.inStock ? 'In Stock' : 'Out of Stock'}
+                    {product.inStock ? t("inStock") : t("outOfStock")}
                   </p>
                 </div>
               </div>

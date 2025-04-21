@@ -1,5 +1,6 @@
 
 import { Link, useLocation } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Folder,
   LayoutGrid,
@@ -10,6 +11,7 @@ import {
 
 const AdminSidebar = () => {
   const location = useLocation();
+  const { t, dir } = useLanguage();
   
   const isActive = (path: string) => {
     return location.pathname === path;
@@ -23,14 +25,14 @@ const AdminSidebar = () => {
   };
   
   return (
-    <aside className="bg-flipper-dark/90 border-r border-flipper-purple/20 h-screen w-64 flex-shrink-0">
+    <aside className="bg-flipper-dark/90 border-r border-flipper-purple/20 h-screen w-64 flex-shrink-0" dir={dir}>
       <div className="p-4 border-b border-flipper-purple/20 flex items-center gap-3">
         <div className="w-10 h-10 bg-flipper-purple rounded-md flex items-center justify-center text-white font-bold text-xl">
           F0
         </div>
         <div>
           <h2 className="text-lg font-semibold">Flipper Zero</h2>
-          <p className="text-xs text-gray-400">Admin Portal</p>
+          <p className="text-xs text-gray-400">{t("admin.portal")}</p>
         </div>
       </div>
       
@@ -46,7 +48,7 @@ const AdminSidebar = () => {
               }`}
             >
               <BarChart2 className="h-5 w-5" />
-              <span>Dashboard</span>
+              <span>{t("admin.dashboard")}</span>
             </Link>
           </li>
           <li>
@@ -59,7 +61,7 @@ const AdminSidebar = () => {
               }`}
             >
               <LayoutGrid className="h-5 w-5" />
-              <span>Products</span>
+              <span>{t("admin.products")}</span>
             </Link>
           </li>
           <li>
@@ -72,7 +74,7 @@ const AdminSidebar = () => {
               }`}
             >
               <Folder className="h-5 w-5" />
-              <span>Categories</span>
+              <span>{t("admin.categories")}</span>
             </Link>
           </li>
           <li>
@@ -85,7 +87,7 @@ const AdminSidebar = () => {
               }`}
             >
               <Settings className="h-5 w-5" />
-              <span>Settings</span>
+              <span>{t("admin.settings")}</span>
             </Link>
           </li>
         </ul>
@@ -97,7 +99,7 @@ const AdminSidebar = () => {
           className="flex items-center gap-3 p-3 rounded-md w-full text-gray-300 hover:text-flipper-danger hover:bg-flipper-danger/10 transition-colors"
         >
           <LogOut className="h-5 w-5" />
-          <span>Logout</span>
+          <span>{t("admin.logout")}</span>
         </button>
       </div>
     </aside>

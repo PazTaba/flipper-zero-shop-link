@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,7 +7,7 @@
 
 @layer base {
   :root {
-    /* Default light theme */
+    /* Default dark theme */
     --background: 240 6% 10%;  /* Dark background */
     --foreground: 0 0% 98%;    /* Light text for dark background */
 
@@ -162,6 +163,11 @@
     animation: pulse 2s infinite;
   }
 
+  [dir="rtl"] .whatsapp-float {
+    right: auto;
+    left: 6;
+  }
+
   @keyframes pulse {
     0% {
       box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
@@ -182,6 +188,34 @@
   .techno-header:after {
     content: '';
     @apply absolute bottom-0 left-0 h-1 w-20 bg-gradient-to-r from-flipper-purple to-flipper-cyan;
+  }
+
+  [dir="rtl"] .techno-header:after {
+    left: auto;
+    right: 0;
+    @apply bg-gradient-to-l from-flipper-purple to-flipper-cyan;
+  }
+}
+
+/* RTL support for flex layouts */
+[dir="rtl"] .flex-row {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+/* Responsive mobile fixes */
+@media (max-width: 640px) {
+  [dir="rtl"] .whatsapp-float, .whatsapp-float {
+    bottom: 3rem;
+    right: 1rem;
+    left: auto;
   }
 }
 

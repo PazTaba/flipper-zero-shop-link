@@ -1,5 +1,6 @@
 
 import { MessageSquare } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface WhatsAppButtonProps {
   productName?: string;
@@ -7,6 +8,7 @@ interface WhatsAppButtonProps {
 }
 
 const WhatsAppButton = ({ productName, className = "" }: WhatsAppButtonProps) => {
+  const { dir } = useLanguage();
   const phoneNumber = "11234567890"; // Replace with your actual WhatsApp business number
   
   // Create message text based on whether a product name was provided
@@ -27,6 +29,7 @@ const WhatsAppButton = ({ productName, className = "" }: WhatsAppButtonProps) =>
       rel="noopener noreferrer"
       className={`whatsapp-float ${className}`}
       aria-label="Contact via WhatsApp"
+      dir={dir}
     >
       <MessageSquare className="h-6 w-6" />
     </a>

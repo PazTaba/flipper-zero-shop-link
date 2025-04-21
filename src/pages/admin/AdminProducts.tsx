@@ -12,9 +12,11 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Edit, Trash2, Plus, Image } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const AdminProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const { t, dir } = useLanguage();
   
   // Filter products based on search term
   const filteredProducts = products.filter(product => 
@@ -24,12 +26,12 @@ const AdminProducts = () => {
   );
   
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" dir={dir}>
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-heading font-bold techno-header">Products</h1>
+        <h1 className="text-3xl font-heading font-bold techno-header">{t("admin.products")}</h1>
         <Button className="btn-tech">
           <Plus className="h-4 w-4 mr-2" />
-          Add Product
+          {t("admin.addProduct")}
         </Button>
       </div>
       
@@ -37,7 +39,7 @@ const AdminProducts = () => {
       <div className="flex gap-4">
         <div className="relative flex-1">
           <Input
-            placeholder="Search products..."
+            placeholder={t("admin.searchProducts")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="bg-flipper-dark/70 border-flipper-purple/30 pl-10"
@@ -56,12 +58,12 @@ const AdminProducts = () => {
         <Table>
           <TableHeader>
             <TableRow className="bg-flipper-dark/80 hover:bg-flipper-dark/90">
-              <TableHead className="w-[80px]">Image</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="w-[80px]">{t("admin.image")}</TableHead>
+              <TableHead>{t("admin.name")}</TableHead>
+              <TableHead>{t("admin.price")}</TableHead>
+              <TableHead>{t("admin.category")}</TableHead>
+              <TableHead>{t("admin.status")}</TableHead>
+              <TableHead className={`${dir === 'rtl' ? 'text-left' : 'text-right'}`}>{t("admin.actions")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -81,11 +83,11 @@ const AdminProducts = () => {
                       ? 'bg-flipper-success/10 text-flipper-success' 
                       : 'bg-flipper-danger/10 text-flipper-danger'
                   }`}>
-                    {product.inStock ? 'In Stock' : 'Out of Stock'}
+                    {product.inStock ? t("admin.inStock") : t("admin.outOfStock")}
                   </span>
                 </TableCell>
-                <TableCell className="text-right">
-                  <div className="flex justify-end gap-2">
+                <TableCell className={`${dir === 'rtl' ? 'text-left' : 'text-right'}`}>
+                  <div className={`flex ${dir === 'rtl' ? 'justify-start' : 'justify-end'} gap-2`}>
                     <Button variant="ghost" size="icon" className="text-gray-400 hover:text-flipper-purple">
                       <Image className="h-4 w-4" />
                     </Button>
