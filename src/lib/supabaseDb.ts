@@ -2,15 +2,16 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import type { Product, MultilangText } from "@/data/products";
+import type { Json } from "@/integrations/supabase/types";
 
 // Convert database product to application Product format
 function dbProductToAppProduct(dbProduct: Database["public"]["Tables"]["products"]["Row"]): Product {
   return {
     id: dbProduct.id,
-    name: dbProduct.name as MultilangText,
+    name: dbProduct.name as unknown as MultilangText,
     slug: dbProduct.id, // Using ID as slug for now
-    description: dbProduct.description as MultilangText,
-    shortDescription: dbProduct.short_description as MultilangText || { en: "", he: "" },
+    description: dbProduct.description as unknown as MultilangText,
+    shortDescription: dbProduct.short_description as unknown as MultilangText || { en: "", he: "" },
     price: Number(dbProduct.price),
     images: dbProduct.images,
     category: dbProduct.category as "device" | "accessory" | "bundle",
@@ -22,16 +23,18 @@ function dbProductToAppProduct(dbProduct: Database["public"]["Tables"]["products
 
 // Convert application Product format to database product format
 function appProductToDbProduct(product: Partial<Product>): Partial<Database["public"]["Tables"]["products"]["Insert"]> {
-  return {
-    id: product.id,
-    name: product.name,
-    description: product.description,
-    short_description: product.shortDescription,
-    price: product.price,
-    images: product.images,
-    category: product.category,
-    in_stock: product.inStock
-  };
+  const dbProduct: Partial<Database["public"]["Tables"]["products"]["Insert"]> = {};
+  
+  if (product.id !== undefined) dbProduct.id = product.id;
+  if (product.name !== undefined) dbProduct.name = product.name as unknown as Json;
+  if (product.description !== undefined) dbProduct.description = product.description as unknown as Json;
+  if (product.shortDescription !== undefined) dbProduct.short_description = product.shortDescription as unknown as Json;
+  if (product.price !== undefined) dbProduct.price = product.price;
+  if (product.images !== undefined) dbProduct.images = product.images;
+  if (product.category !== undefined) dbProduct.category = product.category;
+  if (product.inStock !== undefined) dbProduct.in_stock = product.inStock;
+  
+  return dbProduct;
 }
 
 // Fetch all products (public, for guests and admin)
@@ -59,6 +62,11 @@ export async function addProduct(product: Omit<Product, "id" | "slug" | "feature
 // Update a product (admin only)
 export async function updateProduct(id: string, updates: Partial<Product>): Promise<Product> {
   const dbUpdates = appProductToDbProduct(updates);
+  // Ensure we're not sending an empty object
+  if (Object.keys(dbUpdates).length === 0) {
+    throw new Error("No updates provided");
+  }
+  
   const { data, error } = await supabase
     .from("products")
     .update(dbUpdates)
