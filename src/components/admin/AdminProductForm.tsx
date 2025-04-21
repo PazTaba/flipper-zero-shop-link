@@ -60,17 +60,20 @@ export default function AdminProductForm({
   onSave: (data: ProductFormState) => void;
   onCancel: () => void;
 }) {
+  const defaultFormState: ProductFormState = {
+    name: { en: "", he: "" },
+    description: { en: "", he: "" },
+    shortDescription: { en: "", he: "" },
+    price: 0,
+    images: [],
+    category: "device",
+    inStock: true,
+  };
+
   const [form, setForm] = useState<ProductFormState>(
-    initialData || {
-      name: { en: "", he: "" },
-      description: { en: "", he: "" },
-      shortDescription: { en: "", he: "" },
-      price: 0,
-      images: [],
-      category: "device",
-      inStock: true,
-    }
+    initialData ? { ...defaultFormState, ...initialData } : defaultFormState
   );
+  
   const { t } = useLanguage();
 
   function handleInput(field: keyof ProductFormState, value: any) {

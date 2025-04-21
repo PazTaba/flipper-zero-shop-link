@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getProductBySlug, getRelatedProducts, type Product } from "@/data/products";
@@ -46,7 +47,7 @@ const ProductDetail = () => {
   const generateWhatsAppLink = () => {
     const phoneNumber = "11234567890"; // Replace with your actual WhatsApp business number
     const message = encodeURIComponent(
-      `Hi! I'm interested in purchasing the ${product.name}. Can you provide more information?`
+      `Hi! I'm interested in purchasing the ${product.name[language]}. Can you provide more information?`
     );
     return `https://wa.me/${phoneNumber}?text=${message}`;
   };
@@ -64,7 +65,7 @@ const ProductDetail = () => {
           <div className="relative aspect-square border border-flipper-purple/30 rounded-lg overflow-hidden bg-flipper-dark">
             <img
               src={product.images[activeImageIndex]}
-              alt={product.name}
+              alt={product.name[language]}
               className="w-full h-full object-contain"
             />
             
@@ -78,7 +79,7 @@ const ProductDetail = () => {
                 <div className="aspect-square">
                   <img
                     src={product.images[activeImageIndex]}
-                    alt={product.name}
+                    alt={product.name[language]}
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -101,7 +102,7 @@ const ProductDetail = () => {
                     ${activeImageIndex === index ? 'border-flipper-purple' : 'border-flipper-purple/30'}`}
                   onClick={() => setActiveImageIndex(index)}
                 >
-                  <img src={img} alt={`${product.name} - view ${index + 1}`} className="w-full h-full object-cover" />
+                  <img src={img} alt={`${product.name[language]} - view ${index + 1}`} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>

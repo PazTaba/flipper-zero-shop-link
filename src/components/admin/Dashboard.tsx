@@ -4,7 +4,7 @@ import { products } from "@/data/products";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Dashboard = () => {
-  const { t, dir } = useLanguage();
+  const { t, dir, language } = useLanguage();
   
   // Calculate dashboard stats
   const totalProducts = products.length;
@@ -127,10 +127,10 @@ const Dashboard = () => {
             {products.slice(0, 5).map((product) => (
               <div key={product.id} className="flex items-center gap-4 p-2 hover:bg-flipper-purple/10 rounded-md transition-colors">
                 <div className="w-12 h-12 rounded overflow-hidden bg-flipper-dark/50">
-                  <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
+                  <img src={product.images[0]} alt={product.name[language]} className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-medium">{product.name}</h3>
+                  <h3 className="font-medium">{product.name[language]}</h3>
                   <p className="text-sm text-gray-400">{product.category}</p>
                 </div>
                 <div className="text-right">

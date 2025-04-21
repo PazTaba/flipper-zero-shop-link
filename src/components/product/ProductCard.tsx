@@ -3,17 +3,20 @@ import { Link } from "react-router-dom";
 import { type Product } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { MessageSquare } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const { language } = useLanguage();
+  
   // Generate WhatsApp link with pre-populated message
   const generateWhatsAppLink = () => {
     const phoneNumber = "11234567890"; // Replace with your actual WhatsApp business number
     const message = encodeURIComponent(
-      `Hi! I'm interested in purchasing the ${product.name}. Can you provide more information?`
+      `Hi! I'm interested in purchasing the ${product.name[language]}. Can you provide more information?`
     );
     return `https://wa.me/${phoneNumber}?text=${message}`;
   };
@@ -25,7 +28,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <Link to={`/products/${product.slug}`}>
           <img 
             src={product.images[0]} 
-            alt={product.name}
+            alt={product.name[language]}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </Link>
@@ -47,12 +50,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <div className="p-4">
         <Link to={`/products/${product.slug}`}>
           <h3 className="text-lg font-semibold mb-2 hover:text-flipper-purple transition-colors">
-            {product.name}
+            {product.name[language]}
           </h3>
         </Link>
         
         <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-          {product.shortDescription}
+          {product.shortDescription[language]}
         </p>
         
         <div className="flex justify-between items-center">
