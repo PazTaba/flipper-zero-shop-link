@@ -74,6 +74,7 @@ export type Database = {
           name: Json
           price: number
           short_description: Json | null
+          slug: string
           updated_at: string | null
         }
         Insert: {
@@ -86,6 +87,7 @@ export type Database = {
           name: Json
           price: number
           short_description?: Json | null
+          slug?: string
           updated_at?: string | null
         }
         Update: {
@@ -98,6 +100,7 @@ export type Database = {
           name?: Json
           price?: number
           short_description?: Json | null
+          slug?: string
           updated_at?: string | null
         }
         Relationships: []

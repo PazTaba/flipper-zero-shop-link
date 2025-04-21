@@ -9,7 +9,7 @@ function dbProductToAppProduct(dbProduct: Database["public"]["Tables"]["products
   return {
     id: dbProduct.id,
     name: dbProduct.name as unknown as MultilangText,
-    slug: dbProduct.id, // Using ID as slug for now
+    slug: dbProduct.slug, // Now using the slug field from DB for the slug
     description: dbProduct.description as unknown as MultilangText,
     shortDescription: dbProduct.short_description as unknown as MultilangText || { en: "", he: "" },
     price: Number(dbProduct.price),
@@ -25,6 +25,8 @@ function dbProductToAppProduct(dbProduct: Database["public"]["Tables"]["products
 function appProductToDbProduct(product: Partial<Product>): Partial<Database["public"]["Tables"]["products"]["Insert"]> {
   const dbProduct: Partial<Database["public"]["Tables"]["products"]["Insert"]> = {};
   
+  // ID should NOT be set here on create (UUID is auto-generated)
+  // Only include id if doing an update.
   if (product.id !== undefined) dbProduct.id = product.id;
   if (product.name !== undefined) dbProduct.name = product.name as unknown as Json;
   if (product.description !== undefined) dbProduct.description = product.description as unknown as Json;
@@ -33,7 +35,8 @@ function appProductToDbProduct(product: Partial<Product>): Partial<Database["pub
   if (product.images !== undefined) dbProduct.images = product.images;
   if (product.category !== undefined) dbProduct.category = product.category;
   if (product.inStock !== undefined) dbProduct.in_stock = product.inStock;
-  
+  if (product.slug !== undefined) dbProduct.slug = product.slug;
+
   return dbProduct;
 }
 
@@ -48,8 +51,8 @@ export async function fetchProducts(): Promise<Product[]> {
 }
 
 // Add a new product (admin only)
-export async function addProduct(product: Omit<Product, "id" | "slug" | "featured" | "specifications">): Promise<Product> {
-  // Create a complete product object with all required fields
+export async function addProduct(product: Omit<Product, "id" | "featured" | "specifications">): Promise<Product> {
+  // Must include slug when adding a product
   const fullDbProduct = {
     name: product.name as unknown as Json,
     description: product.description as unknown as Json,
@@ -57,7 +60,8 @@ export async function addProduct(product: Omit<Product, "id" | "slug" | "feature
     price: product.price,
     images: product.images,
     category: product.category,
-    in_stock: product.inStock
+    in_stock: product.inStock,
+    slug: product.slug // Now required in add form
   };
   
   const { data, error } = await supabase

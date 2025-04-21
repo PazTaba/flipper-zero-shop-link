@@ -54,7 +54,7 @@ const AdminProducts = () => {
     setFormError(null);
     try {
       if (editingProduct) {
-        const updated = await updateProduct(editingProduct.id, data);
+        const updated = await updateProduct(editingProduct.id, { ...data, slug: editingProduct.slug });
         setProductsList((prev) =>
           prev.map((p) => (p.id === editingProduct.id ? updated : p))
         );
@@ -63,7 +63,15 @@ const AdminProducts = () => {
           description: data.name[language],
         });
       } else {
-        const inserted = await addProduct(data);
+        let slug = data.slug;
+        if (!slug || typeof slug !== "string" || slug.trim() === "") {
+          slug = data.name?.en
+            ?.toLowerCase()
+            .replace(/\s+/g, "-")
+            .replace(/[^a-z0-9\-]/g, "")
+            .substring(0, 48) || "product-" + Math.random().toString(36).slice(2, 10);
+        }
+        const inserted = await addProduct({ ...data, slug });
         setProductsList((prev) => [inserted, ...prev]);
         toast({
           title: t("admin.productAdded"),
@@ -142,7 +150,8 @@ const AdminProducts = () => {
               price: editingProduct.price,
               images: editingProduct.images,
               category: editingProduct.category,
-              inStock: editingProduct.inStock
+              inStock: editingProduct.inStock,
+              slug: editingProduct.slug
             } : undefined}
             onSave={handleFormSave}
             onCancel={handleFormCancel}

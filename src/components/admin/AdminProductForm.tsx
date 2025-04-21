@@ -1,4 +1,3 @@
-
 import { useState, ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,7 +5,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Image } from "lucide-react";
 
-// Allow user to select or take a new photo
 function ImagePicker({
   images,
   setImages,
@@ -123,6 +121,7 @@ type ProductFormState = {
   images: string[];
   category: string;
   inStock: boolean;
+  slug?: string;
 };
 
 export default function AdminProductForm({
@@ -142,6 +141,7 @@ export default function AdminProductForm({
     images: [],
     category: "device",
     inStock: true,
+    slug: "",
   };
 
   const [form, setForm] = useState<ProductFormState>(
@@ -160,8 +160,15 @@ export default function AdminProductForm({
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log("Form submitted with data:", form);
-    onSave(form);
+    let slug = form.slug;
+    if (!slug || typeof slug !== "string" || slug.trim() === "") {
+      slug = form.name.en
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9\-]/g, "")
+        .substring(0, 48) || "product-" + Math.random().toString(36).slice(2, 10);
+    }
+    onSave({ ...form, slug });
   }
 
   return (
@@ -216,6 +223,18 @@ export default function AdminProductForm({
           <option value="in">{t("admin.productInStock")}</option>
           <option value="out">{t("admin.productOutOfStock")}</option>
         </select>
+      </div>
+      <div className="mb-4">
+        <label className="block font-bold mb-1">{t("admin.slug") || "Slug (for URL)"}</label>
+        <Input
+          type="text"
+          value={form.slug || ""}
+          onChange={e => handleInput("slug", e.target.value)}
+          placeholder={t("admin.slugDesc") || "Auto-generated if empty"}
+        />
+        <span className="text-xs text-gray-400 block mt-1">
+          {t("admin.slugDesc") || "The address used for product URLs, e.g. 'flipper-zero-main'. Leave blank to auto-generate."}
+        </span>
       </div>
       <div className="flex gap-4">
         <Button type="submit" className="btn-tech">{t("admin.save") || "Save"}</Button>
