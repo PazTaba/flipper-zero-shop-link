@@ -73,7 +73,7 @@ const translations: Translations = {
     "footer.subtitle": "Your authorized distributor for Flipper Zero devices and original accessories. We offer full warranty, professional support, and excellent customer service.",
     "footer.contact": "Contact Us:",
     "footer.email": "Email: support@flipperzero-shop.com",
-    "footer.whatsapp": "WhatsApp: +972 54-756-4251",
+    "footer.whatsapp": "WhatsApp: +972 54-951-2744",
     "footer.hours": "Working hours: Sunday-Friday, 09:00-17:00",
     "footer.privacy": "Privacy Policy",
     "footer.terms": "Terms of Service",
@@ -81,7 +81,7 @@ const translations: Translations = {
     "footer.contact.cta": "Contact via WhatsApp",
   },
   he: {
-    // Navigation
+    // ניווט
     "nav.home": "בית",
     "nav.products": "מוצרים",
     "nav.devices": "מכשירים",
@@ -89,8 +89,8 @@ const translations: Translations = {
     "nav.bundles": "חבילות",
     "nav.admin": "ניהול",
     "nav.cart": "עגלה",
-    
-    // Admin
+  
+    // אדמין
     "admin.dashboard": "לוח בקרה",
     "admin.products": "מוצרים",
     "admin.categories": "קטגוריות",
@@ -105,11 +105,11 @@ const translations: Translations = {
     "admin.signingIn": "מתחבר...",
     "admin.demoCredentials": "פרטי התחברות לדוגמה (לבדיקה):",
     "admin.welcomeBack": "ברוך הבא, מנהל",
-    "admin.totalProducts": "מוצרים",
+    "admin.totalProducts": "סה״כ מוצרים",
     "admin.productsInStock": "במלאי",
     "admin.productsOutOfStock": "אזל מהמלאי",
-    "admin.totalCategories": "קטגוריות",
-    "admin.totalVisitors": "מבקרים",
+    "admin.totalCategories": "סה״כ קטגוריות",
+    "admin.totalVisitors": "סה״כ מבקרים",
     "admin.fromLastWeek": "משבוע שעבר",
     "admin.whatsappInquiries": "פניות בוואטסאפ",
     "admin.convertedToSales": "הומרו למכירות",
@@ -129,15 +129,15 @@ const translations: Translations = {
     "admin.description": "תיאור",
     "admin.save": "שמור",
     "admin.cancel": "ביטול",
-
-    // General
+  
+    // כללי
     "language": "שפה",
     "switchToHebrew": "עברית",
     "switchToEnglish": "English",
     "inStock": "במלאי",
     "outOfStock": "אזל מהמלאי",
-
-    // Landing/Home/Hero/About/Product/Featured/Footer sections
+  
+    // דף הבית / מוצרים / גיבורים
     "hero.title1": "שחררו את ארגז הכלים הדיגיטלי שלכם",
     "hero.subtitle": "פליפר זירו – המולטיטול הנייד לאנשי סייבר, חוקרי אבטחה וחובבי טכנולוגיה.\nגלו, נתחו והתחברו למערכות דיגיטליות מכל מקום.",
     "hero.cta.products": "צפו במוצרים",
@@ -148,25 +148,25 @@ const translations: Translations = {
     "hero.feature.ir": "שידור אינפרה-אדום (IR)",
     "hero.feature.os": "קוד פתוח",
     "hero.specs.sunlcd": "עיצוב אינטואיטיבי עם מסך LCD שקרא באור שמש",
-
-    // Featured products (override these keys in UI as needed)
+  
+    // מוצרים נבחרים
     "featured.title": "מוצרים נבחרים",
     "featured.device.name": "פליפר זירו",
-    "featured.device.price": "$169.99",
+    "featured.device.price": "₪1350",
     "featured.device.desc": "המולטיטול הנייד למקצועני סייבר וחובבי גאדג'טים עם יכולות RFID, רדיו ו-IR.",
     "featured.device.category": "מכשיר",
-    "featured.wifiaddon.name": "כרטיס הרחבת WiFi ל-פליפר זירו",
-    "featured.wifiaddon.price": "$29.99",
-    "featured.wifiaddon.desc": "הוסיפו חיבור WiFi ל-פליפר זירו שלכם לפעולות פנטסטינג אלחוטיות.",
+    "featured.wifiaddon.name": "כרטיס הרחבת WiFi לפליפר זירו",
+    "featured.wifiaddon.price": "₪115",
+    "featured.wifiaddon.desc": "הוסיפו חיבור WiFi לפליפר זירו שלכם לפעולות פנטסטינג אלחוטיות.",
     "featured.wifiaddon.category": "אביזר",
     "featured.bundle.name": "חבילת פליפר זירו המלאה",
-    "featured.bundle.price": "$219.99",
+    "featured.bundle.price": "₪835",
     "featured.bundle.desc": "הכול כלול: המכשיר, כיסוי מגן, כרטיס WiFi וכרטיסי NFC.",
     "featured.bundle.category": "חבילה",
     "featured.bundle.outofstock": "אזל מהמלאי",
     "featured.order": "הזמנה",
-
-    // About section 
+  
+    // אודות
     "about.title": "מהו פליפר זירו?",
     "about.paragraph1": "פליפר זירו הוא מכשיר נייד בגודל כיס שנראה כמו צעצוע, אך עמוס בכלים לחקירת העולם הדיגיטלי.\nהוא מאפשר לבדוק פרוטוקולי רדיו, מערכות בקרה, חומרה חכמה ועוד – בצורה נוחה ומעוצבת.",
     "about.paragraph2": "מתאים גם למקצוענים וגם לסקרנים חובבי טכנולוגיה.",
@@ -178,19 +178,19 @@ const translations: Translations = {
     "about.feature.gpio": "GPIO וחיבורים חיצוניים",
     "about.feature.usb": "חיבור USB-C",
     "about.feature.bt": "קישוריות Bluetooth",
-
-    // Company/Contact/Footer
-    "footer.company": "פליפר זירו Shop",
+  
+    // תחתית/צור קשר
+    "footer.company": "פליפר זירו",
     "footer.subtitle": "המשווק המורשה שלכם למכשירי פליפר זירו ואביזרים מקוריים.\nאנו מציעים אחריות מלאה, תמיכה מקצועית ושירות לקוחות מצוין.",
     "footer.contact": "צור קשר:",
     "footer.email": "דוא\"ל: support@flipperzero-shop.com",
-    "footer.whatsapp": "וואטסאפ: +972 54-756-4251",
+    "footer.whatsapp": "וואטסאפ: +972 54-951-2744",
     "footer.hours": "שעות פעילות: ראשון–שישי, 09:00–17:00",
     "footer.privacy": "מדיניות פרטיות",
     "footer.terms": "תנאי שירות",
-    "footer.copyright": "© 2025 פליפר זירו Shop. כל הזכויות שמורות.",
     "footer.contact.cta": "פנה בוואטסאפ",
-    "footer.contact.whatsapp": "וואטסאפ: +972 54-756-4251"
+    "footer.contact.whatsapp": "וואטסאפ: +972 54-951-2744",
+    "footer.copyright": "אין זו חנות רשמית של פליפר זירו"
   }
 };
 
