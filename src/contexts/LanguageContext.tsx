@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 type Language = "en" | "he";
@@ -56,6 +55,10 @@ const translations: Translations = {
     "admin.actions": "Actions",
     "admin.productInStock": "In Stock",
     "admin.productOutOfStock": "Out of Stock",
+    "admin.shortDescription": "Short Description",
+    "admin.description": "Description",
+    "admin.save": "Save",
+    "admin.cancel": "Cancel",
 
     // General
     "language": "Language",
@@ -109,6 +112,10 @@ const translations: Translations = {
     "admin.actions": "פעולות",
     "admin.productInStock": "במלאי",
     "admin.productOutOfStock": "אזל מהמלאי",
+    "admin.shortDescription": "תיאור קצר",
+    "admin.description": "תיאור",
+    "admin.save": "שמור",
+    "admin.cancel": "ביטול",
 
     // General
     "language": "שפה",

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getProductBySlug, getRelatedProducts, type Product } from "@/data/products";
@@ -16,6 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import ProductCard from "./ProductCard";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ProductDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -29,6 +29,7 @@ const ProductDetail = () => {
   });
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const { language } = useLanguage();
 
   if (!product) {
     return (
@@ -42,7 +43,6 @@ const ProductDetail = () => {
     );
   }
 
-  // Generate WhatsApp link with pre-populated message
   const generateWhatsAppLink = () => {
     const phoneNumber = "11234567890"; // Replace with your actual WhatsApp business number
     const message = encodeURIComponent(
@@ -55,12 +55,11 @@ const ProductDetail = () => {
     <div className="container mx-auto px-4 py-12">
       <div className="mb-8">
         <Link to="/products" className="text-flipper-purple hover:underline flex items-center gap-1">
-          ← Back to Products
+          ← {language === "he" ? "חזרה למוצרים" : "Back to Products"}
         </Link>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        {/* Product Images */}
         <div className="space-y-4">
           <div className="relative aspect-square border border-flipper-purple/30 rounded-lg overflow-hidden bg-flipper-dark">
             <img
@@ -69,7 +68,6 @@ const ProductDetail = () => {
               className="w-full h-full object-contain"
             />
             
-            {/* Zoom button */}
             <Dialog>
               <DialogTrigger asChild>
                 <button className="absolute top-4 right-4 bg-flipper-dark/80 text-white p-2 rounded-full">
@@ -87,7 +85,6 @@ const ProductDetail = () => {
               </DialogContent>
             </Dialog>
             
-            {/* Stock badge */}
             {!product.inStock && (
               <div className="absolute top-4 left-4 bg-flipper-danger/90 text-white px-3 py-1 rounded-full text-sm">
                 Out of Stock
@@ -95,7 +92,6 @@ const ProductDetail = () => {
             )}
           </div>
           
-          {/* Thumbnail gallery */}
           {product.images.length > 1 && (
             <div className="flex gap-2 overflow-x-auto pb-2">
               {product.images.map((img, index) => (
@@ -112,23 +108,32 @@ const ProductDetail = () => {
           )}
         </div>
         
-        {/* Product Information */}
         <div>
-          <h1 className="text-3xl md:text-4xl font-heading font-bold mb-2">{product.name}</h1>
+          <h1 className="text-3xl md:text-4xl font-heading font-bold mb-2">
+            {product.name[language]}
+          </h1>
           
           <div className="flex items-center gap-3 mb-4">
-            <span className="text-xl font-mono font-semibold text-flipper-purple">${product.price.toFixed(2)}</span>
-            <span className={`text-sm ${product.inStock ? 'in-stock' : 'out-of-stock'}`}>
-              {product.inStock ? 'In Stock' : 'Out of Stock'}
+            <span className="text-xl font-mono font-semibold text-flipper-purple">
+              ${product.price.toFixed(2)}
+            </span>
+            <span className={`text-sm ${product.inStock ? "in-stock" : "out-of-stock"}`}>
+              {product.inStock
+                ? language === "he" ? "במלאי" : "In Stock"
+                : language === "he" ? "אזל מהמלאי" : "Out of Stock"}
             </span>
           </div>
           
           <div className="mb-6">
             <span className="inline-block text-xs px-2 py-1 rounded-full bg-flipper-purple/20 text-flipper-purple mb-4">
-              {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
+              {product.category === "device"
+                ? language === "he" ? "מכשירים" : "Devices"
+                : product.category === "accessory"
+                ? language === "he" ? "אביזרים" : "Accessories"
+                : language === "he" ? "חבילות" : "Bundles"}
             </span>
             
-            <p className="text-gray-300 mb-6">{product.description}</p>
+            <p className="text-gray-300 mb-6">{product.description[language]}</p>
             
             <a 
               href={generateWhatsAppLink()} 
@@ -137,11 +142,10 @@ const ProductDetail = () => {
               className="inline-flex items-center gap-2 btn-tech bg-green-600 hover:bg-green-700 py-3 px-6 w-full md:w-auto"
             >
               <MessageSquare className="h-5 w-5" />
-              Order via WhatsApp
+              {language === "he" ? "הזמן בוואטסאפ" : "Order via WhatsApp"}
             </a>
           </div>
           
-          {/* Technical Specifications */}
           <div className="border border-flipper-purple/30 rounded-lg overflow-hidden mt-8">
             <h3 className="text-xl font-heading font-semibold px-4 py-3 border-b border-flipper-purple/30 bg-flipper-purple/10">
               Technical Specifications
@@ -173,7 +177,6 @@ const ProductDetail = () => {
         </div>
       </div>
       
-      {/* Related Products */}
       {relatedProducts.length > 0 && (
         <div className="mt-16">
           <h2 className="text-2xl font-heading font-bold mb-6 techno-header">
