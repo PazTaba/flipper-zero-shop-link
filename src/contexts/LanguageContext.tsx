@@ -139,10 +139,10 @@ const translations: Translations = {
 
     // Landing/Home/Hero/About/Product/Featured/Footer sections
     "hero.title1": "שחררו את ארגז הכלים הדיגיטלי שלכם",
-    "hero.subtitle": "Flipper Zero – המולטיטול הנייד לאנשי סייבר, חוקרי אבטחה וחובבי טכנולוגיה.\nגלו, נתחו והתחברו למערכות דיגיטליות מכל מקום.",
+    "hero.subtitle": "פליפר זירו – המולטיטול הנייד לאנשי סייבר, חוקרי אבטחה וחובבי טכנולוגיה.\nגלו, נתחו והתחברו למערכות דיגיטליות מכל מקום.",
     "hero.cta.products": "צפו במוצרים",
     "hero.cta.flagship": "מכשיר הדגל שלנו",
-    "hero.flagship.title": "Flipper Zero – מכשיר קומפקטי עם ממשקי רדיו, NFC, RFID ושלט אינפרה-אדום.\nהכל פתוח – גם החומרה וגם התוכנה.",
+    "hero.flagship.title": "פליפר זירו – מכשיר קומפקטי עם ממשקי רדיו, NFC, RFID ושלט אינפרה-אדום.\nהכל פתוח – גם החומרה וגם התוכנה.",
     "hero.feature.sub1": "רדיו תת-1GHz",
     "hero.feature.nfc": "NFC ו-RFID",
     "hero.feature.ir": "שידור אינפרה-אדום (IR)",
@@ -151,15 +151,15 @@ const translations: Translations = {
 
     // Featured products (override these keys in UI as needed)
     "featured.title": "מוצרים נבחרים",
-    "featured.device.name": "Flipper Zero",
+    "featured.device.name": "פליפר זירו",
     "featured.device.price": "$169.99",
     "featured.device.desc": "המולטיטול הנייד למקצועני סייבר וחובבי גאדג'טים עם יכולות RFID, רדיו ו-IR.",
     "featured.device.category": "מכשיר",
-    "featured.wifiaddon.name": "כרטיס הרחבת WiFi ל-Flipper Zero",
+    "featured.wifiaddon.name": "כרטיס הרחבת WiFi ל-פליפר זירו",
     "featured.wifiaddon.price": "$29.99",
-    "featured.wifiaddon.desc": "הוסיפו חיבור WiFi ל-Flipper Zero שלכם לפעולות פנטסטינג אלחוטיות.",
+    "featured.wifiaddon.desc": "הוסיפו חיבור WiFi ל-פליפר זירו שלכם לפעולות פנטסטינג אלחוטיות.",
     "featured.wifiaddon.category": "אביזר",
-    "featured.bundle.name": "חבילת Flipper Zero המלאה",
+    "featured.bundle.name": "חבילת פליפר זירו המלאה",
     "featured.bundle.price": "$219.99",
     "featured.bundle.desc": "הכול כלול: המכשיר, כיסוי מגן, כרטיס WiFi וכרטיסי NFC.",
     "featured.bundle.category": "חבילה",
@@ -167,8 +167,8 @@ const translations: Translations = {
     "featured.order": "הזמנה",
 
     // About section 
-    "about.title": "מהו Flipper Zero?",
-    "about.paragraph1": "Flipper Zero הוא מכשיר נייד בגודל כיס שנראה כמו צעצוע, אך עמוס בכלים לחקירת העולם הדיגיטלי.\nהוא מאפשר לבדוק פרוטוקולי רדיו, מערכות בקרה, חומרה חכמה ועוד – בצורה נוחה ומעוצבת.",
+    "about.title": "מהו פליפר זירו?",
+    "about.paragraph1": "פליפר זירו הוא מכשיר נייד בגודל כיס שנראה כמו צעצוע, אך עמוס בכלים לחקירת העולם הדיגיטלי.\nהוא מאפשר לבדוק פרוטוקולי רדיו, מערכות בקרה, חומרה חכמה ועוד – בצורה נוחה ומעוצבת.",
     "about.paragraph2": "מתאים גם למקצוענים וגם לסקרנים חובבי טכנולוגיה.",
     "about.feature.sub1": "רדיו תת-1GHz",
     "about.feature.rfid": "RFID בתדר 125kHz",
@@ -180,15 +180,15 @@ const translations: Translations = {
     "about.feature.bt": "קישוריות Bluetooth",
 
     // Company/Contact/Footer
-    "footer.company": "Flipper Zero Shop",
-    "footer.subtitle": "המשווק המורשה שלכם למכשירי Flipper Zero ואביזרים מקוריים.\nאנו מציעים אחריות מלאה, תמיכה מקצועית ושירות לקוחות מצוין.",
+    "footer.company": "פליפר זירו Shop",
+    "footer.subtitle": "המשווק המורשה שלכם למכשירי פליפר זירו ואביזרים מקוריים.\nאנו מציעים אחריות מלאה, תמיכה מקצועית ושירות לקוחות מצוין.",
     "footer.contact": "צור קשר:",
     "footer.email": "דוא\"ל: support@flipperzero-shop.com",
     "footer.whatsapp": "וואטסאפ: +972 54-756-4251",
     "footer.hours": "שעות פעילות: ראשון–שישי, 09:00–17:00",
     "footer.privacy": "מדיניות פרטיות",
     "footer.terms": "תנאי שירות",
-    "footer.copyright": "© 2025 Flipper Zero Shop. כל הזכויות שמורות.",
+    "footer.copyright": "© 2025 פליפר זירו Shop. כל הזכויות שמורות.",
     "footer.contact.cta": "פנה בוואטסאפ",
     "footer.contact.whatsapp": "וואטסאפ: +972 54-756-4251"
   }
@@ -207,7 +207,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   // Try to get language from localStorage, default to English
   const [language, setLanguage] = useState<Language>(() => {
     const savedLanguage = localStorage.getItem("language") as Language;
-    return savedLanguage && ["en", "he"].includes(savedLanguage) ? savedLanguage : "he";
+    return savedLanguage && ["en", "he"].includes(savedLanguage) ? savedLanguage : "en";
   });
 
   // Update localStorage when language changes
