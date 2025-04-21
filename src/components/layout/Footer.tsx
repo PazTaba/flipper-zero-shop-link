@@ -64,12 +64,12 @@ const Footer = () => {
             <h3 className="text-xl font-heading font-semibold mb-4">Contact</h3>
             <ul className="space-y-2 text-gray-400">
               <li>Email: support@flipperzero-shop.com</li>
-              <li>WhatsApp: +1 (123) 456-7890</li>
+              <li>WhatsApp: 0547564251</li>
               <li>Hours: Mon-Fri, 9am-5pm EST</li>
             </ul>
             <div className="mt-4">
               <a 
-                href="https://wa.me/11234567890" 
+                href="https://wa.me/0547564251" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="btn-tech inline-flex items-center gap-2 bg-green-600 hover:bg-green-700"
@@ -113,3 +113,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
