@@ -49,10 +49,20 @@ export async function fetchProducts(): Promise<Product[]> {
 
 // Add a new product (admin only)
 export async function addProduct(product: Omit<Product, "id" | "slug" | "featured" | "specifications">): Promise<Product> {
-  const dbProduct = appProductToDbProduct(product);
+  // Create a complete product object with all required fields
+  const fullDbProduct = {
+    name: product.name as unknown as Json,
+    description: product.description as unknown as Json,
+    short_description: product.shortDescription as unknown as Json,
+    price: product.price,
+    images: product.images,
+    category: product.category,
+    in_stock: product.inStock
+  };
+  
   const { data, error } = await supabase
     .from("products")
-    .insert(dbProduct)
+    .insert(fullDbProduct)
     .select()
     .single();
   if (error) throw error;
