@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Product } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useToast } from "@/hooks/use-toast";
 import AdminProductForm from "@/components/admin/AdminProductForm";
 import AdminProductList from "@/components/admin/AdminProductList";
 import AdminProductSearch from "@/components/admin/AdminProductSearch";
@@ -15,6 +16,7 @@ const AdminProducts = () => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [productsList, setProductsList] = useState<Product[]>([]);
+  const { toast } = useToast();
 
   useEffect(() => {
     setLoading(true);
@@ -45,21 +47,37 @@ const AdminProducts = () => {
   }
 
   async function handleFormSave(data: any) {
+    console.log("Saving product data:", data);
     setLoading(true);
     try {
       if (editingProduct) {
+        console.log("Updating product:", editingProduct.id);
         const updated = await updateProduct(editingProduct.id, data);
         setProductsList((prev) =>
           prev.map((p) => (p.id === editingProduct.id ? updated : p))
         );
+        toast({
+          title: t("admin.productUpdated"),
+          description: data.name[language],
+        });
       } else {
+        console.log("Adding new product");
         const inserted = await addProduct(data);
         setProductsList((prev) => [inserted, ...prev]);
+        toast({
+          title: t("admin.productAdded"),
+          description: data.name[language],
+        });
       }
       setShowForm(false);
       setEditingProduct(null);
     } catch (err) {
-      console.error(err);
+      console.error("Error saving product:", err);
+      toast({
+        title: t("admin.errorSaving"),
+        description: err instanceof Error ? err.message : String(err),
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -70,8 +88,16 @@ const AdminProducts = () => {
     try {
       await deleteProduct(productId);
       setProductsList((prev) => prev.filter((p) => p.id !== productId));
+      toast({
+        title: t("admin.productDeleted"),
+      });
     } catch (err) {
-      console.error(err);
+      console.error("Error deleting product:", err);
+      toast({
+        title: t("admin.errorDeleting"),
+        description: err instanceof Error ? err.message : String(err),
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }

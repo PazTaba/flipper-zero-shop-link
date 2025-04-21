@@ -82,6 +82,7 @@ export default function AdminProductForm({
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    console.log("Form submitted with data:", form);
     onSave(form);
   }
 
