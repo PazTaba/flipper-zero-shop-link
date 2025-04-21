@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { products, Product } from "@/data/products";
 import { Button } from "@/components/ui/button";
@@ -14,15 +13,25 @@ import {
 import { Edit, Trash2, Plus, Image } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import AdminProductForm from "@/components/admin/AdminProductForm";
+import { fetchProducts, addProduct, updateProduct, deleteProduct } from "@/lib/supabaseDb";
+import { useEffect } from "react";
 
 const AdminProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { t, dir, language } = useLanguage();
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [productsList, setProductsList] = useState<Product[]>([]);
 
-  // חיפוש מוצרים לפי שם או קטגוריה, לפי השפה שנבחרה
-  const filteredProducts = products.filter(product =>
+  useEffect(() => {
+    setLoading(true);
+    fetchProducts()
+      .then((data) => setProductsList(data as any))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const filteredProducts = productsList.filter(product =>
     product.name[language].toLowerCase().includes(searchTerm.toLowerCase()) ||
     product.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
     product.category.toLowerCase().includes(searchTerm.toLowerCase())
@@ -38,14 +47,36 @@ const AdminProducts = () => {
     setShowForm(true);
   }
 
-  function handleFormSave(data: any) {
-    // כאן תבוא קריאה ל-API/שמירה בספק דטהבייס
-    // דמו: סגירת הטופס
-    setShowForm(false);
+  async function handleFormSave(data: any) {
+    setLoading(true);
+    try {
+      if (editingProduct) {
+        const updated = await updateProduct(editingProduct.id, data);
+        setProductsList((prev) =>
+          prev.map((p) => (p.id === editingProduct.id ? updated : p))
+        );
+      } else {
+        const inserted = await addProduct(data);
+        setProductsList((prev) => [inserted, ...prev]);
+      }
+      setShowForm(false);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   }
 
-  function handleFormCancel() {
-    setShowForm(false);
+  async function handleDelete(productId: string) {
+    setLoading(true);
+    try {
+      await deleteProduct(productId);
+      setProductsList((prev) => prev.filter((p) => p.id !== productId));
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -57,7 +88,6 @@ const AdminProducts = () => {
           {t("admin.addProduct")}
         </Button>
       </div>
-      {/* Search and Filter */}
       <div className="flex gap-4">
         <div className="relative flex-1">
           <Input
@@ -74,7 +104,6 @@ const AdminProducts = () => {
           </div>
         </div>
       </div>
-      {/* Add/Edit Form */}
       {showForm && (
         <div className="p-4 bg-flipper-dark/80 border border-flipper-purple/30 rounded-lg">
           <AdminProductForm
@@ -93,7 +122,6 @@ const AdminProducts = () => {
           />
         </div>
       )}
-      {/* Products Table */}
       <div className="border border-flipper-purple/30 rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
@@ -134,7 +162,7 @@ const AdminProducts = () => {
                     <Button variant="ghost" size="icon" className="text-gray-400 hover:text-flipper-purple" onClick={() => handleEdit(product)}>
                       <Edit className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="text-gray-400 hover:text-flipper-danger">
+                    <Button variant="ghost" size="icon" className="text-gray-400 hover:text-flipper-danger" onClick={() => handleDelete(product.id)}>
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>

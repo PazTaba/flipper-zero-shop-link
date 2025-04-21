@@ -9,7 +9,99 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      admin_settings: {
+        Row: {
+          id: number
+          is_maintenance_mode: boolean | null
+          last_updated: string | null
+        }
+        Insert: {
+          id?: number
+          is_maintenance_mode?: boolean | null
+          last_updated?: string | null
+        }
+        Update: {
+          id?: number
+          is_maintenance_mode?: boolean | null
+          last_updated?: string | null
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          created_at: string | null
+          customer_email: string
+          customer_name: string
+          customer_phone: string | null
+          id: string
+          items: Json
+          status: string | null
+          total_amount: number
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          customer_email: string
+          customer_name: string
+          customer_phone?: string | null
+          id?: string
+          items: Json
+          status?: string | null
+          total_amount: number
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          customer_email?: string
+          customer_name?: string
+          customer_phone?: string | null
+          id?: string
+          items?: Json
+          status?: string | null
+          total_amount?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          category: string
+          created_at: string | null
+          description: Json
+          id: string
+          images: string[]
+          in_stock: boolean | null
+          name: Json
+          price: number
+          short_description: Json | null
+          updated_at: string | null
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          description: Json
+          id?: string
+          images: string[]
+          in_stock?: boolean | null
+          name: Json
+          price: number
+          short_description?: Json | null
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          description?: Json
+          id?: string
+          images?: string[]
+          in_stock?: boolean | null
+          name?: Json
+          price?: number
+          short_description?: Json | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

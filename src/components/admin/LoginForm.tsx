@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -19,32 +18,24 @@ const LoginForm = () => {
     e.preventDefault();
     setLoading(true);
 
-    // This is a mock login for demo purposes
-    // In a real application, this would make an API call to verify credentials
     setTimeout(() => {
-      // For demo, just check if email has "admin" in it and password is non-empty
       if (email.includes("admin") && password.length > 0) {
-        // Success
         toast({
           title: "Login successful",
           description: "Welcome to the admin dashboard",
           variant: "default",
         });
-        
-        // Store login state (in a real app, you would use a token)
+
         localStorage.setItem("adminLoggedIn", "true");
-        
-        // Redirect to dashboard
         navigate("/admin/dashboard");
       } else {
-        // Error
         toast({
           title: "Login failed",
           description: "Invalid email or password",
           variant: "destructive",
         });
       }
-      
+
       setLoading(false);
     }, 1000);
   };
