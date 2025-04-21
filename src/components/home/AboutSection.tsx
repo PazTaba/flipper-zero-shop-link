@@ -1,32 +1,26 @@
 
 import { Link } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const AboutSection = () => {
+  const { t } = useLanguage();
+  
   return (
     <section className="py-16 bg-flipper-dark/50">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-3xl font-heading font-bold mb-6 techno-header">
-              What is Flipper Zero?
+              {t("about.title")}
             </h2>
             
             <div className="space-y-4 text-gray-300">
               <p>
-                Flipper Zero is a portable multi-tool for pentesters and geeks in a toy-like body.
-                It's designed to explore and experiment with the digital world around us, including
-                radio protocols, access control systems, hardware and more.
+                {t("about.paragraph1")}
               </p>
               
               <p>
-                This portable device combines commonly used hardware tools in a single, well-designed
-                case with an intuitive user interface based on a transflective LCD.
-              </p>
-              
-              <p>
-                Whether you're a cybersecurity professional, a hardware hacker, or just curious about
-                digital systems, Flipper Zero offers a friendly and powerful platform for exploration
-                and learning.
+                {t("about.paragraph2").replace("��", "ו")}
               </p>
             </div>
             
@@ -34,35 +28,35 @@ const AboutSection = () => {
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-flipper-purple rounded-full"></div>
-                <span>Sub-1 GHz Radio</span>
+                <span>{t("about.feature.sub1")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-flipper-purple rounded-full"></div>
-                <span>125 kHz RFID</span>
+                <span>{t("about.feature.rfid")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-flipper-purple rounded-full"></div>
-                <span>NFC & 13.56 MHz RFID</span>
+                <span>{t("about.feature.nfc")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-flipper-purple rounded-full"></div>
-                <span>Infrared Transceiver</span>
+                <span>{t("about.feature.ir")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-flipper-purple rounded-full"></div>
-                <span>iButton Contact Interface</span>
+                <span>{t("about.feature.ibutton")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-flipper-purple rounded-full"></div>
-                <span>GPIO & External Add-ons</span>
+                <span>{t("about.feature.gpio")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-flipper-purple rounded-full"></div>
-                <span>USB Type-C</span>
+                <span>{t("about.feature.usb")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-flipper-purple rounded-full"></div>
-                <span>Bluetooth Connection</span>
+                <span>{t("about.feature.bt")}</span>
               </div>
             </div>
           </div>

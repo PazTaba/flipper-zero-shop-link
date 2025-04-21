@@ -8,13 +8,17 @@ interface WhatsAppButtonProps {
 }
 
 const WhatsAppButton = ({ productName, className = "" }: WhatsAppButtonProps) => {
-  const { dir } = useLanguage();
-  const phoneNumber = "972547564251"; // Updated WhatsApp business number with country code (without special chars)
+  const { language, t, dir } = useLanguage();
+  const phoneNumber = "972547564251"; // WhatsApp business number with country code (without special chars)
   
-  // Create message text based on whether a product name was provided
+  // Create message text based on whether a product name was provided and the current language
   const message = productName 
-    ? `Hi! I'm interested in purchasing the ${productName}. Can you provide more information?` 
-    : "Hi! I'm interested in your Flipper Zero products. Can you help me?";
+    ? language === "he"
+      ? `שלום! אני מעוניין לרכוש את ${productName}. האם תוכל לספק לי מידע נוסף?`
+      : `Hi! I'm interested in purchasing the ${productName}. Can you provide more information?`
+    : language === "he"
+      ? "שלום! אני מעוניין במוצרי Flipper Zero שלכם. האם תוכל לעזור לי?"
+      : "Hi! I'm interested in your Flipper Zero products. Can you help me?";
   
   // Encode the message for use in URL
   const encodedMessage = encodeURIComponent(message);
@@ -28,7 +32,7 @@ const WhatsAppButton = ({ productName, className = "" }: WhatsAppButtonProps) =>
       target="_blank" 
       rel="noopener noreferrer"
       className={`whatsapp-float ${className}`}
-      aria-label="Contact via WhatsApp"
+      aria-label={language === "he" ? "צור קשר בוואטסאפ" : "Contact via WhatsApp"}
       dir={dir}
     >
       <MessageSquare className="h-6 w-6" />

@@ -1,8 +1,11 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Hero = () => {
+  const { t, language } = useLanguage();
+  
   return (
     <section className="relative min-h-[80vh] flex items-center overflow-hidden">
       {/* Background with gradient overlay */}
@@ -19,26 +22,25 @@ const Hero = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-2xl">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold mb-4 text-white">
-            <span className="block">Unleash Your</span>
+            <span className="block">{t("hero.title1")}</span>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-flipper-purple to-flipper-cyan">
-              Digital Toolkit
+              {language === "he" ? "Flipper Zero" : "Digital Toolkit"}
             </span>
           </h1>
           
           <p className="text-xl text-gray-300 mb-8 max-w-xl">
-            Flipper Zero: The portable multi-tool for pentesters, security researchers, and tech enthusiasts.
-            Explore, analyze, and interact with digital systems on the go.
+            {t("hero.subtitle")}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4">
             <Link to="/products">
               <Button className="btn-tech text-lg px-8 py-6 w-full sm:w-auto">
-                Explore Products
+                {t("hero.cta.products")}
               </Button>
             </Link>
             <Link to="/products/flipper-zero">
               <Button variant="outline" className="text-lg px-8 py-6 border-flipper-purple text-flipper-purple hover:bg-flipper-purple/10 w-full sm:w-auto">
-                Flagship Device
+                {t("hero.cta.flagship")}
               </Button>
             </Link>
           </div>
@@ -47,19 +49,19 @@ const Hero = () => {
           <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="tech-container p-3">
               <div className="text-flipper-cyan font-mono text-sm">SUB-1 GHZ</div>
-              <div className="text-white font-semibold">Radio Interface</div>
+              <div className="text-white font-semibold">{t("hero.feature.sub1")}</div>
             </div>
             <div className="tech-container p-3">
               <div className="text-flipper-cyan font-mono text-sm">NFC + RFID</div>
-              <div className="text-white font-semibold">Wireless Tech</div>
+              <div className="text-white font-semibold">{t("hero.feature.nfc")}</div>
             </div>
             <div className="tech-container p-3">
               <div className="text-flipper-cyan font-mono text-sm">IR SENDER</div>
-              <div className="text-white font-semibold">IR Controller</div>
+              <div className="text-white font-semibold">{t("hero.feature.ir")}</div>
             </div>
             <div className="tech-container p-3">
               <div className="text-flipper-cyan font-mono text-sm">OPEN SOURCE</div>
-              <div className="text-white font-semibold">Hardware & SW</div>
+              <div className="text-white font-semibold">{t("hero.feature.os")}</div>
             </div>
           </div>
         </div>

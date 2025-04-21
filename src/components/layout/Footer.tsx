@@ -1,8 +1,11 @@
 
 import { Link } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Footer = () => {
-  const phoneNumber = "972547564251"; // Updated WhatsApp business number with country code (without special chars)
+  const { language, t } = useLanguage();
+  const phoneNumber = "972547564251";
+  
   return (
     <footer className="bg-flipper-dark border-t border-flipper-purple/20 py-12">
       <div className="container mx-auto px-4">
@@ -14,47 +17,48 @@ const Footer = () => {
                 F0
               </div>
               <span className="text-xl font-heading font-bold">
-                Flipper Zero Shop
+                {t("footer.company")}
               </span>
             </div>
             <p className="text-gray-400 max-w-md">
-              Your authorized retailer for Flipper Zero devices and accessories.
-              We provide genuine products with warranty and excellent customer support.
+              {t("footer.subtitle")}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-xl font-heading font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-xl font-heading font-semibold mb-4">
+              {language === "he" ? "קישורים מהירים" : "Quick Links"}
+            </h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/" className="text-gray-400 hover:text-flipper-purple transition-colors">
-                  Home
+                  {t("nav.home")}
                 </Link>
               </li>
               <li>
                 <Link to="/products" className="text-gray-400 hover:text-flipper-purple transition-colors">
-                  All Products
+                  {t("nav.products")}
                 </Link>
               </li>
               <li>
                 <Link to="/categories/device" className="text-gray-400 hover:text-flipper-purple transition-colors">
-                  Devices
+                  {t("nav.devices")}
                 </Link>
               </li>
               <li>
                 <Link to="/categories/accessory" className="text-gray-400 hover:text-flipper-purple transition-colors">
-                  Accessories
+                  {t("nav.accessories")}
                 </Link>
               </li>
               <li>
                 <Link to="/categories/bundle" className="text-gray-400 hover:text-flipper-purple transition-colors">
-                  Bundles
+                  {t("nav.bundles")}
                 </Link>
               </li>
               <li>
                 <Link to="/admin" className="text-gray-400 hover:text-flipper-purple transition-colors">
-                  Admin Portal
+                  {t("admin.portal")}
                 </Link>
               </li>
             </ul>
@@ -62,11 +66,11 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-xl font-heading font-semibold mb-4">Contact</h3>
+            <h3 className="text-xl font-heading font-semibold mb-4">{t("footer.contact")}</h3>
             <ul className="space-y-2 text-gray-400">
-              <li>Email: support@flipperzero-shop.com</li>
-              <li>WhatsApp: +972 54-756-4251</li>
-              <li>Hours: Mon-Fri, 9am-5pm EST</li>
+              <li>{t("footer.email")}</li>
+              <li>{t("footer.whatsapp")}</li>
+              <li>{t("footer.hours")}</li>
             </ul>
             <div className="mt-4">
               <a 
@@ -88,7 +92,7 @@ const Footer = () => {
                 >
                   <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
                 </svg>
-                Contact on WhatsApp
+                {t("footer.contact.cta")}
               </a>
             </div>
           </div>
@@ -97,13 +101,13 @@ const Footer = () => {
         {/* Bottom Footer */}
         <div className="border-t border-flipper-purple/20 mt-8 pt-6 text-gray-400 text-sm">
           <div className="flex flex-col sm:flex-row justify-between items-center">
-            <p>© 2025 Flipper Zero Shop. All rights reserved.</p>
+            <p>{t("footer.copyright")}</p>
             <div className="flex gap-4 mt-4 sm:mt-0">
               <Link to="/privacy" className="hover:text-flipper-purple transition-colors">
-                Privacy Policy
+                {t("footer.privacy")}
               </Link>
               <Link to="/terms" className="hover:text-flipper-purple transition-colors">
-                Terms of Service
+                {t("footer.terms")}
               </Link>
             </div>
           </div>

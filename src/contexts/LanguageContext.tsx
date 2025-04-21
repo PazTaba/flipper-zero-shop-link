@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 type Language = "en" | "he";
@@ -156,7 +157,7 @@ const translations: Translations = {
     // About section 
     "about.title": "מהו Flipper Zero?",
     "about.paragraph1": "Flipper Zero הוא מכשיר נייד בגודל כיס שנראה כמו צעצוע, אך עמוס בכלים לחקירת העולם הדיגיטלי.\nהוא מאפשר לבדוק פרוטוקולי רדיו, מערכות בקרה, חומרה חכמה ועוד – בצורה נוחה ומעוצבת.",
-    "about.paragraph2": "מתאים גם למקצוענים ��גם לסקרנים חובבי טכנולוגיה.",
+    "about.paragraph2": "מתאים גם למקצוענים וגם לסקרנים חובבי טכנולוגיה.",
     "about.feature.sub1": "רדיו תת-1GHz",
     "about.feature.rfid": "RFID בתדר 125kHz",
     "about.feature.nfc": "NFC ו-RFID בתדר 13.56MHz",

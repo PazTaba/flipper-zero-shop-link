@@ -10,14 +10,14 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
   
   // Generate WhatsApp link with pre-populated message
   const generateWhatsAppLink = () => {
-    const phoneNumber = "972547564251"; // Updated WhatsApp business number with country code (without special chars)
-    const message = encodeURIComponent(
-      `Hi! I'm interested in purchasing the ${product.name[language]}. Can you provide more information?`
-    );
+    const phoneNumber = "972547564251"; 
+    const message = language === "he"
+      ? encodeURIComponent(`שלום! אני מעוניין לרכוש את ${product.name[language]}. האם תוכל לספק לי מידע נוסף?`)
+      : encodeURIComponent(`Hi! I'm interested in purchasing the ${product.name[language]}. Can you provide more information?`);
     return `https://wa.me/${phoneNumber}?text=${message}`;
   };
 
@@ -41,7 +41,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         {/* Stock Status */}
         {!product.inStock && (
           <div className="absolute top-4 left-4 bg-flipper-danger/90 text-white px-3 py-1 rounded-full text-sm">
-            Out of Stock
+            {language === "he" ? t("outOfStock") : "Out of Stock"}
           </div>
         )}
       </div>
@@ -61,7 +61,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <div className="flex justify-between items-center">
           {/* Category Badge */}
           <span className="text-xs px-2 py-1 rounded-full bg-flipper-purple/20 text-flipper-purple">
-            {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
+            {language === "he" 
+              ? product.category === "device" 
+                ? "מכשיר" 
+                : product.category === "accessory" 
+                  ? "אביזר" 
+                  : "חבילה"
+              : product.category.charAt(0).toUpperCase() + product.category.slice(1)}
           </span>
           
           {/* Order Button */}
@@ -72,7 +78,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             className="inline-flex items-center gap-1 text-green-500 hover:text-green-400 transition-colors"
           >
             <MessageSquare className="h-4 w-4" />
-            <span className="text-sm">Order</span>
+            <span className="text-sm">{language === "he" ? t("featured.order") : "Order"}</span>
           </a>
         </div>
       </div>
