@@ -1,9 +1,83 @@
 
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Image } from "lucide-react";
+
+// Allow user to select or take a new photo
+function ImagePicker({
+  images,
+  setImages,
+  label
+}: {
+  images: string[];
+  setImages: (imgArr: string[]) => void;
+  label: string;
+}) {
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const files = Array.from(e.target.files);
+    const readers = files.map(file => {
+      return new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          if (typeof ev.target?.result === "string") {
+            resolve(ev.target.result);
+          } else {
+            reject("Unable to read file");
+          }
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    });
+    const imgData = await Promise.all(readers);
+    setImages([...images, ...imgData]);
+  };
+
+  const removeImg = (idx: number) => {
+    const arr = [...images];
+    arr.splice(idx, 1);
+    setImages(arr);
+  };
+
+  return (
+    <div className="mb-4">
+      <label className="block font-bold mb-1">{label}</label>
+      <div className="flex gap-2 flex-wrap mb-2">
+        {images.map((img, idx) => (
+          <div key={idx} className="relative group w-16 h-16 rounded overflow-hidden border border-gray-300 bg-white">
+            <img
+              src={img}
+              alt={`Product ${idx + 1}`}
+              className="object-cover w-full h-full"
+            />
+            <button type="button"
+              className="absolute top-0 right-0 bg-black/60 text-white p-0.5 text-xs rounded-bl opacity-0 group-hover:opacity-100 transition"
+              onClick={() => removeImg(idx)}
+              aria-label="Remove"
+            >
+              ×
+            </button>
+          </div>
+        ))}
+      </div>
+      <Input
+        type="file"
+        accept="image/*"
+        multiple
+        capture="environment"
+        className="bg-white border rounded"
+        onChange={handleChange}
+      />
+      <span className="text-xs text-gray-400 block mt-1">
+        ניתן לבחור תמונות או לצלם ישירות מהמצלמה
+      </span>
+    </div>
+  );
+}
 
 interface MultilangTextFormProps {
   value: { en: string; he: string };
@@ -80,6 +154,10 @@ export default function AdminProductForm({
     setForm({ ...form, [field]: value });
   }
 
+  function handleImageUpdate(imgs: string[]) {
+    setForm({ ...form, images: imgs });
+  }
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     console.log("Form submitted with data:", form);
@@ -102,6 +180,11 @@ export default function AdminProductForm({
         value={form.description}
         onChange={val => handleInput("description", val)}
         label={t("admin.description") || "Description"}
+      />
+      <ImagePicker
+        images={form.images}
+        setImages={handleImageUpdate}
+        label={t("admin.images") || "Product Images"}
       />
       <div className="mb-4">
         <label className="block font-bold mb-1">{t("admin.price")}</label>
