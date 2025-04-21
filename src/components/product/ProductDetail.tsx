@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getProductBySlug, getRelatedProducts, type Product } from "@/data/products";
@@ -44,8 +43,8 @@ const ProductDetail = () => {
     );
   }
 
+  const phoneNumber = "972547564251"; // Updated WhatsApp business number with country code (without special chars)
   const generateWhatsAppLink = () => {
-    const phoneNumber = "0547564251"; // Updated WhatsApp business number
     const message = encodeURIComponent(
       `Hi! I'm interested in purchasing the ${product.name[language]}. Can you provide more information?`
     );
@@ -98,11 +97,11 @@ const ProductDetail = () => {
               {product.images.map((img, index) => (
                 <button
                   key={index}
-                  className={\`relative w-20 h-20 flex-shrink-0 border rounded-md overflow-hidden
-                    \${activeImageIndex === index ? 'border-flipper-purple' : 'border-flipper-purple/30'}\`}
+                  className={`relative w-20 h-20 flex-shrink-0 border rounded-md overflow-hidden
+                    ${activeImageIndex === index ? 'border-flipper-purple' : 'border-flipper-purple/30'}`}
                   onClick={() => setActiveImageIndex(index)}
                 >
-                  <img src={img} alt={\`\${product.name[language]} - view \${index + 1}\`} className="w-full h-full object-cover" />
+                  <img src={img} alt={`${product.name[language]} - view ${index + 1}`} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
@@ -118,7 +117,7 @@ const ProductDetail = () => {
             <span className="text-xl font-mono font-semibold text-flipper-purple">
               ${product.price.toFixed(2)}
             </span>
-            <span className={\`text-sm \${product.inStock ? "in-stock" : "out-of-stock"}\`}>
+            <span className={`text-sm ${product.inStock ? "in-stock" : "out-of-stock"}`}>
               {product.inStock
                 ? language === "he" ? "במלאי" : "In Stock"
                 : language === "he" ? "אזל מהמלאי" : "Out of Stock"}
@@ -155,7 +154,7 @@ const ProductDetail = () => {
             <div className="p-4">
               <Accordion type="single" collapsible className="w-full">
                 {Object.entries(product.specifications).map(([key, value], index) => (
-                  <AccordionItem key={key} value={\`spec-\${index}\`}>
+                  <AccordionItem key={key} value={`spec-${index}`}>
                     <AccordionTrigger className="text-lg font-medium">
                       {key}
                     </AccordionTrigger>
@@ -196,4 +195,3 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
-

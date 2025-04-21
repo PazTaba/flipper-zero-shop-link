@@ -14,7 +14,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   
   // Generate WhatsApp link with pre-populated message
   const generateWhatsAppLink = () => {
-    const phoneNumber = "0547564251"; // Updated WhatsApp business number
+    const phoneNumber = "972547564251"; // Updated WhatsApp business number with country code (without special chars)
     const message = encodeURIComponent(
       `Hi! I'm interested in purchasing the ${product.name[language]}. Can you provide more information?`
     );
@@ -81,4 +81,3 @@ const ProductCard = ({ product }: ProductCardProps) => {
 };
 
 export default ProductCard;
-
