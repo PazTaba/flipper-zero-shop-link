@@ -1,5 +1,6 @@
+
 import { useState } from "react";
-import { products, Product } from "@/data/products";
+import { Product } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -27,7 +28,7 @@ const AdminProducts = () => {
   useEffect(() => {
     setLoading(true);
     fetchProducts()
-      .then((data) => setProductsList(data as any))
+      .then((data) => setProductsList(data))
       .finally(() => setLoading(false));
   }, []);
 
@@ -45,6 +46,11 @@ const AdminProducts = () => {
   function handleAdd() {
     setEditingProduct(null);
     setShowForm(true);
+  }
+
+  function handleFormCancel() {
+    setShowForm(false);
+    setEditingProduct(null);
   }
 
   async function handleFormSave(data: any) {

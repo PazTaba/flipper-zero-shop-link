@@ -1,38 +1,72 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
+import type { Product, MultilangText } from "@/data/products";
+
+// Convert database product to application Product format
+function dbProductToAppProduct(dbProduct: Database["public"]["Tables"]["products"]["Row"]): Product {
+  return {
+    id: dbProduct.id,
+    name: dbProduct.name as MultilangText,
+    slug: dbProduct.id, // Using ID as slug for now
+    description: dbProduct.description as MultilangText,
+    shortDescription: dbProduct.short_description as MultilangText || { en: "", he: "" },
+    price: Number(dbProduct.price),
+    images: dbProduct.images,
+    category: dbProduct.category as "device" | "accessory" | "bundle",
+    inStock: dbProduct.in_stock ?? true,
+    featured: false, // Default value
+    specifications: {} // Default empty specifications
+  };
+}
+
+// Convert application Product format to database product format
+function appProductToDbProduct(product: Partial<Product>): Partial<Database["public"]["Tables"]["products"]["Insert"]> {
+  return {
+    id: product.id,
+    name: product.name,
+    description: product.description,
+    short_description: product.shortDescription,
+    price: product.price,
+    images: product.images,
+    category: product.category,
+    in_stock: product.inStock
+  };
+}
 
 // Fetch all products (public, for guests and admin)
-export async function fetchProducts() {
+export async function fetchProducts(): Promise<Product[]> {
   const { data, error } = await supabase
     .from("products")
     .select("*")
     .order("created_at", { ascending: false });
   if (error) throw error;
-  return data;
+  return (data || []).map(dbProductToAppProduct);
 }
 
 // Add a new product (admin only)
-export async function addProduct(product: Omit<Database["public"]["Tables"]["products"]["Insert"], "id" | "created_at" | "updated_at">) {
+export async function addProduct(product: Omit<Product, "id" | "slug" | "featured" | "specifications">): Promise<Product> {
+  const dbProduct = appProductToDbProduct(product);
   const { data, error } = await supabase
     .from("products")
-    .insert(product)
+    .insert(dbProduct)
     .select()
     .single();
   if (error) throw error;
-  return data;
+  return dbProductToAppProduct(data);
 }
 
 // Update a product (admin only)
-export async function updateProduct(id: string, updates: Partial<Database["public"]["Tables"]["products"]["Update"]>) {
+export async function updateProduct(id: string, updates: Partial<Product>): Promise<Product> {
+  const dbUpdates = appProductToDbProduct(updates);
   const { data, error } = await supabase
     .from("products")
-    .update(updates)
+    .update(dbUpdates)
     .eq("id", id)
     .select()
     .single();
   if (error) throw error;
-  return data;
+  return dbProductToAppProduct(data);
 }
 
 // Delete a product (admin only)
