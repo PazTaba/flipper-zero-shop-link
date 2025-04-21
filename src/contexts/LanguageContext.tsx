@@ -67,6 +67,18 @@ const translations: Translations = {
     "switchToEnglish": "English",
     "inStock": "In Stock",
     "outOfStock": "Out of Stock",
+
+    // Footer translations that were missing
+    "footer.company": "Flipper Zero Shop",
+    "footer.subtitle": "Your authorized distributor for Flipper Zero devices and original accessories. We offer full warranty, professional support, and excellent customer service.",
+    "footer.contact": "Contact Us:",
+    "footer.email": "Email: support@flipperzero-shop.com",
+    "footer.whatsapp": "WhatsApp: +972 54-756-4251",
+    "footer.hours": "Working hours: Sunday-Friday, 09:00-17:00",
+    "footer.privacy": "Privacy Policy",
+    "footer.terms": "Terms of Service",
+    "footer.copyright": "© 2025 Flipper Zero Shop. All rights reserved.",
+    "footer.contact.cta": "Contact via WhatsApp",
   },
   he: {
     // Navigation

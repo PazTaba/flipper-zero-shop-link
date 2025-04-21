@@ -28,7 +28,7 @@ const Footer = () => {
           {/* Quick Links */}
           <div>
             <h3 className="text-xl font-heading font-semibold mb-4">
-              {language === "he" ? "קישורים מהירים" : "Quick Links"}
+              {t("footer.quickLinks")}
             </h3>
             <ul className="space-y-2">
               <li>
