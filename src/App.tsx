@@ -15,37 +15,40 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <LanguageProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Index />} />
-            <Route path="/products" element={<ProductCatalog />} />
-            <Route path="/products/:slug" element={<ProductDetailPage />} />
-            <Route path="/categories/:category" element={<ProductCatalog />} />
-            <Route path="/cart" element={<CartPage />} />
-            
-            {/* Admin Routes */}
-            <Route path="/admin" element={<AdminLogin />} />
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="products" element={<AdminProducts />} />
-            </Route>
-            
-            {/* 404 Route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </LanguageProvider>
-  </QueryClientProvider>
-);
+// Create a new QueryClient instance within the component
+const App = () => {
+  const queryClient = new QueryClient();
+  
+  return (
+    <QueryClientProvider client={queryClient}>
+      <LanguageProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Index />} />
+              <Route path="/products" element={<ProductCatalog />} />
+              <Route path="/products/:slug" element={<ProductDetailPage />} />
+              <Route path="/categories/:category" element={<ProductCatalog />} />
+              <Route path="/cart" element={<CartPage />} />
+              
+              {/* Admin Routes */}
+              <Route path="/admin" element={<AdminLogin />} />
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route path="dashboard" element={<AdminDashboard />} />
+                <Route path="products" element={<AdminProducts />} />
+              </Route>
+              
+              {/* 404 Route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </LanguageProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
