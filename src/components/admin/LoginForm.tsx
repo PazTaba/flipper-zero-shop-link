@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -5,39 +6,64 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Eye, EyeOff } from "lucide-react";
+
+const AUTHORIZED_ADMIN_EMAIL = "ziv@gmail.com";
+const AUTHORIZED_ADMIN_PASSWORD = "367613Kk";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
   const { t, dir } = useLanguage();
+
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    setTimeout(() => {
-      if (email.includes("admin") && password.length > 0) {
-        toast({
-          title: "Login successful",
-          description: "Welcome to the admin dashboard",
-          variant: "default",
-        });
-
-        localStorage.setItem("adminLoggedIn", "true");
-        navigate("/admin/dashboard");
-      } else {
-        toast({
-          title: "Login failed",
-          description: "Invalid email or password",
-          variant: "destructive",
-        });
-      }
-
+    // Validate email format
+    if (!validateEmail(email)) {
+      toast({
+        title: t("admin.loginFailed"),
+        description: t("admin.invalidEmail"),
+        variant: "destructive",
+      });
       setLoading(false);
-    }, 1000);
+      return;
+    }
+
+    // Check if the email and password match the authorized admin credentials
+    if (email === AUTHORIZED_ADMIN_EMAIL && password === AUTHORIZED_ADMIN_PASSWORD) {
+      toast({
+        title: t("admin.loginSuccessful"),
+        description: t("admin.welcomeMessage"),
+        variant: "default",
+      });
+
+      localStorage.setItem("adminLoggedIn", "true");
+      localStorage.setItem("adminEmail", email);
+      navigate("/admin/dashboard");
+    } else {
+      toast({
+        title: t("admin.loginFailed"),
+        description: t("admin.invalidCredentials"),
+        variant: "destructive",
+      });
+    }
+
+    setLoading(false);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -72,15 +98,24 @@ const LoginForm = () => {
                 {t("admin.forgotPassword")}
               </a>
             </div>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              className="bg-flipper-dark/70 border-flipper-purple/30"
-              required
-            />
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="bg-flipper-dark/70 border-flipper-purple/30 pr-10"
+                required
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-flipper-purple"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
           </div>
           
           <Button 
@@ -90,12 +125,6 @@ const LoginForm = () => {
           >
             {loading ? t("admin.signingIn") : t("admin.login")}
           </Button>
-          
-          <div className="text-center text-sm text-gray-400">
-            <p>{t("admin.demoCredentials")}</p>
-            <p>Email: admin@example.com</p>
-            <p>Password: password</p>
-          </div>
         </form>
       </div>
     </div>

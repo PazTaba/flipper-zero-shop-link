@@ -6,21 +6,26 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+const AUTHORIZED_ADMIN_EMAIL = "ziv@gmail.com";
+
 const AdminLayout = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
   
-  // Close sidebar by default on mobile
   useEffect(() => {
     setSidebarOpen(!isMobile);
   }, [isMobile]);
   
   useEffect(() => {
-    // Check if user is logged in
+    // Check if user is logged in and is authorized admin
     const isLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
+    const adminEmail = localStorage.getItem("adminEmail");
     
-    if (!isLoggedIn) {
+    if (!isLoggedIn || adminEmail !== AUTHORIZED_ADMIN_EMAIL) {
+      // Clear any existing admin session
+      localStorage.removeItem("adminLoggedIn");
+      localStorage.removeItem("adminEmail");
       // Redirect to login page
       navigate("/admin");
     }
