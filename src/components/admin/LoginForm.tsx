@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,6 +6,8 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Eye, EyeOff } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import Cookies from "js-cookie";
 
 const AUTHORIZED_ADMIN_EMAIL = "ziv@gmail.com";
 const AUTHORIZED_ADMIN_PASSWORD = "367613Kk";
@@ -25,41 +26,74 @@ const LoginForm = () => {
     return emailRegex.test(email);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    // Validate email format
-    if (!validateEmail(email)) {
+    try {
+      // Validate email format
+      if (!validateEmail(email)) {
+        toast({
+          title: t("admin.loginFailed"),
+          description: t("admin.invalidEmail"),
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // First verify admin credentials
+      const { data, error: verificationError } = await supabase.rpc(
+        'verify_admin_credentials',
+        { admin_email: email, admin_password: password }
+      );
+
+      if (verificationError || !data) {
+        toast({
+          title: t("admin.loginFailed"),
+          description: t("admin.invalidCredentials"),
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // If verification successful, create a session
+      const { data: { session }, error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (signInError) {
+        throw signInError;
+      }
+
+      // Store the session token in a secure httpOnly cookie
+      if (session) {
+        Cookies.set('admin_access_token', session.access_token, {
+          secure: true,
+          sameSite: 'strict',
+          expires: 7 // 7 days
+        });
+
+        toast({
+          title: t("admin.loginSuccessful"),
+          description: t("admin.welcomeMessage"),
+        });
+
+        // Small delay to ensure cookie is set
+        setTimeout(() => {
+          navigate("/admin/dashboard");
+        }, 100);
+      }
+    } catch (error: any) {
+      console.error("Login error:", error);
       toast({
         title: t("admin.loginFailed"),
-        description: t("admin.invalidEmail"),
+        description: error.message || t("admin.invalidCredentials"),
         variant: "destructive",
       });
+    } finally {
       setLoading(false);
-      return;
     }
-
-    // Check if the email and password match the authorized admin credentials
-    if (email === AUTHORIZED_ADMIN_EMAIL && password === AUTHORIZED_ADMIN_PASSWORD) {
-      toast({
-        title: t("admin.loginSuccessful"),
-        description: t("admin.welcomeMessage"),
-        variant: "default",
-      });
-
-      localStorage.setItem("adminLoggedIn", "true");
-      localStorage.setItem("adminEmail", email);
-      navigate("/admin/dashboard");
-    } else {
-      toast({
-        title: t("admin.loginFailed"),
-        description: t("admin.invalidCredentials"),
-        variant: "destructive",
-      });
-    }
-
-    setLoading(false);
   };
 
   const togglePasswordVisibility = () => {

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import AdminSidebar from "./AdminSidebar";
@@ -7,6 +6,7 @@ import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import Cookies from "js-cookie";
 
 const AdminLayout = () => {
   const navigate = useNavigate();
@@ -24,70 +24,47 @@ const AdminLayout = () => {
       setIsCheckingAuth(true);
       
       try {
-        const isLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
-        const adminEmail = localStorage.getItem("adminEmail");
+        const accessToken = Cookies.get('admin_access_token');
         
-        if (!isLoggedIn || !adminEmail) {
-          // If no login info in localStorage, user is not logged in
-          localStorage.removeItem("adminLoggedIn");
-          localStorage.removeItem("adminEmail");
-          navigate("/admin");
-          return;
+        if (!accessToken) {
+          throw new Error('No access token found');
         }
+
+        const { data: { user } } = await supabase.auth.getUser(accessToken);
         
-        // Check if the user exists in the system without checking password
-        const { data, error } = await supabase
+        if (!user) {
+          throw new Error('Invalid session');
+        }
+
+        // Verify admin status
+        const { data: adminData, error: adminError } = await supabase
           .from('admin_users')
           .select('*')
-          .eq('email', adminEmail);
-        
-        if (error) {
-          console.error("Error verifying admin access:", error);
-          localStorage.removeItem("adminLoggedIn");
-          localStorage.removeItem("adminEmail");
-          navigate("/admin");
-          
-          toast({
-            title: "שגיאת אימות",
-            description: "אירעה שגיאה במהלך אימות המשתמש",
-            variant: "destructive",
-          });
-          return;
+          .eq('email', user.email)
+          .limit(1);
+
+        if (adminError || !adminData || adminData.length === 0) {
+          throw new Error('Not authorized as admin');
         }
-        
-        if (!data || data.length === 0) {
-          // If user not found, they are not logged in
-          console.error("Admin user not found");
-          localStorage.removeItem("adminLoggedIn");
-          localStorage.removeItem("adminEmail");
-          navigate("/admin");
-          return;
-        }
-        
-        // User exists, can continue
-        setIsCheckingAuth(false);
+
       } catch (error) {
-        console.error("Error in auth check:", error);
-        localStorage.removeItem("adminLoggedIn");
-        localStorage.removeItem("adminEmail");
-        navigate("/admin");
+        console.error("Auth check error:", error);
+        Cookies.remove('admin_access_token');
+        navigate("/admin/login");
         
         toast({
-          title: "שגיאת מערכת",
-          description: "אירעה שגיאה בבדיקת ההרשאות",
+          title: "Authentication Error",
+          description: "Please log in again",
           variant: "destructive",
         });
+      } finally {
+        setIsCheckingAuth(false);
       }
     };
-    
-    // Only check admin access if we're not on the login page
-    if (location.pathname !== "/admin") {
-      checkAdminAccess();
-    } else {
-      setIsCheckingAuth(false);
-    }
+
+    checkAdminAccess();
   }, [navigate, toast]);
-  
+
   // If still checking permissions, show empty loading screen
   if (isCheckingAuth) {
     return <div className="h-screen w-full flex items-center justify-center bg-flipper-dark">
