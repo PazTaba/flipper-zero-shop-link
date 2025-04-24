@@ -40,7 +40,7 @@ const LoginForm = () => {
         return;
       }
 
-      // First verify admin credentials in our custom table
+      // Verify admin credentials in our custom table
       const { data: isVerified, error: verificationError } = await supabase.rpc(
         'verify_admin_credentials',
         { admin_email: email, admin_password: password }
@@ -57,60 +57,29 @@ const LoginForm = () => {
         return;
       }
 
-      // Try to sign in with existing Supabase auth
-      let authResponse = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      // Admin is verified, generate a custom token
+      const tokenExpiry = new Date();
+      tokenExpiry.setDate(tokenExpiry.getDate() + 7); // 7 days from now
+      
+      // Create a simple token (in a real app, you would use JWT with proper signing)
+      const adminToken = btoa(`${email}:${Date.now()}:admin`);
+      
+      // Store the admin token in a cookie
+      Cookies.set('admin_access_token', adminToken, {
+        secure: true,
+        sameSite: 'strict',
+        expires: 7 // 7 days
       });
 
-      // If sign-in fails, create a new Supabase auth user
-      if (authResponse.error) {
-        console.log("Auth signin failed, attempting to create user:", authResponse.error.message);
-        
-        // Try to sign up the user
-        authResponse = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: {
-              is_admin: true
-            }
-          }
-        });
-        
-        if (authResponse.error) {
-          console.error("Failed to create auth user:", authResponse.error);
-          toast({
-            title: t("admin.loginFailed"),
-            description: t("admin.authError"),
-            variant: "destructive",
-          });
-          setLoading(false);
-          return;
-        }
-      }
+      toast({
+        title: t("admin.loginSuccessful"),
+        description: t("admin.welcomeMessage"),
+      });
 
-      // Successfully logged in or signed up
-      if (authResponse.data.session) {
-        // Store the session token in a secure httpOnly cookie
-        Cookies.set('admin_access_token', authResponse.data.session.access_token, {
-          secure: true,
-          sameSite: 'strict',
-          expires: 7 // 7 days
-        });
-
-        toast({
-          title: t("admin.loginSuccessful"),
-          description: t("admin.welcomeMessage"),
-        });
-
-        // Small delay to ensure cookie is set
-        setTimeout(() => {
-          navigate("/admin/dashboard");
-        }, 100);
-      } else {
-        throw new Error('No session created');
-      }
+      // Small delay to ensure cookie is set
+      setTimeout(() => {
+        navigate("/admin/dashboard");
+      }, 100);
     } catch (error: any) {
       console.error("Login error:", error);
       toast({
