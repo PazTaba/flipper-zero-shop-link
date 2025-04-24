@@ -6,11 +6,14 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const AdminLayout = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const { toast } = useToast();
   
   useEffect(() => {
     setSidebarOpen(!isMobile);
@@ -18,37 +21,67 @@ const AdminLayout = () => {
   
   useEffect(() => {
     const checkAdminAccess = async () => {
-      const isLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
-      const adminEmail = localStorage.getItem("adminEmail");
-      
-      if (!isLoggedIn || !adminEmail) {
-        localStorage.removeItem("adminLoggedIn");
-        localStorage.removeItem("adminEmail");
-        navigate("/admin");
-        return;
-      }
+      setIsCheckingAuth(true);
       
       try {
-        const { data: isValid } = await supabase.rpc(
-          'verify_admin_credentials',
-          { admin_email: adminEmail, admin_password: '' }
-        );
+        const isLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
+        const adminEmail = localStorage.getItem("adminEmail");
         
-        if (!isValid) {
+        if (!isLoggedIn || !adminEmail) {
+          // אם אין מידע התחברות ב-localStorage, המשתמש לא מחובר
           localStorage.removeItem("adminLoggedIn");
           localStorage.removeItem("adminEmail");
           navigate("/admin");
+          return;
+        }
+        
+        // בדיקה שהמשתמש קיים במערכת בלי לבדוק סיסמה
+        const { data: { count }, error } = await supabase
+          .from('admin_users')
+          .select('*', { count: 'exact', head: true })
+          .eq('email', adminEmail);
+        
+        if (error || count === 0) {
+          // אם יש שגיאה או שהמשתמש לא נמצא, המשתמש לא מחובר
+          console.error("Error verifying admin access:", error);
+          localStorage.removeItem("adminLoggedIn");
+          localStorage.removeItem("adminEmail");
+          navigate("/admin");
+          
+          if (error) {
+            toast({
+              title: "שגיאת אימות",
+              description: "אירעה שגיאה במהלך אימות המשתמש",
+              variant: "destructive",
+            });
+          }
+        } else {
+          // המשתמש קיים, אפשר להמשיך
+          setIsCheckingAuth(false);
         }
       } catch (error) {
-        console.error("Error verifying admin access:", error);
+        console.error("Error in auth check:", error);
         localStorage.removeItem("adminLoggedIn");
         localStorage.removeItem("adminEmail");
         navigate("/admin");
+        
+        toast({
+          title: "שגיאת מערכת",
+          description: "אירעה שגיאה בבדיקת ההרשאות",
+          variant: "destructive",
+        });
       }
     };
     
     checkAdminAccess();
-  }, [navigate]);
+  }, [navigate, toast]);
+  
+  // אם עדיין בודקים הרשאות, מציגים מסך טעינה ריק
+  if (isCheckingAuth) {
+    return <div className="h-screen w-full flex items-center justify-center bg-flipper-dark">
+      <div className="animate-pulse text-flipper-purple">טוען...</div>
+    </div>;
+  }
   
   return (
     <div className="flex h-screen bg-flipper-dark overflow-hidden">
