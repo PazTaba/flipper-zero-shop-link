@@ -28,37 +28,44 @@ const AdminLayout = () => {
         const adminEmail = localStorage.getItem("adminEmail");
         
         if (!isLoggedIn || !adminEmail) {
-          // אם אין מידע התחברות ב-localStorage, המשתמש לא מחובר
+          // If no login info in localStorage, user is not logged in
           localStorage.removeItem("adminLoggedIn");
           localStorage.removeItem("adminEmail");
           navigate("/admin");
           return;
         }
         
-        // בדיקה שהמשתמש קיים במערכת בלי לבדוק סיסמה
+        // Check if the user exists in the system without checking password
         const { data, error } = await supabase
           .from('admin_users')
           .select('*')
           .eq('email', adminEmail);
         
-        if (error || !data || data.length === 0) {
-          // אם יש שגיאה או שהמשתמש לא נמצא, המשתמש לא מחובר
+        if (error) {
           console.error("Error verifying admin access:", error);
           localStorage.removeItem("adminLoggedIn");
           localStorage.removeItem("adminEmail");
           navigate("/admin");
           
-          if (error) {
-            toast({
-              title: "שגיאת אימות",
-              description: "אירעה שגיאה במהלך אימות המשתמש",
-              variant: "destructive",
-            });
-          }
-        } else {
-          // המשתמש קיים, אפשר להמשיך
-          setIsCheckingAuth(false);
+          toast({
+            title: "שגיאת אימות",
+            description: "אירעה שגיאה במהלך אימות המשתמש",
+            variant: "destructive",
+          });
+          return;
         }
+        
+        if (!data || data.length === 0) {
+          // If user not found, they are not logged in
+          console.error("Admin user not found");
+          localStorage.removeItem("adminLoggedIn");
+          localStorage.removeItem("adminEmail");
+          navigate("/admin");
+          return;
+        }
+        
+        // User exists, can continue
+        setIsCheckingAuth(false);
       } catch (error) {
         console.error("Error in auth check:", error);
         localStorage.removeItem("adminLoggedIn");
@@ -73,10 +80,15 @@ const AdminLayout = () => {
       }
     };
     
-    checkAdminAccess();
+    // Only check admin access if we're not on the login page
+    if (location.pathname !== "/admin") {
+      checkAdminAccess();
+    } else {
+      setIsCheckingAuth(false);
+    }
   }, [navigate, toast]);
   
-  // אם עדיין בודקים הרשאות, מציגים מסך טעינה ריק
+  // If still checking permissions, show empty loading screen
   if (isCheckingAuth) {
     return <div className="h-screen w-full flex items-center justify-center bg-flipper-dark">
       <div className="animate-pulse text-flipper-purple">טוען...</div>

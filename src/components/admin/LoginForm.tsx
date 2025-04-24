@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -50,6 +51,7 @@ const LoginForm = () => {
       if (verificationError) throw verificationError;
 
       if (isValid) {
+        // Set login state in localStorage
         localStorage.setItem("adminLoggedIn", "true");
         localStorage.setItem("adminEmail", sanitizedEmail);
         
@@ -59,7 +61,10 @@ const LoginForm = () => {
           variant: "default",
         });
         
-        navigate("/admin/dashboard");
+        // Navigate to dashboard with a delay to ensure local storage is updated
+        setTimeout(() => {
+          navigate("/admin/dashboard");
+        }, 100);
       } else {
         throw new Error(t("admin.invalidCredentials"));
       }
