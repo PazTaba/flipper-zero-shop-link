@@ -41,13 +41,31 @@ const LoginForm = () => {
       }
 
       // Verify admin credentials in our custom table
+      const { data: adminUser, error: adminError } = await supabase
+        .from('admin_users')
+        .select('*')
+        .eq('email', email)
+        .single();
+        
+      if (adminError || !adminUser) {
+        console.error("Admin verification failed:", adminError);
+        toast({
+          title: t("admin.loginFailed"),
+          description: t("admin.invalidCredentials"),
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+        
+      // Verify password using the RPC function
       const { data: isVerified, error: verificationError } = await supabase.rpc(
         'verify_admin_credentials',
         { admin_email: email, admin_password: password }
       );
 
       if (verificationError || !isVerified) {
-        console.log("Admin verification failed:", verificationError);
+        console.log("Password verification failed:", verificationError);
         toast({
           title: t("admin.loginFailed"),
           description: t("admin.invalidCredentials"),
