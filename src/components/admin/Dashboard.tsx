@@ -4,6 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProducts } from "@/lib/supabaseDb";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent
+} from "@/components/ui/chart";
 import { 
   BarChart, 
   Bar, 
@@ -18,7 +23,8 @@ import {
   LabelList,
   PieChart,
   Pie,
-  Cell
+  Cell,
+  TooltipProps
 } from 'recharts';
 import { 
   Activity, 
@@ -27,6 +33,13 @@ import {
   TrendingUp, 
   PieChart as PieChartIcon 
 } from "lucide-react";
+
+// Define proper type for the tooltip
+interface CustomTooltipProps extends TooltipProps<any, any> {
+  active?: boolean;
+  payload?: any[];
+  label?: any;
+}
 
 const AdminDashboard = () => {
   const { data: analytics, isLoading: isLoadingAnalytics } = useAnalytics();
@@ -52,7 +65,12 @@ const AdminDashboard = () => {
     fill: `hsl(var(--secondary))`
   })) || [];
 
-  const totalPageViews = analytics?.pageViews.reduce((sum, view) => sum + view.view_count, 0) || 0;
+  const totalPageViews = analytics?.pageViews.reduce((sum, view) => {
+    // Ensure we're adding numbers
+    const viewCount = typeof view.view_count === 'number' ? view.view_count : 0;
+    return sum + viewCount;
+  }, 0) || 0;
+  
   const todayPageViews = analytics?.pageViews.find(view => {
     const viewDate = new Date(view.day);
     const today = new Date();
@@ -104,7 +122,7 @@ const AdminDashboard = () => {
   }
 
   // Custom tooltip for the charts
-  const CustomTooltip = ({ active, payload, label }) => {
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-background border border-border rounded-lg shadow-md p-3 text-foreground">
@@ -144,7 +162,7 @@ const AdminDashboard = () => {
           </CardHeader>
           <CardContent className="pt-4">
             <div className="text-3xl font-bold text-primary">{inStockProducts}</div>
-            <p className="text-xs text-muted-foreground mt-1">{((inStockProducts / totalProducts) * 100).toFixed(1)}% of total inventory</p>
+            <p className="text-xs text-muted-foreground mt-1">{inStockProducts && totalProducts ? ((inStockProducts / totalProducts) * 100).toFixed(1) : '0'}% of total inventory</p>
           </CardContent>
         </Card>
 
@@ -155,7 +173,7 @@ const AdminDashboard = () => {
           </CardHeader>
           <CardContent className="pt-4">
             <div className="text-3xl font-bold text-destructive">{outOfStockProducts}</div>
-            <p className="text-xs text-muted-foreground mt-1">{((outOfStockProducts / totalProducts) * 100).toFixed(1)}% of total inventory</p>
+            <p className="text-xs text-muted-foreground mt-1">{outOfStockProducts && totalProducts ? ((outOfStockProducts / totalProducts) * 100).toFixed(1) : '0'}% of total inventory</p>
           </CardContent>
         </Card>
       </div>
@@ -188,7 +206,7 @@ const AdminDashboard = () => {
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value) => [`${value} products`, '']} />
+                <Tooltip content={<CustomTooltip />} />
                 <Legend verticalAlign="bottom" height={36} />
               </PieChart>
             </ResponsiveContainer>
@@ -241,7 +259,7 @@ const AdminDashboard = () => {
                   axisLine={{ stroke: 'hsl(var(--border))' }}
                   tickLine={{ stroke: 'hsl(var(--border))' }}
                 />
-                <Tooltip content={<CustomTooltip />} />
+                <Tooltip content={<CustomTooltip active={false} payload={[]} label="" />} />
                 <Bar 
                   dataKey="views" 
                   name="Page Views"
@@ -285,7 +303,7 @@ const AdminDashboard = () => {
                   axisLine={{ stroke: 'hsl(var(--border))' }}
                   tickLine={{ stroke: 'hsl(var(--border))' }}
                 />
-                <Tooltip content={<CustomTooltip />} />
+                <Tooltip content={<CustomTooltip active={false} payload={[]} label="" />} />
                 <Legend verticalAlign="top" height={36} />
                 
                 {interactionTypes.map((type) => (
@@ -333,7 +351,7 @@ const AdminDashboard = () => {
                   axisLine={{ stroke: 'hsl(var(--border))' }}
                   tickLine={{ stroke: 'hsl(var(--border))' }}
                 />
-                <Tooltip content={<CustomTooltip />} />
+                <Tooltip content={<CustomTooltip active={false} payload={[]} label="" />} />
                 <Legend verticalAlign="top" height={36} />
                 
                 {interactionTypes.map((type) => (
