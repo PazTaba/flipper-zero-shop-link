@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAnalytics } from "@/hooks/useAnalytics";
@@ -19,7 +20,13 @@ import {
   Pie,
   Cell
 } from 'recharts';
-import { Activity, Database, Eye, TrendingUp, PieChart as PieChartIcon } from "lucide-react";
+import { 
+  Activity, 
+  Database, 
+  Eye, 
+  TrendingUp, 
+  PieChart as PieChartIcon 
+} from "lucide-react";
 
 const AdminDashboard = () => {
   const { data: analytics, isLoading: isLoadingAnalytics } = useAnalytics();
@@ -32,17 +39,17 @@ const AdminDashboard = () => {
   const inStockProducts = products.filter((product) => product.inStock).length;
   const outOfStockProducts = totalProducts - inStockProducts;
 
-  // Stock status data for pie chart with eye-friendly colors
+  // Stock status data for pie chart with app-themed colors
   const stockStatusData = [
-    { name: 'In Stock', value: inStockProducts, color: '#60a5fa' },
-    { name: 'Out of Stock', value: outOfStockProducts, color: '#f97316' }
+    { name: 'In Stock', value: inStockProducts, color: 'hsl(var(--primary))' },
+    { name: 'Out of Stock', value: outOfStockProducts, color: 'hsl(var(--destructive))' }
   ];
 
-  // Enhanced page views data with more styling and eye-friendly colors
+  // Enhanced page views data with app-themed colors
   const pageViewsData = analytics?.pageViews.map(view => ({
     date: new Date(view.day).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
     views: view.view_count,
-    fill: `rgba(96, 165, 250, ${0.4 + (view.view_count / Math.max(...analytics.pageViews.map(v => v.view_count))) * 0.5})`
+    fill: `hsl(var(--secondary))`
   })) || [];
 
   const totalPageViews = analytics?.pageViews.reduce((sum, view) => sum + view.view_count, 0) || 0;
@@ -56,12 +63,12 @@ const AdminDashboard = () => {
     );
   })?.view_count || 0;
 
-  // Process interaction data to be more complete with eye-friendly colors
+  // Process interaction data with app-themed colors
   const interactionTypes = ['view', 'detail_view', 'add_to_cart'];
   const interactionColors = {
-    view: '#64748b',      // Slate blue - more muted and easy on the eyes
-    detail_view: '#60a5fa', // Light blue - good contrast but not harsh
-    add_to_cart: '#f97316'  // Softer orange - warmer and less straining
+    view: 'hsl(var(--muted-foreground))',
+    detail_view: 'hsl(var(--primary))', 
+    add_to_cart: 'hsl(var(--accent))'
   };
   
   // Get all unique dates
@@ -93,18 +100,18 @@ const AdminDashboard = () => {
   });
 
   if (isLoadingAnalytics || isLoadingProducts) {
-    return <p className="p-4">Loading analytics...</p>;
+    return <p className="p-4 text-muted-foreground">Loading analytics...</p>;
   }
 
-  // Custom tooltip for the bar chart
+  // Custom tooltip for the charts
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white p-3 border rounded shadow-md">
-          <p className="font-semibold">{label}</p>
+        <div className="bg-background border border-border rounded-lg shadow-md p-3 text-foreground">
+          <p className="font-semibold text-primary">{label}</p>
           {payload.map((entry, index) => (
-            <p key={index} style={{ color: entry.color }}>
-              {entry.name}: {entry.value} {entry.name === 'views' ? 'views' : ''}
+            <p key={index} className="text-foreground">
+              {entry.name}: {entry.value}
             </p>
           ))}
         </div>
@@ -115,50 +122,50 @@ const AdminDashboard = () => {
 
   return (
     <div className="container mx-auto p-4 space-y-6">
-      <h1 className="text-2xl font-semibold mb-6">Dashboard</h1>
+      <h1 className="text-2xl font-semibold mb-6 text-foreground">Dashboard</h1>
 
       {/* Product stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gray-50 rounded-t-lg">
-            <CardTitle className="text-sm font-medium">Total Products</CardTitle>
-            <Database className="h-4 w-4 text-blue-500" />
+        <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 bg-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-secondary/20 rounded-t-lg">
+            <CardTitle className="text-sm font-medium text-foreground">Total Products</CardTitle>
+            <Database className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent className="pt-4">
-            <div className="text-3xl font-bold text-gray-700">{totalProducts}</div>
-            <p className="text-xs text-gray-500 mt-1">Total products in inventory</p>
+            <div className="text-3xl font-bold text-primary">{totalProducts}</div>
+            <p className="text-xs text-muted-foreground mt-1">Total products in inventory</p>
           </CardContent>
         </Card>
 
-        <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gray-50 rounded-t-lg">
-            <CardTitle className="text-sm font-medium">In Stock</CardTitle>
-            <Activity className="h-4 w-4 text-blue-500" />
+        <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 bg-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-secondary/20 rounded-t-lg">
+            <CardTitle className="text-sm font-medium text-foreground">In Stock</CardTitle>
+            <Activity className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent className="pt-4">
-            <div className="text-3xl font-bold text-blue-600">{inStockProducts}</div>
-            <p className="text-xs text-gray-500 mt-1">{((inStockProducts / totalProducts) * 100).toFixed(1)}% of total inventory</p>
+            <div className="text-3xl font-bold text-primary">{inStockProducts}</div>
+            <p className="text-xs text-muted-foreground mt-1">{((inStockProducts / totalProducts) * 100).toFixed(1)}% of total inventory</p>
           </CardContent>
         </Card>
 
-        <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gray-50 rounded-t-lg">
-            <CardTitle className="text-sm font-medium">Out of Stock</CardTitle>
-            <TrendingUp className="h-4 w-4 text-orange-500" />
+        <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 bg-card">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-secondary/20 rounded-t-lg">
+            <CardTitle className="text-sm font-medium text-foreground">Out of Stock</CardTitle>
+            <TrendingUp className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent className="pt-4">
-            <div className="text-3xl font-bold text-orange-500">{outOfStockProducts}</div>
-            <p className="text-xs text-gray-500 mt-1">{((outOfStockProducts / totalProducts) * 100).toFixed(1)}% of total inventory</p>
+            <div className="text-3xl font-bold text-destructive">{outOfStockProducts}</div>
+            <p className="text-xs text-muted-foreground mt-1">{((outOfStockProducts / totalProducts) * 100).toFixed(1)}% of total inventory</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Stock Status Pie Chart and Page Views */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="md:col-span-1 shadow-md hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="bg-gray-50 rounded-t-lg">
-            <CardTitle className="text-sm font-medium flex items-center">
-              <PieChartIcon className="h-4 w-4 mr-2 text-blue-500" />
+        <Card className="md:col-span-1 shadow-md hover:shadow-lg transition-shadow duration-300 bg-card">
+          <CardHeader className="bg-secondary/20 rounded-t-lg">
+            <CardTitle className="text-sm font-medium flex items-center text-foreground">
+              <PieChartIcon className="h-4 w-4 mr-2 text-primary" />
               Stock Status
             </CardTitle>
           </CardHeader>
@@ -188,19 +195,19 @@ const AdminDashboard = () => {
           </CardContent>
         </Card>
 
-        <Card className="md:col-span-2 shadow-md hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="flex flex-row items-center justify-between bg-gray-50 rounded-t-lg">
-            <CardTitle className="text-sm font-medium">Page Views</CardTitle>
+        <Card className="md:col-span-2 shadow-md hover:shadow-lg transition-shadow duration-300 bg-card">
+          <CardHeader className="flex flex-row items-center justify-between bg-secondary/20 rounded-t-lg">
+            <CardTitle className="text-sm font-medium text-foreground">Page Views</CardTitle>
           </CardHeader>
           <CardContent className="pt-4">
             <div className="grid grid-cols-2 gap-4 mb-4">
-              <div className="bg-gray-50 rounded p-3 text-center">
-                <div className="text-2xl font-bold text-blue-600">{todayPageViews}</div>
-                <div className="text-xs text-gray-500">Today's Views</div>
+              <div className="bg-secondary/20 rounded p-3 text-center">
+                <div className="text-2xl font-bold text-primary">{todayPageViews}</div>
+                <div className="text-xs text-muted-foreground">Today's Views</div>
               </div>
-              <div className="bg-gray-50 rounded p-3 text-center">
-                <div className="text-2xl font-bold text-blue-700">{totalPageViews}</div>
-                <div className="text-xs text-gray-500">Total Views</div>
+              <div className="bg-secondary/20 rounded p-3 text-center">
+                <div className="text-2xl font-bold text-primary">{totalPageViews}</div>
+                <div className="text-xs text-muted-foreground">Total Views</div>
               </div>
             </div>
           </CardContent>
@@ -209,10 +216,10 @@ const AdminDashboard = () => {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="bg-gray-50 rounded-t-lg">
-            <CardTitle className="text-sm font-medium flex items-center">
-              <Eye className="h-4 w-4 mr-2 text-blue-500" />
+        <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 bg-card">
+          <CardHeader className="bg-secondary/20 rounded-t-lg">
+            <CardTitle className="text-sm font-medium flex items-center text-foreground">
+              <Eye className="h-4 w-4 mr-2 text-primary" />
               Page Views (Last 7 Days)
             </CardTitle>
           </CardHeader>
@@ -222,31 +229,29 @@ const AdminDashboard = () => {
                 data={pageViewsData}
                 margin={{ top: 20, right: 30, left: 0, bottom: 20 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis 
                   dataKey="date" 
-                  tick={{ fontSize: 12 }}
-                  axisLine={{ stroke: '#e0e0e0' }}
-                  tickLine={{ stroke: '#e0e0e0' }}
+                  tick={{ fill: 'hsl(var(--muted-foreground))' }}
+                  axisLine={{ stroke: 'hsl(var(--border))' }}
+                  tickLine={{ stroke: 'hsl(var(--border))' }}
                 />
                 <YAxis 
-                  tick={{ fontSize: 12 }}
-                  axisLine={{ stroke: '#e0e0e0' }}
-                  tickLine={{ stroke: '#e0e0e0' }}
+                  tick={{ fill: 'hsl(var(--muted-foreground))' }}
+                  axisLine={{ stroke: 'hsl(var(--border))' }}
+                  tickLine={{ stroke: 'hsl(var(--border))' }}
                 />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar 
                   dataKey="views" 
                   name="Page Views"
                   radius={[4, 4, 0, 0]}
+                  fill="hsl(var(--secondary))"
                 >
-                  {pageViewsData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.fill} />
-                  ))}
                   <LabelList 
                     dataKey="views" 
                     position="top" 
-                    style={{ fontSize: '11px', fill: '#666' }}
+                    style={{ fontSize: '11px', fill: 'hsl(var(--muted-foreground))' }}
                     formatter={(value) => value > 0 ? value : ''}
                   />
                 </Bar>
@@ -255,10 +260,10 @@ const AdminDashboard = () => {
           </CardContent>
         </Card>
 
-        <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="bg-gray-50 rounded-t-lg">
-            <CardTitle className="text-sm font-medium flex items-center">
-              <Activity className="h-4 w-4 mr-2 text-green-500" />
+        <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 bg-card">
+          <CardHeader className="bg-secondary/20 rounded-t-lg">
+            <CardTitle className="text-sm font-medium flex items-center text-foreground">
+              <Activity className="h-4 w-4 mr-2 text-accent" />
               Product Interactions (Last 7 Days)
             </CardTitle>
           </CardHeader>
@@ -268,17 +273,17 @@ const AdminDashboard = () => {
                 data={interactionsData}
                 margin={{ top: 20, right: 30, left: 0, bottom: 20 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis 
                   dataKey="date" 
-                  tick={{ fontSize: 12 }}
-                  axisLine={{ stroke: '#e0e0e0' }}
-                  tickLine={{ stroke: '#e0e0e0' }}
+                  tick={{ fill: 'hsl(var(--muted-foreground))' }}
+                  axisLine={{ stroke: 'hsl(var(--border))' }}
+                  tickLine={{ stroke: 'hsl(var(--border))' }}
                 />
                 <YAxis 
-                  tick={{ fontSize: 12 }}
-                  axisLine={{ stroke: '#e0e0e0' }}
-                  tickLine={{ stroke: '#e0e0e0' }}
+                  tick={{ fill: 'hsl(var(--muted-foreground))' }}
+                  axisLine={{ stroke: 'hsl(var(--border))' }}
+                  tickLine={{ stroke: 'hsl(var(--border))' }}
                 />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend verticalAlign="top" height={36} />
@@ -303,10 +308,10 @@ const AdminDashboard = () => {
 
       {/* Detailed Bar Chart for Interactions */}
       <div className="grid grid-cols-1 gap-4">
-        <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="bg-gray-50 rounded-t-lg">
-            <CardTitle className="text-sm font-medium flex items-center">
-              <TrendingUp className="h-4 w-4 mr-2 text-yellow-500" />
+        <Card className="shadow-md hover:shadow-lg transition-shadow duration-300 bg-card">
+          <CardHeader className="bg-secondary/20 rounded-t-lg">
+            <CardTitle className="text-sm font-medium flex items-center text-foreground">
+              <TrendingUp className="h-4 w-4 mr-2 text-accent" />
               Detailed Interaction Breakdown
             </CardTitle>
           </CardHeader>
@@ -316,17 +321,17 @@ const AdminDashboard = () => {
                 data={interactionsData}
                 margin={{ top: 20, right: 30, left: 0, bottom: 20 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis 
                   dataKey="date" 
-                  tick={{ fontSize: 12 }}
-                  axisLine={{ stroke: '#e0e0e0' }}
-                  tickLine={{ stroke: '#e0e0e0' }}
+                  tick={{ fill: 'hsl(var(--muted-foreground))' }}
+                  axisLine={{ stroke: 'hsl(var(--border))' }}
+                  tickLine={{ stroke: 'hsl(var(--border))' }}
                 />
                 <YAxis 
-                  tick={{ fontSize: 12 }}
-                  axisLine={{ stroke: '#e0e0e0' }}
-                  tickLine={{ stroke: '#e0e0e0' }}
+                  tick={{ fill: 'hsl(var(--muted-foreground))' }}
+                  axisLine={{ stroke: 'hsl(var(--border))' }}
+                  tickLine={{ stroke: 'hsl(var(--border))' }}
                 />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend verticalAlign="top" height={36} />
@@ -343,7 +348,7 @@ const AdminDashboard = () => {
                     <LabelList 
                       dataKey={type} 
                       position="top" 
-                      style={{ fontSize: '11px', fill: '#666' }}
+                      style={{ fontSize: '11px', fill: 'hsl(var(--muted-foreground))' }}
                       formatter={(value) => value > 0 ? value : ''}
                     />
                   </Bar>
