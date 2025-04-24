@@ -4,28 +4,12 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const Footer = () => {
   const { language, t } = useLanguage();
-  const phoneNumber = "972547564251";
+  const phoneNumber = "54-951-2744‎";
   
   return (
     <footer className="bg-flipper-dark border-t border-flipper-purple/20 py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Company Info */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-flipper-purple rounded-md flex items-center justify-center text-white font-bold text-xl">
-                F0
-              </div>
-              <span className="text-xl font-heading font-bold">
-                {t("footer.company")}
-              </span>
-            </div>
-            <p className="text-gray-400 max-w-md">
-              {t("footer.subtitle")}
-            </p>
-          </div>
-
-          {/* Quick Links */}
           <div>
             <h3 className="text-xl font-heading font-semibold mb-4">
               {t("footer.quickLinks")}

@@ -14,7 +14,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   // Generate WhatsApp link with pre-populated message
   const generateWhatsAppLink = () => {
-    const phoneNumber = "972547564251";
+    const phoneNumber = "972549512744";
     const message = language === "he"
       ? encodeURIComponent(`שלום! אני מעוניין לרכוש את ${product.name[language]}. האם תוכל לספק לי מידע נוסף?`)
       : encodeURIComponent(`Hi! I'm interested in purchasing the ${product.name[language]}. Can you provide more information?`);
@@ -35,7 +35,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
         {/* Price Tag */}
         <div className="absolute top-4 right-4 bg-flipper-dark/80 backdrop-blur-sm text-white px-3 py-1 rounded-full font-mono">
-          {product.price.toFixed(2)}
+          {product.price.toFixed(2)} ₪ 
         </div>
 
         {/* Stock Status */}
@@ -50,7 +50,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <div className="p-4">
         <Link to={`/products/${product.slug}`}>
           <h3 className="text-lg font-semibold mb-2 hover:text-flipper-purple transition-colors">
-            ₪{product.name[language]}
+            {product.name[language]}
           </h3>
         </Link>
 

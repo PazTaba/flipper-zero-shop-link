@@ -22,7 +22,6 @@ const translations: Translations = {
     "nav.admin": "ניהול",
     "nav.cart": "עגלה",
 
-    // אדמין
     "admin.dashboard": "לוח בקרה",
     "admin.products": "מוצרים",
     "admin.categories": "קטגוריות",
@@ -61,6 +60,11 @@ const translations: Translations = {
     "admin.description": "תיאור",
     "admin.save": "שמור",
     "admin.cancel": "ביטול",
+    "admin.slug": "שם מזהה",
+    "admin.slugDesc": "מזהה ייחודי לשימוש בקישור או כתובת URL. רצוי באנגלית וללא רווחים.",
+    "admin.images": "תמונה",
+
+
 
     // כללי
     "language": "שפה",
@@ -70,8 +74,8 @@ const translations: Translations = {
     "outOfStock": "אזל מהמלאי",
 
     // דף הבית / מוצרים / גיבורים
-    "hero.title1": "שחררו את ארגז הכלים הדיגיטלי שלכם",
-    "hero.subtitle": "פליפר זירו – המולטיטול הנייד לאנשי סייבר, חוקרי אבטחה וחובבי טכנולוגיה.\nגלו, נתחו והתחברו למערכות דיגיטליות מכל מקום.",
+    "hero.title1": "פליפר זירו",
+    "hero.subtitle": "פליפר זירו – מכשיר רב-תכליתי לאינטראקציה מתקדמת עם מערכות בקרת גישה וטכנולוגיות דיגיטליות.",
     "hero.cta.products": "צפו במוצרים",
     "hero.cta.flagship": "מכשיר הדגל שלנו",
     "hero.flagship.title": "פליפר זירו – מכשיר קומפקטי עם ממשקי רדיו, NFC, RFID ושלט אינפרה-אדום.\nהכל פתוח – גם החומרה וגם התוכנה.",
@@ -122,7 +126,9 @@ const translations: Translations = {
     "footer.terms": "תנאי שירות",
     "footer.contact.cta": "פנה בוואטסאפ",
     "footer.contact.whatsapp": "וואטסאפ: +972 54-951-2744",
-    "footer.copyright": "אין זו חנות רשמית של פליפר זירו"
+    "footer.copyright": "אין זו חנות רשמית של פליפר זירו",
+    "footer.quickLinks": "קישורים מהירים",
+
   },
   en: {
     // Navigation
@@ -181,6 +187,47 @@ const translations: Translations = {
     "inStock": "In Stock",
     "outOfStock": "Out of Stock",
 
+    "hero.title1": "Flipper Zero",
+    "hero.subtitle": "Flipper Zero – a multifunctional device for advanced interaction with access control systems and digital technologies.",
+    "hero.cta.products": "View Products",
+    "hero.cta.flagship": "Our Flagship Device",
+    "hero.flagship.title": "Flipper Zero – a compact device with radio, NFC, RFID, and IR interfaces.\nOpen source – both hardware and software.",
+    "hero.feature.sub1": "Sub-1GHz Radio",
+    "hero.feature.nfc": "NFC and RFID",
+    "hero.feature.ir": "Infrared Transmission (IR)",
+    "hero.feature.os": "Open Source",
+    "hero.specs.sunlcd": "Intuitive design with a sunlight-readable LCD display",
+
+    "featured.title": "Featured Products",
+    "featured.device.name": "Flipper Zero",
+    "featured.device.price": "₪1350",
+    "featured.device.desc": "The portable multitool for tech enthusiasts and professionals with RFID, radio, and IR capabilities.",
+    "featured.device.category": "Device",
+    "featured.wifiaddon.name": "Flipper Zero WiFi Expansion Board",
+    "featured.wifiaddon.price": "₪115",
+    "featured.wifiaddon.desc": "Add WiFi capability to your Flipper Zero for advanced wireless pentesting.",
+    "featured.wifiaddon.category": "Accessory",
+    "featured.bundle.name": "Full Flipper Zero Bundle",
+    "featured.bundle.price": "₪835",
+    "featured.bundle.desc": "Everything you need: device, protective case, WiFi board, and NFC cards.",
+    "featured.bundle.category": "Bundle",
+    "featured.bundle.outofstock": "Out of Stock",
+    "featured.order": "Order Now",
+
+    "about.title": "What is Flipper Zero?",
+    "about.paragraph1": "Flipper Zero is a pocket-sized device that looks like a toy, but is packed with tools to explore the digital world.\nIt enables testing of radio protocols, control systems, smart hardware, and more – in a user-friendly, stylish way.",
+    "about.paragraph2": "Perfect for professionals and tech-savvy enthusiasts alike.",
+    "about.feature.sub1": "Sub-1GHz Radio",
+    "about.feature.rfid": "125kHz RFID",
+    "about.feature.nfc": "13.56MHz NFC & RFID",
+    "about.feature.ir": "Infrared Remote",
+    "about.feature.ibutton": "iButton Interface",
+    "about.feature.gpio": "GPIO and External Connections",
+    "about.feature.usb": "USB-C Connection",
+    "about.feature.bt": "Bluetooth Connectivity",
+
+
+
     // Footer translations that were missing
     "footer.company": "Flipper Zero Shop",
     "footer.subtitle": "Your authorized distributor for Flipper Zero devices and original accessories. We offer full warranty, professional support, and excellent customer service.",
@@ -192,6 +239,8 @@ const translations: Translations = {
     "footer.terms": "Terms of Service",
     "footer.copyright": "© 2025 Flipper Zero Shop. All rights reserved.",
     "footer.contact.cta": "Contact via WhatsApp",
+    "footer.quickLinks": "Quick Links",
+
   },
 };
 

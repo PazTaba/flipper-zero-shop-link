@@ -33,11 +33,11 @@ const ProductDetail = () => {
         setLoading(false);
         return;
       }
-      
+
       try {
         const productData = await getProductBySlug(slug);
         setProduct(productData);
-        
+
         if (productData) {
           const related = await getRelatedProducts(productData);
           setRelatedProducts(related);
@@ -48,7 +48,7 @@ const ProductDetail = () => {
         setLoading(false);
       }
     };
-    
+
     loadProduct();
   }, [slug]);
 
@@ -62,7 +62,7 @@ const ProductDetail = () => {
       </div>
     );
   }
-  
+
   if (!product) {
     return (
       <div className="container mx-auto px-4 py-20 text-center">
@@ -81,7 +81,7 @@ const ProductDetail = () => {
     );
   }
 
-  const phoneNumber = "972547564251"; 
+  const phoneNumber = "972549512744";
   const generateWhatsAppLink = () => {
     const message = language === "he"
       ? encodeURIComponent(`שלום! אני מעוניין לרכוש את ${product.name[language]}. האם תוכל לספק לי מידע נוסף?`)
@@ -105,7 +105,7 @@ const ProductDetail = () => {
               alt={product.name[language]}
               className="w-full h-full object-contain"
             />
-            
+
             <Dialog>
               <DialogTrigger asChild>
                 <button className="absolute top-4 right-4 bg-flipper-dark/80 text-white p-2 rounded-full">
@@ -122,14 +122,14 @@ const ProductDetail = () => {
                 </div>
               </DialogContent>
             </Dialog>
-            
+
             {!product.inStock && (
               <div className="absolute top-4 left-4 bg-flipper-danger/90 text-white px-3 py-1 rounded-full text-sm">
                 {language === "he" ? t("outOfStock") : "Out of Stock"}
               </div>
             )}
           </div>
-          
+
           {product.images.length > 1 && (
             <div className="flex gap-2 overflow-x-auto pb-2">
               {product.images.map((img, index) => (
@@ -145,15 +145,15 @@ const ProductDetail = () => {
             </div>
           )}
         </div>
-        
+
         <div>
           <h1 className="text-3xl md:text-4xl font-heading font-bold mb-2">
             {product.name[language]}
           </h1>
-          
+
           <div className="flex items-center gap-3 mb-4">
             <span className="text-xl font-mono font-semibold text-flipper-purple">
-              ${product.price.toFixed(2)}
+              ₪{product.price.toFixed(2)}
             </span>
             <span className={`text-sm ${product.inStock ? "in-stock" : "out-of-stock"}`}>
               {product.inStock
@@ -161,21 +161,21 @@ const ProductDetail = () => {
                 : t("outOfStock")}
             </span>
           </div>
-          
+
           <div className="mb-6">
             <span className="inline-block text-xs px-2 py-1 rounded-full bg-flipper-purple/20 text-flipper-purple mb-4">
               {product.category === "device"
                 ? t("nav.devices")
                 : product.category === "accessory"
-                ? t("nav.accessories")
-                : t("nav.bundles")}
+                  ? t("nav.accessories")
+                  : t("nav.bundles")}
             </span>
-            
+
             <p className="text-gray-300 mb-6">{product.description[language]}</p>
-            
-            <a 
-              href={generateWhatsAppLink()} 
-              target="_blank" 
+
+            <a
+              href={generateWhatsAppLink()}
+              target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 btn-tech bg-green-600 hover:bg-green-700 py-3 px-6 w-full md:w-auto"
             >
@@ -183,12 +183,12 @@ const ProductDetail = () => {
               {language === "he" ? "הזמן בוואטסאפ" : "Order via WhatsApp"}
             </a>
           </div>
-          
+
           <div className="border border-flipper-purple/30 rounded-lg overflow-hidden mt-8">
             <h3 className="text-xl font-heading font-semibold px-4 py-3 border-b border-flipper-purple/30 bg-flipper-purple/10">
               {language === "he" ? "מפרט טכני" : "Technical Specifications"}
             </h3>
-            
+
             <div className="p-4">
               <Accordion type="single" collapsible className="w-full">
                 {Object.entries(product.specifications).map(([key, value], index) => (
@@ -214,13 +214,13 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
-      
+
       {relatedProducts.length > 0 && (
         <div className="mt-16">
           <h2 className="text-2xl font-heading font-bold mb-6 techno-header">
             {language === "he" ? "מוצרים קשורים" : "Related Products"}
           </h2>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {relatedProducts.map((product) => (
               <ProductCard key={product.id} product={product} />

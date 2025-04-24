@@ -44,14 +44,13 @@ const AdminProductList = ({ products, onEdit, onDelete, dir }: Props) => {
                 </div>
               </TableCell>
               <TableCell className="font-medium">{product.name[language]}</TableCell>
-              <TableCell>${product.price.toFixed(2)}</TableCell>
+              <TableCell>{product.price.toFixed(2)} ₪</TableCell>
               <TableCell className="capitalize">{t(`nav.${product.category}s`)}</TableCell>
               <TableCell>
-                <span className={`px-2 py-1 rounded-full text-xs ${
-                  product.inStock
-                    ? "bg-flipper-success/10 text-flipper-success"
-                    : "bg-flipper-danger/10 text-flipper-danger"
-                }`}>
+                <span className={`px-2 py-1 rounded-full text-xs ${product.inStock
+                  ? "bg-flipper-success/10 text-flipper-success"
+                  : "bg-flipper-danger/10 text-flipper-danger"
+                  }`}>
                   {product.inStock ? t("admin.productInStock") : t("admin.productOutOfStock")}
                 </span>
               </TableCell>

@@ -8,16 +8,19 @@ import Footer from "@/components/layout/Footer";
 import ProductGrid from "@/components/product/ProductGrid";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { Product } from "@/data/products";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ProductCatalog = () => {
   const { category } = useParams<{ category?: string }>();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+    const { language, t } = useLanguage();
   
+
   useEffect(() => {
     // Scroll to top on page load
     window.scrollTo(0, 0);
-    
+
     const loadProducts = async () => {
       setLoading(true);
       try {
@@ -35,18 +38,18 @@ const ProductCatalog = () => {
         setLoading(false);
       }
     };
-    
+
     loadProducts();
   }, [category]);
-  
+
   // Generate title based on category
   const getTitle = () => {
-    if (!category) return "All Products";
-    
+    if (!category) return language === "he" ? "עיין בכל המוצרים" : "Browse All Products";
+
     // Capitalize first letter
     return `${category.charAt(0).toUpperCase() + category.slice(1)}s`;
   };
-  
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
