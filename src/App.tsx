@@ -14,6 +14,7 @@ import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
 import NotFound from "./pages/NotFound";
+import { Settings } from "lucide-react";
 
 // Create a new QueryClient instance within the component
 const App = () => {
@@ -39,6 +40,9 @@ const App = () => {
               <Route path="/admin" element={<AdminLayout />}>
                 <Route path="dashboard" element={<AdminDashboard />} />
                 <Route path="products" element={<AdminProducts />} />
+                <Route path="settings" element={<Settings />} />
+
+
               </Route>
 
 
