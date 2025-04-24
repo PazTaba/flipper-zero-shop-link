@@ -1,5 +1,5 @@
 
-import { fetchProducts } from "@/lib/supabaseDb";
+import { fetchProducts, getProductsByCategory } from "@/lib/supabaseDb";
 
 export interface MultilangText {
   en: string;
@@ -47,7 +47,5 @@ export async function getRelatedProducts(product: Product): Promise<Product[]> {
   return allProducts.filter(p => product.relatedProducts?.includes(p.id));
 }
 
-export async function getProductsByCategory(category: string): Promise<Product[]> {
-  const allProducts = await fetchProducts();
-  return allProducts.filter(p => p.category === category);
-}
+// Export the getProductsByCategory function that redirects to the one in supabaseDb
+export { getProductsByCategory };

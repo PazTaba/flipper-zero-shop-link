@@ -50,19 +50,38 @@ export async function fetchProducts(): Promise<Product[]> {
   return (data || []).map(dbProductToAppProduct);
 }
 
+// Get products by category
+export async function getProductsByCategory(category: string): Promise<Product[]> {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("category", category);
+  
+  if (error) throw error;
+  return (data || []).map(dbProductToAppProduct);
+}
+
 // Add a new product (admin only)
 export async function addProduct(product: Omit<Product, "id" | "featured" | "specifications">): Promise<Product> {
   // Must include required fields when adding a product
   const dbProduct = appProductToDbProduct(product);
   
   // Ensure we have all required fields for the database
-  if (!dbProduct.name || !dbProduct.description || !dbProduct.price || !dbProduct.images || !dbProduct.category || !dbProduct.slug) {
-    throw new Error("Missing required product fields");
-  }
+  // Cast to the required type, ensuring all required fields are provided
+  const requiredDbProduct = {
+    name: dbProduct.name,
+    description: dbProduct.description,
+    price: dbProduct.price,
+    images: dbProduct.images,
+    category: dbProduct.category,
+    slug: dbProduct.slug || product.slug,
+    short_description: dbProduct.short_description || null,
+    in_stock: dbProduct.in_stock !== undefined ? dbProduct.in_stock : true
+  } as Database["public"]["Tables"]["products"]["Insert"];
   
   const { data, error } = await supabase
     .from("products")
-    .insert(dbProduct)
+    .insert(requiredDbProduct)
     .select()
     .single();
   if (error) throw error;

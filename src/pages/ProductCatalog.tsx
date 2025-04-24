@@ -1,7 +1,8 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getProductsByCategory, fetchProducts } from "@/lib/supabaseDb";
+import { getProductsByCategory } from "@/data/products";
+import { fetchProducts } from "@/lib/supabaseDb";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ProductGrid from "@/components/product/ProductGrid";
