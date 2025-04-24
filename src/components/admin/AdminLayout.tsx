@@ -36,12 +36,12 @@ const AdminLayout = () => {
         }
         
         // בדיקה שהמשתמש קיים במערכת בלי לבדוק סיסמה
-        const { data: { count }, error } = await supabase
+        const { data, error } = await supabase
           .from('admin_users')
-          .select('*', { count: 'exact', head: true })
+          .select('*')
           .eq('email', adminEmail);
         
-        if (error || count === 0) {
+        if (error || !data || data.length === 0) {
           // אם יש שגיאה או שהמשתמש לא נמצא, המשתמש לא מחובר
           console.error("Error verifying admin access:", error);
           localStorage.removeItem("adminLoggedIn");
