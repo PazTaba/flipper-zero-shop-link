@@ -1,15 +1,16 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600&family=Roboto+Mono&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600&family=Roboto+Mono&display=swap');
 
 @layer base {
   :root {
     /* Default dark theme */
-    --background: 240 6% 10%;  /* Dark background */
-    --foreground: 0 0% 98%;    /* Light text for dark background */
+    --background: 240 6% 10%;
+    /* Dark background */
+    --foreground: 0 0% 98%;
+    /* Light text for dark background */
 
     --card: 240 5% 15%;
     --card-foreground: 0 0% 98%;
@@ -17,16 +18,19 @@
     --popover: 240 5% 15%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 263 84% 66%;   /* Flipper Purple - Vibrant purple */
+    --primary: 263 84% 66%;
+    /* Flipper Purple - Vibrant purple */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 180 100% 50%; /* Flipper Cyan - Electric Cyan */
+    --secondary: 180 100% 50%;
+    /* Flipper Cyan - Electric Cyan */
     --secondary-foreground: 240 5% 15%;
 
     --muted: 240 5% 20%;
     --muted-foreground: 240 5% 65%;
 
-    --accent: 263 84% 66%;    /* Same as primary but can be used differently */
+    --accent: 263 84% 66%;
+    /* Same as primary but can be used differently */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -34,7 +38,8 @@
 
     --border: 240 5% 26%;
     --input: 240 5% 26%;
-    --ring: 263 84% 66%;      /* Match primary */
+    --ring: 263 84% 66%;
+    /* Match primary */
 
     --radius: 0.5rem;
 
@@ -77,7 +82,7 @@
     --border: 240 5% 84%;
     --input: 240 5% 84%;
     --ring: 263 84% 66%;
-    
+
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 6% 10%;
     --sidebar-primary: 263 84% 66%;
@@ -98,7 +103,12 @@
     @apply bg-background text-foreground;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-heading font-bold;
   }
 
@@ -122,14 +132,12 @@
 
   /* Tech-style button */
   .btn-tech {
-    @apply relative bg-flipper-purple text-white font-semibold py-2 px-4 rounded-md 
-           transition-all duration-300 hover:bg-flipper-purple/90 overflow-hidden;
+    @apply relative bg-flipper-purple text-white font-semibold py-2 px-4 rounded-md transition-all duration-300 hover:bg-flipper-purple/90 overflow-hidden;
   }
 
   .btn-tech:before {
     content: '';
-    @apply absolute inset-0 bg-gradient-to-r from-flipper-cyan/20 to-transparent opacity-0 
-           transition-opacity duration-300;
+    @apply absolute inset-0 bg-gradient-to-r from-flipper-cyan/20 to-transparent opacity-0 transition-opacity duration-300;
   }
 
   .btn-tech:hover:before {
@@ -140,15 +148,14 @@
   .in-stock {
     @apply text-flipper-success font-semibold;
   }
-  
+
   .out-of-stock {
     @apply text-flipper-danger font-semibold;
   }
 
   /* Cyberpunk style card */
   .cyber-card {
-    @apply relative bg-flipper-dark border border-flipper-purple/30 rounded-lg 
-           overflow-hidden transition-all duration-300 hover:border-flipper-purple/60;
+    @apply relative bg-flipper-dark border border-flipper-purple/30 rounded-lg overflow-hidden transition-all duration-300 hover:border-flipper-purple/60;
     box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
   }
 
@@ -158,8 +165,7 @@
 
   /* WhatsApp floating button */
   .whatsapp-float {
-    @apply fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-3 
-           rounded-full shadow-lg transition-all duration-300;
+    @apply fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300;
     animation: pulse 2s infinite;
   }
 
@@ -172,9 +178,11 @@
     0% {
       box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
     }
+
     70% {
       box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
     }
+
     100% {
       box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
     }
@@ -212,7 +220,9 @@
 
 /* Responsive mobile fixes */
 @media (max-width: 640px) {
-  [dir="rtl"] .whatsapp-float, .whatsapp-float {
+
+  [dir="rtl"] .whatsapp-float,
+  .whatsapp-float {
     bottom: 3rem;
     right: 1rem;
     left: auto;
