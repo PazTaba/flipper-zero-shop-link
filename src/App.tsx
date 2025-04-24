@@ -18,7 +18,7 @@ import NotFound from "./pages/NotFound";
 // Create a new QueryClient instance within the component
 const App = () => {
   const queryClient = new QueryClient();
-  
+
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
@@ -33,14 +33,15 @@ const App = () => {
               <Route path="/products/:slug" element={<ProductDetailPage />} />
               <Route path="/categories/:category" element={<ProductCatalog />} />
               <Route path="/cart" element={<CartPage />} />
-              
+
               {/* Admin Routes */}
-              <Route path="/admin" element={<AdminLogin />} />
+              <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin" element={<AdminLayout />}>
                 <Route path="dashboard" element={<AdminDashboard />} />
                 <Route path="products" element={<AdminProducts />} />
               </Route>
-              
+
+
               {/* 404 Route */}
               <Route path="*" element={<NotFound />} />
             </Routes>

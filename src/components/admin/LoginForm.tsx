@@ -7,8 +7,9 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Eye, EyeOff } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import DOMPurify from "dompurify";
+
+const AUTHORIZED_ADMIN_EMAIL = "ziv@gmail.com";
+const AUTHORIZED_ADMIN_PASSWORD = "367613Kk";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -24,61 +25,41 @@ const LoginForm = () => {
     return emailRegex.test(email);
   };
 
-  const sanitizeInput = (input: string): string => {
-    return DOMPurify.sanitize(input.trim());
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    try {
-      setLoading(true);
-      
-      const sanitizedEmail = sanitizeInput(email);
-      
-      if (!validateEmail(sanitizedEmail)) {
-        throw new Error(t("admin.invalidEmail"));
-      }
+    setLoading(true);
 
-      const { data: isValid, error: verificationError } = await supabase.rpc(
-        'verify_admin_credentials',
-        { 
-          admin_email: sanitizedEmail,
-          admin_password: password 
-        }
-      );
-
-      if (verificationError) throw verificationError;
-
-      if (isValid) {
-        // Set login state in localStorage
-        localStorage.setItem("adminLoggedIn", "true");
-        localStorage.setItem("adminEmail", sanitizedEmail);
-        
-        toast({
-          title: t("admin.loginSuccessful"),
-          description: t("admin.welcomeMessage"),
-          variant: "default",
-        });
-        
-        // Navigate to dashboard with a delay to ensure local storage is updated
-        setTimeout(() => {
-          navigate("/admin/dashboard");
-        }, 100);
-      } else {
-        throw new Error(t("admin.invalidCredentials"));
-      }
-    } catch (error: any) {
+    // Validate email format
+    if (!validateEmail(email)) {
       toast({
         title: t("admin.loginFailed"),
-        description: error.message || t("admin.invalidCredentials"),
+        description: t("admin.invalidEmail"),
         variant: "destructive",
       });
-      
-      setPassword("");
-    } finally {
       setLoading(false);
+      return;
     }
+
+    // Check if the email and password match the authorized admin credentials
+    if (email === AUTHORIZED_ADMIN_EMAIL && password === AUTHORIZED_ADMIN_PASSWORD) {
+      toast({
+        title: t("admin.loginSuccessful"),
+        description: t("admin.welcomeMessage"),
+        variant: "default",
+      });
+
+      localStorage.setItem("adminLoggedIn", "true");
+      localStorage.setItem("adminEmail", email);
+      navigate("/admin/dashboard");
+    } else {
+      toast({
+        title: t("admin.loginFailed"),
+        description: t("admin.invalidCredentials"),
+        variant: "destructive",
+      });
+    }
+
+    setLoading(false);
   };
 
   const togglePasswordVisibility = () => {
