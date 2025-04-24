@@ -63,6 +63,59 @@ export type Database = {
         }
         Relationships: []
       }
+      page_views: {
+        Row: {
+          id: string
+          ip_address: string | null
+          page_path: string
+          timestamp: string
+          user_agent: string | null
+        }
+        Insert: {
+          id?: string
+          ip_address?: string | null
+          page_path: string
+          timestamp?: string
+          user_agent?: string | null
+        }
+        Update: {
+          id?: string
+          ip_address?: string | null
+          page_path?: string
+          timestamp?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
+      product_interactions: {
+        Row: {
+          id: string
+          interaction_type: string
+          product_id: string
+          timestamp: string
+        }
+        Insert: {
+          id?: string
+          interaction_type: string
+          product_id: string
+          timestamp?: string
+        }
+        Update: {
+          id?: string
+          interaction_type?: string
+          product_id?: string
+          timestamp?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_interactions_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       products: {
         Row: {
           category: string
@@ -107,7 +160,31 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      daily_page_views: {
+        Row: {
+          day: string | null
+          page_path: string | null
+          view_count: number | null
+        }
+        Relationships: []
+      }
+      daily_product_interactions: {
+        Row: {
+          day: string | null
+          interaction_count: number | null
+          interaction_type: string | null
+          product_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_interactions_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       [_ in never]: never

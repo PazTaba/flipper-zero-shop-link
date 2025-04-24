@@ -1,14 +1,14 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getProductsByCategory } from "@/data/products";
-import { fetchProducts } from "@/lib/supabaseDb";
+import { fetchProducts, getProductsByCategory } from "@/lib/supabaseDb";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ProductGrid from "@/components/product/ProductGrid";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { Product } from "@/data/products";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { trackPageView } from "@/lib/analytics";
 
 const ProductCatalog = () => {
   const { category } = useParams<{ category?: string }>();
@@ -18,6 +18,9 @@ const ProductCatalog = () => {
   
 
   useEffect(() => {
+    // Track page view
+    trackPageView(category ? `/categories/${category}` : '/products');
+    
     // Scroll to top on page load
     window.scrollTo(0, 0);
 
