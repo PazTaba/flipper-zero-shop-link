@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -8,6 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import DOMPurify from "dompurify";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -23,25 +23,35 @@ const LoginForm = () => {
     return emailRegex.test(email);
   };
 
+  const sanitizeInput = (input: string): string => {
+    return DOMPurify.sanitize(input.trim());
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-
+    
     try {
-      if (!validateEmail(email)) {
+      setLoading(true);
+      
+      const sanitizedEmail = sanitizeInput(email);
+      
+      if (!validateEmail(sanitizedEmail)) {
         throw new Error(t("admin.invalidEmail"));
       }
 
       const { data: isValid, error: verificationError } = await supabase.rpc(
         'verify_admin_credentials',
-        { admin_email: email, admin_password: password }
+        { 
+          admin_email: sanitizedEmail,
+          admin_password: password 
+        }
       );
 
       if (verificationError) throw verificationError;
 
       if (isValid) {
         localStorage.setItem("adminLoggedIn", "true");
-        localStorage.setItem("adminEmail", email);
+        localStorage.setItem("adminEmail", sanitizedEmail);
         
         toast({
           title: t("admin.loginSuccessful"),
@@ -59,6 +69,8 @@ const LoginForm = () => {
         description: error.message || t("admin.invalidCredentials"),
         variant: "destructive",
       });
+      
+      setPassword("");
     } finally {
       setLoading(false);
     }
