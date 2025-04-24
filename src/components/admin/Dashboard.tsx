@@ -3,23 +3,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProducts } from "@/lib/supabaseDb";
-import { 
-  BarChart, 
-  Bar, 
-  LineChart, 
+import {
+  BarChart,
+  Bar,
+  LineChart,
   Line,
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
   Legend,
-  ResponsiveContainer, 
+  ResponsiveContainer,
   LabelList,
-  PieChart,
-  Pie,
   Cell
 } from 'recharts';
-import { Activity, Database, Eye, TrendingUp, PieChart as PieChartIcon } from "lucide-react";
+import { Activity, Database, Eye, TrendingUp } from "lucide-react";
 
 const AdminDashboard = () => {
   const { data: analytics, isLoading: isLoadingAnalytics } = useAnalytics();
@@ -31,12 +29,6 @@ const AdminDashboard = () => {
   const totalProducts = products.length;
   const inStockProducts = products.filter((product) => product.inStock).length;
   const outOfStockProducts = totalProducts - inStockProducts;
-
-  // Stock status data for pie chart with eye-friendly colors
-  const stockStatusData = [
-    { name: 'In Stock', value: inStockProducts, color: '#60a5fa' },
-    { name: 'Out of Stock', value: outOfStockProducts, color: '#f97316' }
-  ];
 
   // Enhanced page views data with more styling and eye-friendly colors
   const pageViewsData = analytics?.pageViews.map(view => ({
@@ -63,25 +55,25 @@ const AdminDashboard = () => {
     detail_view: '#60a5fa', // Light blue - good contrast but not harsh
     add_to_cart: '#f97316'  // Softer orange - warmer and less straining
   };
-  
+
   // Get all unique dates
-  const allDates = analytics?.productInteractions.map(i => 
+  const allDates = analytics?.productInteractions.map(i =>
     new Date(i.day).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
   ) || [];
   const uniqueDates = [...new Set(allDates)];
-  
+
   // Create a consistent dataset with all interaction types for each date
   const interactionsData = uniqueDates.map(date => {
     const dataPoint = { date };
-    
+
     interactionTypes.forEach(type => {
-      const interaction = analytics?.productInteractions.find(i => 
-        new Date(i.day).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) === date && 
+      const interaction = analytics?.productInteractions.find(i =>
+        new Date(i.day).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) === date &&
         i.interaction_type === type
       );
       dataPoint[type] = interaction ? interaction.interaction_count : 0;
     });
-    
+
     return dataPoint;
   });
 
@@ -89,7 +81,7 @@ const AdminDashboard = () => {
   interactionsData.sort((a, b) => {
     const dateA = new Date(a.date);
     const dateB = new Date(b.date);
-    return dateA - dateB;
+    return dateA.getTime() - dateB.getTime();
   });
 
   if (isLoadingAnalytics || isLoadingProducts) {
@@ -97,14 +89,18 @@ const AdminDashboard = () => {
   }
 
   // Custom tooltip for the bar chart
-  const CustomTooltip = ({ active, payload, label }) => {
+  const CustomTooltip = (props) => {
+    const { active, payload, label } = props;
     if (active && payload && payload.length) {
       return (
         <div className="bg-white p-3 border rounded shadow-md">
-          <p className="font-semibold">{label}</p>
+          <p className="font-semibold text-black">{label}</p>
           {payload.map((entry, index) => (
-            <p key={index} style={{ color: entry.color }}>
-              {entry.name}: {entry.value} {entry.name === 'views' ? 'views' : ''}
+            <p key={index} style={{
+              color: entry.name === 'Page Views' ? '#3b82f6' : entry.color,
+              fontWeight: entry.name === 'Page Views' ? 'bold' : 'normal'
+            }}>
+              {entry.name}: {entry.value} {entry.name === 'Page Views' || entry.name === 'views' ? 'views' : ''}
             </p>
           ))}
         </div>
@@ -120,9 +116,9 @@ const AdminDashboard = () => {
       {/* Product stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gray-50 rounded-t-lg">
-            <CardTitle className="text-sm font-medium">Total Products</CardTitle>
-            <Database className="h-4 w-4 text-blue-500" />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gray-800 rounded-t-lg">
+            <CardTitle className="text-sm font-medium text-white">Total Products</CardTitle>
+            <Database className="h-4 w-4 text-white" />
           </CardHeader>
           <CardContent className="pt-4">
             <div className="text-3xl font-bold text-gray-700">{totalProducts}</div>
@@ -131,9 +127,9 @@ const AdminDashboard = () => {
         </Card>
 
         <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gray-50 rounded-t-lg">
-            <CardTitle className="text-sm font-medium">In Stock</CardTitle>
-            <Activity className="h-4 w-4 text-blue-500" />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gray-800 rounded-t-lg">
+            <CardTitle className="text-sm font-medium text-white">In Stock</CardTitle>
+            <Activity className="h-4 w-4 text-white" />
           </CardHeader>
           <CardContent className="pt-4">
             <div className="text-3xl font-bold text-blue-600">{inStockProducts}</div>
@@ -142,9 +138,9 @@ const AdminDashboard = () => {
         </Card>
 
         <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gray-50 rounded-t-lg">
-            <CardTitle className="text-sm font-medium">Out of Stock</CardTitle>
-            <TrendingUp className="h-4 w-4 text-orange-500" />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 bg-gray-800 rounded-t-lg">
+            <CardTitle className="text-sm font-medium text-white">Out of Stock</CardTitle>
+            <TrendingUp className="h-4 w-4 text-white" />
           </CardHeader>
           <CardContent className="pt-4">
             <div className="text-3xl font-bold text-orange-500">{outOfStockProducts}</div>
@@ -153,44 +149,11 @@ const AdminDashboard = () => {
         </Card>
       </div>
 
-      {/* Stock Status Pie Chart and Page Views */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="md:col-span-1 shadow-md hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="bg-gray-50 rounded-t-lg">
-            <CardTitle className="text-sm font-medium flex items-center">
-              <PieChartIcon className="h-4 w-4 mr-2 text-blue-500" />
-              Stock Status
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="h-[220px] pt-4">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={stockStatusData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={80}
-                  paddingAngle={5}
-                  dataKey="value"
-                  nameKey="name"
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                  labelLine={false}
-                >
-                  {stockStatusData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip formatter={(value) => [`${value} products`, '']} />
-                <Legend verticalAlign="bottom" height={36} />
-              </PieChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-
+      {/* Page Views */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card className="md:col-span-2 shadow-md hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="flex flex-row items-center justify-between bg-gray-50 rounded-t-lg">
-            <CardTitle className="text-sm font-medium">Page Views</CardTitle>
+          <CardHeader className="flex flex-row items-center justify-between bg-gray-800 rounded-t-lg">
+            <CardTitle className="text-sm font-medium text-white">Page Views</CardTitle>
           </CardHeader>
           <CardContent className="pt-4">
             <div className="grid grid-cols-2 gap-4 mb-4">
@@ -210,42 +173,42 @@ const AdminDashboard = () => {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="bg-gray-50 rounded-t-lg">
-            <CardTitle className="text-sm font-medium flex items-center">
-              <Eye className="h-4 w-4 mr-2 text-blue-500" />
+          <CardHeader className="bg-gray-800 rounded-t-lg">
+            <CardTitle className="text-sm font-medium flex items-center text-white">
+              <Eye className="h-4 w-4 mr-2 text-white" />
               Page Views (Last 7 Days)
             </CardTitle>
           </CardHeader>
           <CardContent className="h-[300px] pt-4">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart 
+              <BarChart
                 data={pageViewsData}
                 margin={{ top: 20, right: 30, left: 0, bottom: 20 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis 
-                  dataKey="date" 
+                <XAxis
+                  dataKey="date"
                   tick={{ fontSize: 12 }}
                   axisLine={{ stroke: '#e0e0e0' }}
                   tickLine={{ stroke: '#e0e0e0' }}
                 />
-                <YAxis 
+                <YAxis
                   tick={{ fontSize: 12 }}
                   axisLine={{ stroke: '#e0e0e0' }}
                   tickLine={{ stroke: '#e0e0e0' }}
                 />
-                <Tooltip content={<CustomTooltip />} />
-                <Bar 
-                  dataKey="views" 
+                <Tooltip content={CustomTooltip} />
+                <Bar
+                  dataKey="views"
                   name="Page Views"
                   radius={[4, 4, 0, 0]}
                 >
                   {pageViewsData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.fill} />
                   ))}
-                  <LabelList 
-                    dataKey="views" 
-                    position="top" 
+                  <LabelList
+                    dataKey="views"
+                    position="top"
                     style={{ fontSize: '11px', fill: '#666' }}
                     formatter={(value) => value > 0 ? value : ''}
                   />
@@ -256,33 +219,33 @@ const AdminDashboard = () => {
         </Card>
 
         <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="bg-gray-50 rounded-t-lg">
-            <CardTitle className="text-sm font-medium flex items-center">
-              <Activity className="h-4 w-4 mr-2 text-green-500" />
+          <CardHeader className="bg-gray-800 rounded-t-lg">
+            <CardTitle className="text-sm font-medium flex items-center text-white">
+              <Activity className="h-4 w-4 mr-2 text-white" />
               Product Interactions (Last 7 Days)
             </CardTitle>
           </CardHeader>
           <CardContent className="h-[300px] pt-4">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart 
+              <LineChart
                 data={interactionsData}
                 margin={{ top: 20, right: 30, left: 0, bottom: 20 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis 
-                  dataKey="date" 
+                <XAxis
+                  dataKey="date"
                   tick={{ fontSize: 12 }}
                   axisLine={{ stroke: '#e0e0e0' }}
                   tickLine={{ stroke: '#e0e0e0' }}
                 />
-                <YAxis 
+                <YAxis
                   tick={{ fontSize: 12 }}
                   axisLine={{ stroke: '#e0e0e0' }}
                   tickLine={{ stroke: '#e0e0e0' }}
                 />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend verticalAlign="top" height={36} />
-                
+
                 {interactionTypes.map((type) => (
                   <Line
                     key={type}
@@ -304,33 +267,33 @@ const AdminDashboard = () => {
       {/* Detailed Bar Chart for Interactions */}
       <div className="grid grid-cols-1 gap-4">
         <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
-          <CardHeader className="bg-gray-50 rounded-t-lg">
-            <CardTitle className="text-sm font-medium flex items-center">
-              <TrendingUp className="h-4 w-4 mr-2 text-yellow-500" />
+          <CardHeader className="bg-gray-800 rounded-t-lg">
+            <CardTitle className="text-sm font-medium flex items-center text-white">
+              <TrendingUp className="h-4 w-4 mr-2 text-white" />
               Detailed Interaction Breakdown
             </CardTitle>
           </CardHeader>
           <CardContent className="h-[350px] pt-4">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart 
+              <BarChart
                 data={interactionsData}
                 margin={{ top: 20, right: 30, left: 0, bottom: 20 }}
               >
                 <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis 
-                  dataKey="date" 
+                <XAxis
+                  dataKey="date"
                   tick={{ fontSize: 12 }}
                   axisLine={{ stroke: '#e0e0e0' }}
                   tickLine={{ stroke: '#e0e0e0' }}
                 />
-                <YAxis 
+                <YAxis
                   tick={{ fontSize: 12 }}
                   axisLine={{ stroke: '#e0e0e0' }}
                   tickLine={{ stroke: '#e0e0e0' }}
                 />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend verticalAlign="top" height={36} />
-                
+
                 {interactionTypes.map((type) => (
                   <Bar
                     key={type}
@@ -340,9 +303,9 @@ const AdminDashboard = () => {
                     radius={[4, 4, 0, 0]}
                     barSize={20}
                   >
-                    <LabelList 
-                      dataKey={type} 
-                      position="top" 
+                    <LabelList
+                      dataKey={type}
+                      position="top"
                       style={{ fontSize: '11px', fill: '#666' }}
                       formatter={(value) => value > 0 ? value : ''}
                     />
