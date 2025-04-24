@@ -5,8 +5,7 @@ import AdminSidebar from "./AdminSidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const AUTHORIZED_ADMIN_EMAIL = "ziv@gmail.com";
+import { supabase } from "@/integrations/supabase/client";
 
 const AdminLayout = () => {
   const navigate = useNavigate();
@@ -18,17 +17,37 @@ const AdminLayout = () => {
   }, [isMobile]);
   
   useEffect(() => {
-    // Check if user is logged in and is authorized admin
-    const isLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
-    const adminEmail = localStorage.getItem("adminEmail");
+    const checkAdminAccess = async () => {
+      const isLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
+      const adminEmail = localStorage.getItem("adminEmail");
+      
+      if (!isLoggedIn || !adminEmail) {
+        localStorage.removeItem("adminLoggedIn");
+        localStorage.removeItem("adminEmail");
+        navigate("/admin");
+        return;
+      }
+      
+      try {
+        const { data: isValid } = await supabase.rpc(
+          'verify_admin_credentials',
+          { admin_email: adminEmail, admin_password: '' }
+        );
+        
+        if (!isValid) {
+          localStorage.removeItem("adminLoggedIn");
+          localStorage.removeItem("adminEmail");
+          navigate("/admin");
+        }
+      } catch (error) {
+        console.error("Error verifying admin access:", error);
+        localStorage.removeItem("adminLoggedIn");
+        localStorage.removeItem("adminEmail");
+        navigate("/admin");
+      }
+    };
     
-    if (!isLoggedIn || adminEmail !== AUTHORIZED_ADMIN_EMAIL) {
-      // Clear any existing admin session
-      localStorage.removeItem("adminLoggedIn");
-      localStorage.removeItem("adminEmail");
-      // Redirect to login page
-      navigate("/admin");
-    }
+    checkAdminAccess();
   }, [navigate]);
   
   return (

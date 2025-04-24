@@ -27,6 +27,30 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_users: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          password_hash: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+          password_hash: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          password_hash?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           created_at: string | null
@@ -187,7 +211,10 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      verify_admin_credentials: {
+        Args: { admin_email: string; admin_password: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
