@@ -6,12 +6,22 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const FeaturedProducts = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const { t } = useLanguage();
   
   useEffect(() => {
-    // In a real app, this might be an API call
-    const products = getFeaturedProducts();
-    setFeaturedProducts(products);
+    const loadFeaturedProducts = async () => {
+      try {
+        const products = await getFeaturedProducts();
+        setFeaturedProducts(products);
+      } catch (error) {
+        console.error("Error loading featured products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadFeaturedProducts();
   }, []);
   
   return (
@@ -21,11 +31,21 @@ const FeaturedProducts = () => {
           {t("featured.title")}
         </h2>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-flipper-purple border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+              <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
+            </div>
+          </div>
+        ) : featuredProducts.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-gray-400">No featured products found.</p>
+        )}
       </div>
     </section>
   );

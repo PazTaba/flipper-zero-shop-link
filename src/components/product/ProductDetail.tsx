@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getProductBySlug, getRelatedProducts, type Product } from "@/data/products";
 import { MessageSquare, ZoomIn } from "lucide-react";
@@ -20,18 +20,49 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const ProductDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const [product, setProduct] = useState<Product | undefined>(() => {
-    if (!slug) return undefined;
-    return getProductBySlug(slug);
-  });
-  const [relatedProducts, setRelatedProducts] = useState<Product[]>(() => {
-    if (!product) return [];
-    return getRelatedProducts(product);
-  });
+  const [product, setProduct] = useState<Product | undefined>(undefined);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
   const { language, t } = useLanguage();
 
+  useEffect(() => {
+    const loadProduct = async () => {
+      if (!slug) {
+        setLoading(false);
+        return;
+      }
+      
+      try {
+        const productData = await getProductBySlug(slug);
+        setProduct(productData);
+        
+        if (productData) {
+          const related = await getRelatedProducts(productData);
+          setRelatedProducts(related);
+        }
+      } catch (error) {
+        console.error("Error loading product:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadProduct();
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-20 text-center">
+        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-flipper-purple border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
+        </div>
+        <p className="mt-4">Loading product...</p>
+      </div>
+    );
+  }
+  
   if (!product) {
     return (
       <div className="container mx-auto px-4 py-20 text-center">
