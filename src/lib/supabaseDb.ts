@@ -52,21 +52,17 @@ export async function fetchProducts(): Promise<Product[]> {
 
 // Add a new product (admin only)
 export async function addProduct(product: Omit<Product, "id" | "featured" | "specifications">): Promise<Product> {
-  // Must include slug when adding a product
-  const fullDbProduct = appProductToDbProduct({
-    name: product.name,
-    description: product.description,
-    short_description: product.shortDescription,
-    price: product.price,
-    images: product.images,
-    category: product.category,
-    in_stock: product.inStock,
-    slug: product.slug
-  });
+  // Must include required fields when adding a product
+  const dbProduct = appProductToDbProduct(product);
+  
+  // Ensure we have all required fields for the database
+  if (!dbProduct.name || !dbProduct.description || !dbProduct.price || !dbProduct.images || !dbProduct.category || !dbProduct.slug) {
+    throw new Error("Missing required product fields");
+  }
   
   const { data, error } = await supabase
     .from("products")
-    .insert(fullDbProduct)
+    .insert(dbProduct)
     .select()
     .single();
   if (error) throw error;

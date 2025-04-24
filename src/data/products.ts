@@ -1,4 +1,6 @@
 
+import { fetchProducts } from "@/lib/supabaseDb";
+
 export interface MultilangText {
   en: string;
   he: string;
@@ -22,27 +24,30 @@ export interface Product {
 }
 
 export async function getFeaturedProducts(): Promise<Product[]> {
-  // In the future, we can add a featured flag to the database
-  // For now, returning an empty array since featured is not in DB yet
-  return [];
+  const allProducts = await fetchProducts();
+  return allProducts.filter(product => product.featured);
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | undefined> {
-  // This will be implemented when needed
-  return undefined;
+  const allProducts = await fetchProducts();
+  return allProducts.find(product => product.slug === slug);
 }
 
 export async function getProductById(id: string): Promise<Product | undefined> {
-  // This will be implemented when needed
-  return undefined;
+  const allProducts = await fetchProducts();
+  return allProducts.find(product => product.id === id);
 }
 
 export async function getRelatedProducts(product: Product): Promise<Product[]> {
-  // This will be implemented when needed
-  return [];
+  if (!product.relatedProducts || product.relatedProducts.length === 0) {
+    return [];
+  }
+  
+  const allProducts = await fetchProducts();
+  return allProducts.filter(p => product.relatedProducts?.includes(p.id));
 }
 
 export async function getProductsByCategory(category: string): Promise<Product[]> {
-  // This will be implemented when needed
-  return [];
+  const allProducts = await fetchProducts();
+  return allProducts.filter(p => p.category === category);
 }
