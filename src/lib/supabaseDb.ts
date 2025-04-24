@@ -53,16 +53,16 @@ export async function fetchProducts(): Promise<Product[]> {
 // Add a new product (admin only)
 export async function addProduct(product: Omit<Product, "id" | "featured" | "specifications">): Promise<Product> {
   // Must include slug when adding a product
-  const fullDbProduct = {
-    name: product.name as unknown as Json,
-    description: product.description as unknown as Json,
-    short_description: product.shortDescription as unknown as Json,
+  const fullDbProduct = appProductToDbProduct({
+    name: product.name,
+    description: product.description,
+    short_description: product.shortDescription,
     price: product.price,
     images: product.images,
     category: product.category,
     in_stock: product.inStock,
-    slug: product.slug // Now required in add form
-  };
+    slug: product.slug
+  });
   
   const { data, error } = await supabase
     .from("products")
