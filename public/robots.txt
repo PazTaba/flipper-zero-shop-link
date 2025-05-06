@@ -2,7 +2,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yourwebsite.com/sitemap.xml
+Sitemap: https://flipper-zero-shop-link.lovable.app//sitemap.xml
 
 # Allow Googlebot to access everything
 User-agent: Googlebot
