@@ -24,6 +24,11 @@ const FeaturedProducts = () => {
     loadFeaturedProducts();
   }, []);
   
+  // Don't render the section if there are no featured products
+  if (!loading && featuredProducts.length === 0) {
+    return null;
+  }
+  
   return (
     <section className="py-16 bg-flipper-dark">
       <div className="container mx-auto px-4">

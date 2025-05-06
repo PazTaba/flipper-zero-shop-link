@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Product } from "@/data/products";
 import { Button } from "@/components/ui/button";
@@ -54,7 +55,12 @@ const AdminProducts = () => {
     setFormError(null);
     try {
       if (editingProduct) {
-        const updated = await updateProduct(editingProduct.id, { ...data, slug: editingProduct.slug });
+        // Include featured status in the update
+        const updated = await updateProduct(editingProduct.id, { 
+          ...data, 
+          slug: editingProduct.slug,
+          featured: data.featured
+        });
         setProductsList((prev) =>
           prev.map((p) => (p.id === editingProduct.id ? updated : p))
         );
@@ -71,7 +77,12 @@ const AdminProducts = () => {
             .replace(/[^a-z0-9\-]/g, "")
             .substring(0, 48) || "product-" + Math.random().toString(36).slice(2, 10);
         }
-        const inserted = await addProduct({ ...data, slug });
+        // Include featured status when adding a new product
+        const inserted = await addProduct({ 
+          ...data, 
+          slug,
+          featured: data.featured || false
+        });
         setProductsList((prev) => [inserted, ...prev]);
         toast({
           title: t("admin.productAdded"),
@@ -151,6 +162,7 @@ const AdminProducts = () => {
               images: editingProduct.images,
               category: editingProduct.category,
               inStock: editingProduct.inStock,
+              featured: editingProduct.featured || false, // Add featured field
               slug: editingProduct.slug
             } : undefined}
             onSave={handleFormSave}

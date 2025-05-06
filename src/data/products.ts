@@ -1,5 +1,4 @@
-
-import { fetchProducts, getProductsByCategory } from "@/lib/supabaseDb";
+import { fetchProducts, getProductsByCategory, getFeaturedProducts } from "@/lib/supabaseDb";
 
 export interface MultilangText {
   en: string;
@@ -23,22 +22,21 @@ export interface Product {
   relatedProducts?: string[];
 }
 
-export async function getFeaturedProducts(): Promise<Product[]> {
-  const allProducts = await fetchProducts();
-  return allProducts.filter(product => product.featured);
-}
+// Export the functions from supabaseDb
+export { getFeaturedProducts, getProductBySlug, getProductById, getRelatedProducts, getProductsByCategory };
 
-export async function getProductBySlug(slug: string): Promise<Product | undefined> {
+// These functions are moved to supabaseDb.ts but we need to keep them here for backward compatibility
+async function getProductBySlug(slug: string): Promise<Product | undefined> {
   const allProducts = await fetchProducts();
   return allProducts.find(product => product.slug === slug);
 }
 
-export async function getProductById(id: string): Promise<Product | undefined> {
+async function getProductById(id: string): Promise<Product | undefined> {
   const allProducts = await fetchProducts();
   return allProducts.find(product => product.id === id);
 }
 
-export async function getRelatedProducts(product: Product): Promise<Product[]> {
+async function getRelatedProducts(product: Product): Promise<Product[]> {
   if (!product.relatedProducts || product.relatedProducts.length === 0) {
     return [];
   }
@@ -46,6 +44,3 @@ export async function getRelatedProducts(product: Product): Promise<Product[]> {
   const allProducts = await fetchProducts();
   return allProducts.filter(p => product.relatedProducts?.includes(p.id));
 }
-
-// Export the getProductsByCategory function that redirects to the one in supabaseDb
-export { getProductsByCategory };

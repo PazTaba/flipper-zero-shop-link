@@ -16,7 +16,7 @@ function dbProductToAppProduct(dbProduct: Database["public"]["Tables"]["products
     images: dbProduct.images,
     category: dbProduct.category as "device" | "accessory" | "bundle",
     inStock: dbProduct.in_stock ?? true,
-    featured: false, // Default value
+    featured: dbProduct.featured ?? false, // Add featured field
     specifications: {} // Default empty specifications
   };
 }
@@ -35,6 +35,7 @@ function appProductToDbProduct(product: Partial<Product>): Partial<Database["pub
   if (product.images !== undefined) dbProduct.images = product.images;
   if (product.category !== undefined) dbProduct.category = product.category;
   if (product.inStock !== undefined) dbProduct.in_stock = product.inStock;
+  if (product.featured !== undefined) dbProduct.featured = product.featured; // Add featured field
   if (product.slug !== undefined) dbProduct.slug = product.slug;
 
   return dbProduct;
@@ -76,7 +77,8 @@ export async function addProduct(product: Omit<Product, "id" | "featured" | "spe
     category: dbProduct.category,
     slug: dbProduct.slug || product.slug,
     short_description: dbProduct.short_description || null,
-    in_stock: dbProduct.in_stock !== undefined ? dbProduct.in_stock : true
+    in_stock: dbProduct.in_stock !== undefined ? dbProduct.in_stock : true,
+    featured: dbProduct.featured !== undefined ? dbProduct.featured : false // Add featured field with default value
   } as Database["public"]["Tables"]["products"]["Insert"];
   
   const { data, error } = await supabase
@@ -125,4 +127,15 @@ export async function saveOrder(order: Omit<Database["public"]["Tables"]["orders
     .single();
   if (error) throw error;
   return data;
+}
+
+// Get featured products
+export async function getFeaturedProducts(): Promise<Product[]> {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("featured", true);
+  
+  if (error) throw error;
+  return (data || []).map(dbProductToAppProduct);
 }

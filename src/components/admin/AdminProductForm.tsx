@@ -1,9 +1,11 @@
+
 import { useState, ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Image } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 function ImagePicker({
   images,
@@ -121,6 +123,7 @@ type ProductFormState = {
   images: string[];
   category: string;
   inStock: boolean;
+  featured: boolean; // Add featured field
   slug?: string;
 };
 
@@ -141,6 +144,7 @@ export default function AdminProductForm({
     images: [],
     category: "device",
     inStock: true,
+    featured: false, // Add featured field with default value
     slug: "",
   };
 
@@ -236,6 +240,22 @@ export default function AdminProductForm({
           {t("admin.slugDesc") || "The address used for product URLs, e.g. 'flipper-zero-main'. Leave blank to auto-generate."}
         </span>
       </div>
+      
+      {/* Add featured checkbox */}
+      <div className="mb-4 flex items-center space-x-2">
+        <Checkbox 
+          id="featured" 
+          checked={form.featured} 
+          onCheckedChange={(checked) => handleInput("featured", Boolean(checked))}
+        />
+        <label 
+          htmlFor="featured" 
+          className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+          {t("admin.featured") || "Featured Product"}
+        </label>
+      </div>
+      
       <div className="flex gap-4">
         <Button type="submit" className="btn-tech">{t("admin.save") || "Save"}</Button>
         <Button type="button" variant="outline" onClick={onCancel}>{t("admin.cancel") || "Cancel"}</Button>
