@@ -16,7 +16,7 @@ function dbProductToAppProduct(dbProduct: Database["public"]["Tables"]["products
     images: dbProduct.images,
     category: dbProduct.category as "device" | "accessory" | "bundle",
     inStock: dbProduct.in_stock ?? true,
-    featured: dbProduct.featured ?? false, // Add featured field
+    featured: dbProduct.featured ?? false, // Get featured status from DB
     specifications: {} // Default empty specifications
   };
 }
@@ -35,7 +35,7 @@ function appProductToDbProduct(product: Partial<Product>): Partial<Database["pub
   if (product.images !== undefined) dbProduct.images = product.images;
   if (product.category !== undefined) dbProduct.category = product.category;
   if (product.inStock !== undefined) dbProduct.in_stock = product.inStock;
-  if (product.featured !== undefined) dbProduct.featured = product.featured; // Add featured field
+  if (product.featured !== undefined) dbProduct.featured = product.featured; // Handle featured property
   if (product.slug !== undefined) dbProduct.slug = product.slug;
 
   return dbProduct;
@@ -63,7 +63,7 @@ export async function getProductsByCategory(category: string): Promise<Product[]
 }
 
 // Add a new product (admin only)
-export async function addProduct(product: Omit<Product, "id" | "featured" | "specifications">): Promise<Product> {
+export async function addProduct(product: Omit<Product, "id" | "specifications">): Promise<Product> {
   // Must include required fields when adding a product
   const dbProduct = appProductToDbProduct(product);
   
