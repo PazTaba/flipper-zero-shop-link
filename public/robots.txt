@@ -1,14 +1,25 @@
+
+User-agent: *
+Allow: /
+
+Sitemap: https://yourwebsite.com/sitemap.xml
+
+# Allow Googlebot to access everything
 User-agent: Googlebot
 Allow: /
 
+# Allow Bingbot to access everything
 User-agent: Bingbot
 Allow: /
 
-User-agent: Twitterbot
+# Allow Yandex to access everything
+User-agent: Yandex
 Allow: /
 
-User-agent: facebookexternalhit
+# Allow Google Mobile to access everything
+User-agent: Googlebot-Mobile
 Allow: /
 
-User-agent: *
+# Allow Google Image to access everything
+User-agent: Googlebot-Image
 Allow: /

@@ -12,7 +12,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <img
           src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
-          alt="Flipper Zero Background"
+          alt="Flipper Zero - פליפר זירו"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-flipper-dark via-flipper-dark/90 to-transparent"></div>
@@ -28,7 +28,17 @@ const Hero = () => {
             </p>
           </h1>
 
-
+          {/* What is Flipper Zero - SEO content */}
+          <div className="mb-8 bg-flipper-dark/70 p-4 rounded-lg border border-flipper-purple/30 max-w-xl">
+            <h2 className="text-flipper-cyan text-lg font-semibold mb-2">
+              {language === "he" ? "מה זה פליפר זירו?" : "What is Flipper Zero?"}
+            </h2>
+            <p className="text-gray-200 text-sm">
+              {language === "he" 
+                ? "פליפר זירו הוא גאדג'ט רב-תכליתי למקצועני אבטחת מידע, חובבי טכנולוגיה והאקרים. הוא מאפשר אינטראקציה עם מערכות אלחוטיות, RFID, NFC, אינפרא-אדום ועוד. מושלם לבדיקות אבטחה, פיתוח מערכות ופרויקטים טכניים מתקדמים."
+                : "Flipper Zero is a multi-tool gadget for cybersecurity professionals, tech enthusiasts, and hackers. It enables interaction with wireless systems, RFID, NFC, infrared, and more. Perfect for security testing, system development, and advanced technical projects."}
+            </p>
+          </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
             <Link to="/products">
