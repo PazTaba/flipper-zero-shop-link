@@ -1,25 +1,62 @@
-
 User-agent: *
 Allow: /
 
-Sitemap: https://flipper-zero-shop-link.lovable.app//sitemap.xml
+# Sitemap location
+Sitemap: https://flipper-zero-shop-link.lovable.app/sitemap.xml
 
-# Allow Googlebot to access everything
+# Allow all search engines full access
 User-agent: Googlebot
 Allow: /
 
-# Allow Bingbot to access everything
 User-agent: Bingbot
 Allow: /
 
-# Allow Yandex to access everything
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
 User-agent: Yandex
 Allow: /
 
-# Allow Google Mobile to access everything
+User-agent: Sogou
+Allow: /
+
+User-agent: Exabot
+Allow: /
+
+User-agent: facebot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+# Mobile bots
 User-agent: Googlebot-Mobile
 Allow: /
 
-# Allow Google Image to access everything
+# Image bots
 User-agent: Googlebot-Image
 Allow: /
+
+# Admin area disallow for all bots
+User-agent: *
+Disallow: /admin/
+Disallow: /admin/login
+Disallow: /admin/dashboard
+Disallow: /admin/products
+Disallow: /admin/settings
+
+# No need to crawl API endpoints
+User-agent: *
+Disallow: /api/
+
+# Prevent unnecessary crawling of assets
+User-agent: *
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /*.json$
