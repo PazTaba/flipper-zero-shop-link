@@ -1,33 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600&family=Roboto+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;500;600&family=Roboto+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   :root {
     /* Default dark theme */
-    --background: 240 6% 10%;
+    --background: 222 47% 11%;
     /* Dark background */
     --foreground: 0 0% 98%;
     /* Light text for dark background */
 
-    --card: 240 5% 15%;
+    --card: 222 30% 14%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 240 5% 15%;
+    --popover: 222 30% 14%;
     --popover-foreground: 0 0% 98%;
 
     --primary: 263 84% 66%;
     /* Flipper Purple - Vibrant purple */
     --primary-foreground: 0 0% 100%;
+    --primary-light: 263 84% 76%;
+    --primary-dark: 263 84% 56%;
 
-    --secondary: 180 100% 50%;
+    --secondary: 189 94% 43%;
     /* Flipper Cyan - Electric Cyan */
-    --secondary-foreground: 240 5% 15%;
+    --secondary-foreground: 222 47% 11%;
+    --secondary-light: 189 94% 53%;
+    --secondary-dark: 189 94% 33%;
 
-    --muted: 240 5% 20%;
-    --muted-foreground: 240 5% 65%;
+    --muted: 223 47% 16%;
+    --muted-foreground: 215 20% 75%;
 
     --accent: 263 84% 66%;
     /* Same as primary but can be used differently */
@@ -36,60 +40,64 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 5% 26%;
-    --input: 240 5% 26%;
+    --border: 222 30% 26%;
+    --input: 222 30% 26%;
     --ring: 263 84% 66%;
     /* Match primary */
 
     --radius: 0.5rem;
 
-    --sidebar-background: 240 6% 10%;
+    --sidebar-background: 222 47% 11%;
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 263 84% 66%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 5% 15%;
+    --sidebar-accent: 222 30% 14%;
     --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 5% 20%;
+    --sidebar-border: 222 30% 20%;
     --sidebar-ring: 263 84% 66%;
   }
 
   /* We'll use dark theme by default, but keep light theme option */
   .light {
     --background: 0 0% 100%;
-    --foreground: 240 6% 10%;
+    --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 240 6% 10%;
+    --card-foreground: 222 47% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 6% 10%;
+    --popover-foreground: 222 47% 11%;
 
     --primary: 263 84% 66%;
     --primary-foreground: 0 0% 100%;
+    --primary-light: 263 84% 76%;
+    --primary-dark: 263 84% 56%;
 
-    --secondary: 180 100% 50%;
-    --secondary-foreground: 240 6% 10%;
+    --secondary: 189 94% 43%;
+    --secondary-foreground: 222 47% 11%;
+    --secondary-light: 189 94% 53%;
+    --secondary-dark: 189 94% 33%;
 
-    --muted: 240 5% 96%;
-    --muted-foreground: 240 5% 38%;
+    --muted: 215 20% 96%;
+    --muted-foreground: 215 16% 50%;
 
-    --accent: 240 5% 96%;
-    --accent-foreground: 240 6% 10%;
+    --accent: 215 20% 96%;
+    --accent-foreground: 222 47% 11%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 5% 84%;
-    --input: 240 5% 84%;
+    --border: 215 16% 84%;
+    --input: 215 16% 84%;
     --ring: 263 84% 66%;
 
     --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 6% 10%;
+    --sidebar-foreground: 222 47% 11%;
     --sidebar-primary: 263 84% 66%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 5% 96%;
-    --sidebar-accent-foreground: 240 6% 10%;
-    --sidebar-border: 240 5% 84%;
+    --sidebar-accent: 215 20% 96%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 215 16% 84%;
     --sidebar-ring: 263 84% 66%;
   }
 }
@@ -101,6 +109,7 @@
 
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 
   h1,
@@ -113,21 +122,50 @@
   }
 
   h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl;
+    @apply text-4xl md:text-5xl lg:text-6xl leading-tight;
   }
 
   h2 {
-    @apply text-3xl md:text-4xl;
+    @apply text-3xl md:text-4xl leading-tight;
   }
 
   h3 {
-    @apply text-2xl md:text-3xl;
+    @apply text-2xl md:text-3xl leading-snug;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-flipper-dark;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-flipper-purple/50 rounded-full;
+    border: 2px solid transparent;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-flipper-purple;
+  }
+
+  /* Selection styling */
+  ::selection {
+    @apply bg-flipper-purple/30 text-white;
   }
 
   /* Tech-style container with glowing border effect */
   .tech-container {
-    @apply relative border border-flipper-purple/50 bg-flipper-dark/80 rounded-md overflow-hidden;
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+    @apply relative border border-flipper-purple/50 bg-flipper-dark/80 rounded-md overflow-hidden transition-all duration-300;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+  }
+
+  .tech-container:hover {
+    @apply border-flipper-purple/80;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
   }
 
   /* Tech-style button */
@@ -156,16 +194,31 @@
   /* Cyberpunk style card */
   .cyber-card {
     @apply relative bg-flipper-dark border border-flipper-purple/30 rounded-lg overflow-hidden transition-all duration-300 hover:border-flipper-purple/60;
-    box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.1);
   }
 
   .cyber-card:hover {
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
+    transform: translateY(-3px);
+  }
+
+  /* Glass card variant */
+  .glass-card {
+    @apply relative rounded-lg overflow-hidden transition-all duration-300;
+    background: rgba(26, 31, 44, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.1);
+  }
+
+  .glass-card:hover {
+    border-color: rgba(139, 92, 246, 0.5);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
   }
 
   /* WhatsApp floating button */
   .whatsapp-float {
-    @apply fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300;
+    @apply fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:-translate-y-1;
     animation: pulse 2s infinite;
   }
 
@@ -190,18 +243,143 @@
 
   /* Techno headers with linear gradient underline */
   .techno-header {
-    @apply relative pb-2 mb-6;
+    @apply relative pb-3 mb-6;
   }
 
   .techno-header:after {
     content: '';
-    @apply absolute bottom-0 left-0 h-1 w-20 bg-gradient-to-r from-flipper-purple to-flipper-cyan;
+    @apply absolute bottom-0 left-0 h-1 rounded-full w-24 bg-gradient-to-r from-flipper-purple to-flipper-cyan;
+    animation: shimmer 3s linear infinite;
+    background-size: 200% 100%;
   }
 
   [dir="rtl"] .techno-header:after {
     left: auto;
     right: 0;
     @apply bg-gradient-to-l from-flipper-purple to-flipper-cyan;
+  }
+
+  /* 3D Button effect */
+  .button-3d {
+    @apply relative bg-flipper-purple text-white font-semibold py-2 px-4 rounded-md transition-all duration-300;
+    transform-style: preserve-3d;
+    transform: perspective(1000px) translateZ(0);
+  }
+
+  .button-3d:before {
+    content: '';
+    @apply absolute inset-0 bg-flipper-purpleDark rounded-md -z-10;
+    transform: translateZ(-8px);
+    transition: transform 0.3s;
+  }
+
+  .button-3d:hover {
+    transform: perspective(1000px) translateZ(5px);
+  }
+
+  .button-3d:active {
+    transform: perspective(1000px) translateZ(2px);
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-flipper-purple to-flipper-cyan;
+    animation: text-gradient 3s ease infinite;
+    background-size: 200% auto;
+  }
+
+  /* Code block styling */
+  .code-block {
+    @apply font-mono text-sm bg-flipper-darker/60 p-4 rounded-md border border-flipper-purple/20;
+  }
+
+  /* Grid background */
+  .grid-bg {
+    @apply relative;
+    background-image: linear-gradient(to right, rgba(139, 92, 246, 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(139, 92, 246, 0.07) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  /* Neon outline */
+  .neon-outline {
+    @apply border border-transparent relative;
+  }
+
+  .neon-outline::before {
+    content: '';
+    @apply absolute inset-0 rounded-lg transition-opacity duration-300;
+    background: linear-gradient(45deg, #8B5CF6, #06B6D4, #8B5CF6);
+    background-size: 200% 200%;
+    animation: gradient-rotate 3s ease infinite;
+    z-index: -1;
+    margin: -2px;
+  }
+
+  @keyframes gradient-rotate {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Glow effect on hover */
+  .hover-glow {
+    @apply transition-all duration-300;
+  }
+
+  .hover-glow:hover {
+    @apply shadow-neon-purple;
+  }
+
+  /* Feature card */
+  .feature-card {
+    @apply p-6 rounded-xl transition-all duration-300 relative overflow-hidden border border-flipper-purple/30;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(26, 31, 44, 0.8) 100%);
+  }
+
+  .feature-card::before {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+  }
+
+  .feature-card:hover {
+    @apply border-flipper-purple/60 -translate-y-1;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 0 10px rgba(139, 92, 246, 0.2);
+  }
+
+  .feature-card:hover::before {
+    @apply opacity-100;
+  }
+
+  .feature-card .feature-icon {
+    @apply bg-flipper-darker p-3 rounded-lg inline-block mb-4 transition-all duration-300;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.1);
+  }
+
+  .feature-card:hover .feature-icon {
+    @apply bg-flipper-purple text-white;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+  }
+
+  /* Hero section with animated gradient */
+  .hero-gradient {
+    @apply relative overflow-hidden;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(8, 15, 30, 0.95) 100%);
+  }
+
+  .hero-gradient::before {
+    content: '';
+    @apply absolute inset-0 opacity-10;
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
   }
 }
 
@@ -229,12 +407,151 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
+/* Animation Keyframes */
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
   }
 
-  body {
-    @apply bg-background text-foreground;
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Custom components */
+@layer components {
+
+  /* Navigation Links with cool hover effect */
+  .nav-link {
+    @apply relative inline-flex text-gray-200 font-medium transition-colors duration-300 hover:text-flipper-purple;
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-flipper-purple transition-all duration-300 ease-in-out rounded-full;
+  }
+
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  /* Product card with enhanced hover effects */
+  .product-card {
+    @apply relative overflow-hidden rounded-xl border border-flipper-purple/30 bg-flipper-dark transition-all duration-300;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .product-card:hover {
+    @apply border-flipper-purple/60 -translate-y-1;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(139, 92, 246, 0.2);
+  }
+
+  .product-card .product-image {
+    @apply aspect-square w-full object-cover transition-transform duration-500;
+  }
+
+  .product-card:hover .product-image {
+    @apply scale-105;
+  }
+
+  .product-card .product-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-flipper-dark/90 via-flipper-dark/30 to-transparent opacity-80 transition-opacity duration-300;
+  }
+
+  .product-card:hover .product-overlay {
+    @apply opacity-60;
+  }
+
+  .product-card .product-content {
+    @apply absolute bottom-0 left-0 right-0 p-4 translate-y-2 transition-transform duration-300;
+  }
+
+  .product-card:hover .product-content {
+    @apply translate-y-0;
+  }
+
+  /* Cool badge component */
+  .tech-badge {
+    @apply inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(6, 182, 212, 0.2) 100%);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 0 5px rgba(139, 92, 246, 0.2);
+  }
+
+  /* FAQ accordion item */
+  .faq-item {
+    @apply border border-flipper-purple/20 rounded-lg mb-4 overflow-hidden transition-all duration-300;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(26, 31, 44, 0.9) 100%);
+  }
+
+  .faq-item:hover {
+    @apply border-flipper-purple/40;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 0 5px rgba(139, 92, 246, 0.1);
+  }
+
+  .faq-question {
+    @apply flex items-center justify-between p-4 cursor-pointer font-medium text-lg;
+  }
+
+  .faq-answer {
+    @apply p-4 pt-0 text-gray-300;
+  }
+
+  /* Form inputs with neon glow on focus */
+  .neon-input {
+    @apply bg-flipper-darker border border-flipper-purple/30 rounded-lg px-4 py-2 text-gray-200 w-full transition-all duration-300;
+  }
+
+  .neon-input:focus {
+    @apply border-flipper-purple/70 outline-none;
+    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2), 0 0 10px rgba(139, 92, 246, 0.1);
+  }
+}
+
+/* Utilities */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .text-shadow-md {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .text-shadow-lg {
+    text-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  }
+
+  .text-shadow-none {
+    text-shadow: none;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 5px rgba(139, 92, 246, 0.5), 0 0 10px rgba(139, 92, 246, 0.3);
+  }
+
+  .text-glow-cyan {
+    text-shadow: 0 0 5px rgba(6, 182, 212, 0.5), 0 0 10px rgba(6, 182, 212, 0.3);
   }
 }

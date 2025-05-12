@@ -10,7 +10,6 @@ serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders })
   }
-
   const clientInfo = {
     userAgent: req.headers.get('user-agent'),
     ipAddress: req.headers.get('x-real-ip') || req.headers.get('x-forwarded-for')

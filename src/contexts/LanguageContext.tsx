@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 type Language = "en" | "he";
@@ -21,7 +20,11 @@ const translations: Translations = {
     "nav.bundles": "חבילות",
     "nav.admin": "ניהול",
     "nav.cart": "עגלה",
+    "nav.categories": "קטגוריות",
+    "nav.featuredProducts": "מוצרים מובחרים",
+    "nav.viewAllProducts": "צפה בכל המוצרים",
 
+    // ניהול
     "admin.dashboard": "לוח בקרה",
     "admin.products": "מוצרים",
     "admin.categories": "קטגוריות",
@@ -63,8 +66,6 @@ const translations: Translations = {
     "admin.slug": "שם מזהה",
     "admin.slugDesc": "מזהה ייחודי לשימוש בקישור או כתובת URL. רצוי באנגלית וללא רווחים.",
     "admin.images": "תמונה",
-
-
 
     // כללי
     "language": "שפה",
@@ -118,17 +119,30 @@ const translations: Translations = {
     // תחתית/צור קשר
     "footer.company": "פליפר זירו",
     "footer.subtitle": "המשווק המורשה שלכם למכשירי פליפר זירו ואביזרים מקוריים.\nאנו מציעים אחריות מלאה, תמיכה מקצועית ושירות לקוחות מצוין.",
+    "footer.companyDescription": "המשווק המורשה של פליפר זירו בישראל. מספקים מכשירים מקוריים, אביזרים, ואחריות מלאה.",
     "footer.contact": "צור קשר:",
+    "footer.contactInfo": "פרטי התקשרות",
     "footer.email": "דוא\"ל: support@flipperzero-shop.com",
     "footer.whatsapp": "וואטסאפ: +972 54-951-2744",
     "footer.hours": "שעות פעילות: ראשון–שישי, 09:00–17:00",
+    "footer.businessHours": "ראשון–שישי, 09:00–17:00",
     "footer.privacy": "מדיניות פרטיות",
     "footer.terms": "תנאי שירות",
     "footer.contact.cta": "פנה בוואטסאפ",
     "footer.contact.whatsapp": "וואטסאפ: +972 54-951-2744",
     "footer.copyright": "אין זו חנות רשמית של פליפר זירו",
     "footer.quickLinks": "קישורים מהירים",
-
+    "footer.newsletter": "הרשמה לעדכונים",
+    "footer.emailPlaceholder": "האימייל שלך",
+    "footer.subscribe": "הרשם",
+    "footer.support": "תמיכה",
+    "footer.faq": "שאלות נפוצות",
+    "footer.shipping": "משלוחים",
+    "footer.returns": "החזרות",
+    "footer.warranty": "אחריות",
+    "footer.address": "רח' רוטשילד 45, תל אביב, ישראל",
+    "footer.language": "שפה",
+    "footer.rights": "כל הזכויות שמורות.",
   },
   en: {
     // Navigation
@@ -139,6 +153,9 @@ const translations: Translations = {
     "nav.bundles": "Bundles",
     "nav.admin": "Admin",
     "nav.cart": "Cart",
+    "nav.categories": "Categories",
+    "nav.featuredProducts": "Featured Products",
+    "nav.viewAllProducts": "View All Products",
 
     // Admin
     "admin.dashboard": "Dashboard",
@@ -179,6 +196,9 @@ const translations: Translations = {
     "admin.description": "Description",
     "admin.save": "Save",
     "admin.cancel": "Cancel",
+    "admin.slug": "Slug",
+    "admin.slugDesc": "A unique identifier used in URL. Preferably in English with no spaces.",
+    "admin.images": "Images",
 
     // General
     "language": "Language",
@@ -226,21 +246,32 @@ const translations: Translations = {
     "about.feature.usb": "USB-C Connection",
     "about.feature.bt": "Bluetooth Connectivity",
 
-
-
-    // Footer translations that were missing
+    // Footer
     "footer.company": "Flipper Zero Shop",
     "footer.subtitle": "Your authorized distributor for Flipper Zero devices and original accessories. We offer full warranty, professional support, and excellent customer service.",
+    "footer.companyDescription": "The authorized Flipper Zero distributor in Israel. We provide genuine devices, accessories, and full warranty.",
     "footer.contact": "Contact Us:",
+    "footer.contactInfo": "Contact Information",
     "footer.email": "Email: support@flipperzero-shop.com",
     "footer.whatsapp": "WhatsApp: +972 54-951-2744",
     "footer.hours": "Working hours: Sunday-Friday, 09:00-17:00",
+    "footer.businessHours": "Sunday-Friday, 09:00-17:00",
     "footer.privacy": "Privacy Policy",
     "footer.terms": "Terms of Service",
     "footer.copyright": "© 2025 Flipper Zero Shop. All rights reserved.",
     "footer.contact.cta": "Contact via WhatsApp",
     "footer.quickLinks": "Quick Links",
-
+    "footer.newsletter": "Newsletter",
+    "footer.emailPlaceholder": "Your email",
+    "footer.subscribe": "Subscribe",
+    "footer.support": "Support",
+    "footer.faq": "FAQ",
+    "footer.shipping": "Shipping",
+    "footer.returns": "Returns",
+    "footer.warranty": "Warranty",
+    "footer.address": "45 Rothschild Blvd, Tel Aviv, Israel",
+    "footer.language": "Language",
+    "footer.rights": "All rights reserved.",
   },
 };
 
